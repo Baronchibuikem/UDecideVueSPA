@@ -17,3 +17,7 @@
 2. Created state management for fetching polls from the server
 3. Restructured the livefeed component to sync with the data coming from the database
 4. Implemented protected routes for all the routes that needs to be protected
+
+# **DATE**: 15-02-2020
+
+1. Integration functionality through vuex to get usersprofile details and update the livefeed

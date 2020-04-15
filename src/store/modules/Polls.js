@@ -1,5 +1,6 @@
 import { apiBaseUrl } from "../baseUrl";
 import axios from "axios";
+import config from "./UserAuthentication";
 
 const state = {
 	Polls: [],
@@ -13,19 +14,20 @@ const getters = {
 const actions = {
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
-		commit("SET_POLLS", response.data);
+		commit("SUCCESS", response.data);
 	},
 	async newPoll({ commit }, payload) {
 		const response = await axios.post(`${apiBaseUrl.baseRoute}/polls/polls/`, {
-			payload
+			payload,
+			config
 		});
-		commit("SET_POLLS", response.data);
+		commit("SUCCESS", response.data);
 	}
 };
 
 const mutations = {
-	SET_POLLS: (state, payload) => (state.Polls = payload)
-	// CREATE_POLL: (state, payload) => (state.Polls = payload)
+	SUCCESS: (state, payload) => (state.Polls = payload)
+	// SUCCESS: (state, payload) => (state.Polls = payload)
 };
 
 export default {

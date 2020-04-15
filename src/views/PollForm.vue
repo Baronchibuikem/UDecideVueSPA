@@ -21,6 +21,7 @@
 													required=""
 													placeholder="Enter your question here.."
 													rows="1"
+													v-model="question"
 												></textarea>
 												<div class="help-block"></div>
 											</div>
@@ -38,6 +39,7 @@
 												name="option_text"
 												id="option_text"
 												autofocus=""
+												v-model="option"
 											/>
 											<div class="input-group-append">
 												<button
@@ -56,6 +58,7 @@
 												<button
 													type="button"
 													onclick="return create_request_json();"
+													@click.prevent="submit"
 													class="btn btn-info mr-3"
 												>
 													Save

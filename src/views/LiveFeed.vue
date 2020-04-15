@@ -7,36 +7,51 @@
 					<div class="card rounded">
 						<img
 							class="card-img img-responsive"
-							src="http://wrappixel.com/demos/admin-templates/admin-wrap/assets/images/big/img1.jpg"
+							src="../assets/img/01_UD.png"
 							alt="Card image"
 						/>
 						<div
 							class="card-img-overlay card-inverse social-profile-first bg-info"
 						>
-							<img
-								src="http://wrappixel.com/demos/admin-templates/admin-wrap/assets/images/users/1.jpg"
-								class="img-circle"
-								width="100"
-							/>
+							<img src="../assets/img/profileimage.png" class="img-circle" />
 
-							<h4 class="card-title">{{ getuserID }}</h4>
+							<h4 class="card-title text-capitalize">
+								<!-- This return the login in users username. It's coming from getters defined
+								in the userAuthentication store -->
+								{{ getUser.userObj.user.username }}
+							</h4>
 							<br />
 						</div>
 
 						<div class="card-body text-center">
 							<div class="row">
 								<div class="col">
-									<h3 class="m-b-0 font-12">12K</h3>
+									<h3 class="m-b-0 font-12">
+										<!-- This returns the number of followers. It's being recieved
+										from the getters in userAuthentication store -->
+										<span v-if="!numberOfFollowers">O</span>
+										<span v-else>{{ numberOfFollowers }}k</span>
+									</h3>
 									<h4 class="font-11">Followers</h4>
 								</div>
 
 								<div class="col">
-									<h3 class="m-b-0 font-12">45K</h3>
+									<h3 class="m-b-0 font-12">
+										<!-- This returns the number of followers. It's being recieved
+										from the getters in userAuthentication store -->
+										<span v-if="!numberOfFollowed">O</span>
+										<span v-else>{{ numberOfFollowed }}k</span>
+									</h3>
 									<h4 class="font-11">Following</h4>
 								</div>
 
 								<div class="col">
-									<h3 class="m-b-0 font-12">128</h3>
+									<h3 class="m-b-0 font-12">
+										<!-- This returns the number of followers. It's being recieved
+										from the getters in userAuthentication store -->
+										<span v-if="!numberOfPolls">O</span>
+										<span v-else>{{ numberOfPolls }}</span>
+									</h3>
 									<h4 class="font-11">Polls</h4>
 								</div>
 							</div>
@@ -429,7 +444,8 @@ export default {
 					}
 				});
 		},
-		...mapActions(["getPolls", "getUser"])
+
+		...mapActions(["getPolls"])
 	},
 	components: {
 		PollForm,
@@ -438,11 +454,17 @@ export default {
 		InfiniteLoading
 	},
 	computed: {
-		...mapGetters(["allPolls", "getuserID"])
+		...mapGetters([
+			"allPolls",
+			"getUser",
+			"numberOfFollowers",
+			"numberOfFollowed",
+			"numberOfPolls"
+		])
 	},
 	created() {
 		this.getPolls();
-		this.getUser(1);
+		// this.getUser(1);
 	}
 };
 </script>

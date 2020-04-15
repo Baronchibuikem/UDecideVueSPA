@@ -2,21 +2,28 @@ import axios from "axios";
 import { apiBaseUrl } from "../baseUrl";
 
 const state = {
-	user: {},
+	user: {
+		userObj: {},
+		followers: [],
+		followed: [],
+		polls: [],
+		likes: []
+	},
+
 	userID: null,
 	error: [],
 	status: "",
 	token: localStorage.getItem("token") || ""
 };
 
-function buildUrl(url) {
-	return `${apiBaseUrl.baseRoute}${url}.json?token=${state.token}`;
-}
-
 const getters = {
 	isLoggedIn: state => !!state.token,
 	authStatus: state => state.status,
 	getUser: state => state.user,
+	numberOfFollowers: state => state.user.followers.length,
+	numberOfFollowed: state => state.user.followed.length,
+	numberOfPolls: state => state.user.polls.length,
+	getToken: state => state.token,
 	getuserID: state => state.userID
 };
 
@@ -33,7 +40,6 @@ const actions = {
 					const token = response.data.token;
 					const user = response.data.pk;
 					localStorage.setItem("token", token);
-					console.log("TOKEN FROM LOGIN", token);
 					axios.defaults.headers.common["Authorization"] = token;
 					commit("auth_success", { token, user });
 					dispatch("getUser", user);
@@ -65,23 +71,21 @@ const actions = {
 		});
 		commit("auth_success", response);
 	},
-	getUser({ commit }, id) {
-		const { token } = state.token;
 
-		console.log("TOKENNNNN", token);
-		axios.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`).then(response => {
-			localStorage.setItem("token", token);
-			axios.defaults.headers.common["Authorization"] = token;
-			commit("fetch_users", response.data, token);
-		});
+	getUser({ commit, getters }, id) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("fetch_users", response.data);
+			});
 	}
-
-	// async getUser({ commit }, id) {
-	// 	const response = await axios.get(
-	// 		`${apiBaseUrl.baseRoute}/userprofile/${id}/`
-	// 	);
-	// 	commit("fetch_users", response.data);
-	// }
 };
 
 const mutations = {
@@ -104,9 +108,22 @@ const mutations = {
 		state.status = "";
 		state.token = "";
 	},
-	fetch_users(state, user) {
-		console.log("USERPROFILE", user);
-		// state.user = user;
+	fetch_users(state, payload) {
+		console.log(payload);
+		const { followed, followers, likes, polls, ...user } = payload;
+
+		state.user.userObj = user;
+		state.user.followed = followed;
+		state.user.followers = followers;
+		state.user.polls = polls;
+		state.user.likes = likes;
+	}
+};
+
+const config = {
+	headers: {
+		Authorization: `Token ${getters.getToken}`
+		// "Content-Type": "application/json"
 	}
 };
 
@@ -114,5 +131,6 @@ export default {
 	state,
 	getters,
 	actions,
-	mutations
+	mutations,
+	config
 };
