@@ -169,7 +169,9 @@
 									class=""
 								/>
 								<span class="hidden-md-down"
-									>Mark Sanders &nbsp;<i class="fa fa-angle-down"></i
+									>{{ getUser.userObj.user.username }} &nbsp;<i
+										class="fa fa-angle-down"
+									></i
 								></span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right animated flipInY">
@@ -183,7 +185,7 @@
 												/>
 											</div>
 											<div class="u-text">
-												<h4>Steave Jobs</h4>
+												<h4>{{ getUser.userObj.user.username }}</h4>
 												<p class="text-muted">varun@gmail.com</p>
 												<a
 													href="pages-profile.html"
@@ -225,6 +227,8 @@
 
 <script>
 import SignupForm from "./../components/SignupForm.vue";
+
+import { mapGetters } from "vuex";
 export default {
 	name: "myheader",
 	components: {
@@ -238,9 +242,7 @@ export default {
 		}
 	},
 	computed: {
-		isLoggedIn: function() {
-			return this.$store.getters.isLoggedIn;
-		}
+		...mapGetters(["getUser", "isLoggedIn"])
 	}
 };
 </script>
