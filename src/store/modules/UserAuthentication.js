@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiBaseUrl } from "../baseUrl";
 
 const state = {
+	// The keys defined below represents the initial state of our data the first time our app loads
 	user: {
 		userObj: {},
 		followers: [],
@@ -9,14 +10,19 @@ const state = {
 		polls: [],
 		likes: []
 	},
-
 	userID: null,
 	error: [],
 	status: "",
-	token: localStorage.getItem("token") || ""
+	token: localStorage.getItem("token") || "",
+	loggedIn: false,
+	Polls: [],
+	SinglePolls: {}
 };
 
+// getters pull updated value from our data and they are then called by the components that needs them to
+// present data to the user(s)
 const getters = {
+	allPolls: state => state.Polls,
 	isLoggedIn: state => !!state.token,
 	authStatus: state => state.status,
 	getUser: state => state.user,
@@ -24,10 +30,14 @@ const getters = {
 	numberOfFollowed: state => state.user.followed.length,
 	numberOfPolls: state => state.user.polls.length,
 	getToken: state => state.token,
-	getuserID: state => state.userID
+	getuserID: state => state.userID,
+	isAuthenticated: state => state.loggedIn
 };
 
+// actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
 const actions = {
+	// This is used to make a post request to the login API, where payload is the data that was passed when the
+	// login action was dispatched from the Login component
 	login({ commit, dispatch }, payload) {
 		return new Promise((resolve, reject) => {
 			commit("auth_request");
@@ -42,6 +52,8 @@ const actions = {
 					localStorage.setItem("token", token);
 					axios.defaults.headers.common["Authorization"] = token;
 					commit("auth_success", { token, user });
+					// Here we are dispatching the getUser action since we want to get the loggedIn users profile
+					// along with the data being sent back by the login action
 					dispatch("getUser", user);
 					resolve(response);
 				})
@@ -54,6 +66,7 @@ const actions = {
 	},
 
 	logout({ commit }) {
+		// This action is used to logout a user
 		return new Promise(resolve => {
 			commit("logout");
 			localStorage.removeItem("token");
@@ -72,6 +85,8 @@ const actions = {
 		commit("auth_success", response);
 	},
 
+	// This action is used to make a get request to the API endpoint so we can fetch data to update our
+	// current loggedIn user profile
 	getUser({ commit, getters }, id) {
 		let config = {
 			headers: {
@@ -85,9 +100,31 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				commit("fetch_users", response.data);
 			});
+	},
+
+	// This action is used to get all available polls from the server
+	async getPolls({ commit }) {
+		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
+		commit("SUCCESS", response.data);
+	},
+	// this action is used to make a post request to create a new poll
+	newPoll({ commit, getters }, payload) {
+		let config = {
+			headers: {
+				// "Content-Type": "application/json",
+				Authorization: `Token ${getters.getToken}`
+			}
+		};
+		axios
+			.post(`${apiBaseUrl.baseRoute}/polls/create-polls/`, payload, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SUCCESS", response.data);
+			});
 	}
 };
 
+// These are used to update our state depending on the response gotten when an action is dispatched
 const mutations = {
 	auth_request(state) {
 		state.status = "loading";
@@ -95,6 +132,7 @@ const mutations = {
 	auth_success(state, payload) {
 		const { token, pk } = payload;
 		state.status = "success";
+		state.loggedIn = true;
 		state.token = token;
 		state.userID = pk;
 	},
@@ -109,28 +147,30 @@ const mutations = {
 		state.token = "";
 	},
 	fetch_users(state, payload) {
-		console.log(payload);
 		const { followed, followers, likes, polls, ...user } = payload;
-
 		state.user.userObj = user;
 		state.user.followed = followed;
 		state.user.followers = followers;
 		state.user.polls = polls;
 		state.user.likes = likes;
-	}
+	},
+	SUCCESS: (state, payload) => (state.Polls = payload)
 };
 
-const config = {
-	headers: {
-		Authorization: `Token ${getters.getToken}`
-		// "Content-Type": "application/json"
-	}
-};
+// Going forward the config variable can be used as a helper function to avoid repeating same codes whenever
+// you want to make a request to an endpoint that is restricted
+
+// const config = {
+// 	headers: {
+// 		Authorization: `Token ${getters.getToken}`
+// 		// "Content-Type": "application/json"
+// 	}
+// };
 
 export default {
 	state,
 	getters,
 	actions,
-	mutations,
-	config
+	mutations
+	// config
 };

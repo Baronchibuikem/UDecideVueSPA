@@ -1,7 +1,7 @@
 <template>
 	<div class="card mb-3">
 		<div class="card-body">
-			<form>
+			<form @click.prevent="submit">
 				<div class="form-group">
 					<div class="controls">
 						<textarea
@@ -90,6 +90,7 @@
 								type="button"
 								class="btn btn-info btn-sm mr-3 py-2 px-3"
 								:disabled="!isPollActive"
+								@click.prevent="submit"
 							>
 								Post
 							</button>
@@ -135,6 +136,17 @@ export default {
 			this.pollData.question = "";
 			this.pollData.options = [];
 			this.option = "";
+		},
+		submit: function() {
+			if (this.pollData.question && this.pollData.options) {
+				let data = {
+					question: this.pollData.question,
+					choices: this.pollData.options
+				};
+				this.$store
+					.dispatch("newPoll", data)
+					.then(() => this.$router.push("/"));
+			}
 		}
 	},
 	computed: {

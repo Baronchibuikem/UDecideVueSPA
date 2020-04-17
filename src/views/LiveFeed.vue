@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<my-header />
-		<div v-if="IsLoggedIn">
+		<!-- <div v-if="!isAuthenticated">
 			<Login />
-		</div>
-		<div v-if="!IsLoggedIn">
+		</div> -->
+		<div>
 			<div class="page-container container">
 				<div class="row">
 					<div class="col-sm-3 mt-3 d-none d-sm-block">
@@ -476,7 +476,8 @@ export default {
 			"numberOfFollowers",
 			"numberOfFollowed",
 			"numberOfPolls",
-			"isLoggedIn"
+			"isLoggedIn",
+			"isAuthenticated"
 		])
 	},
 	created() {

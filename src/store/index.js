@@ -1,7 +1,7 @@
 import Vuex from "vuex";
 import Vue from "vue";
 import userAuth from "./modules/UserAuthentication";
-import poll from "./modules/Polls";
+// import poll from "./modules/Polls";
 import createPersistedState from "vuex-persistedstate";
 
 // load vuex
@@ -11,7 +11,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	plugins: [createPersistedState()],
 	modules: {
-		userAuth,
-		poll
+		userAuth
+		// poll
 	}
 });

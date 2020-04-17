@@ -53,7 +53,7 @@
 										</div>
 										<br />
 
-										<div class="form-group">
+										<!-- <div class="form-group">
 											<div class="text-xs-right">
 												<button
 													type="button"
@@ -67,7 +67,7 @@
 													Cancel
 												</button>
 											</div>
-										</div>
+										</div> -->
 									</form>
 								</div>
 							</div>
@@ -149,6 +149,12 @@
 import $ from "jquery";
 export default {
 	name: "pollform",
+	data() {
+		return {
+			question: "",
+			option: ""
+		};
+	},
 	mounted() {
 		let num = 0;
 
@@ -211,6 +217,17 @@ export default {
 						alert(temopt);
 					});
 				}
+			}
+		},
+		submit: function() {
+			if (this.question && this.option) {
+				let data = {
+					question: this.question,
+					choices: this.option
+				};
+				this.$store
+					.dispatch("newPoll", data)
+					.then(() => this.$router.push("/"));
 			}
 		}
 	}
