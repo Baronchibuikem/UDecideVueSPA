@@ -21,3 +21,14 @@
 # **DATE**: 15-02-2020
 
 1. Integration functionality through vuex to get usersprofile details and update the livefeed
+
+# **DATE**: 18-02-2020
+
+1. Added functionality to create polls and made the pollform reusuable
+2. Added functionality to get trending polls and connected the endpoint using vuex
+3. Added functionality to like a poll and connected it to the endpoint using vuex
+4. Added functionality to bookmark a poll and connected it to the enpoint using vuex
+5. Added functionality to vote on a poll choice and connected it to the endpoint using vuex
+6. Made the TrendingPoll component reusuable
+7. Added search functionality to MyHeader component
+8. Added dummy/static images to the project to allow images display when you navigate to the homepage

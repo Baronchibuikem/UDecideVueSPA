@@ -7,70 +7,7 @@
 				<div id="content_area">
 					<div class="row">
 						<div class="col-md-6">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">New poll creation form</h4>
-									<form>
-										<div class="form-group">
-											<div class="controls">
-												<textarea
-													v-model="question"
-													class="form-control"
-													placeholder="Question"
-												></textarea>
-											</div>
-										</div>
-
-										<div class="mb-3">
-											<p v-for="(option, index) in options" :key="index">
-												<span class="fa fa-check"></span>
-												{{ option }}
-												<span
-													@click="removeOption(option)"
-													style="cursor: pointer;"
-													>Remove</span
-												>
-											</p>
-										</div>
-
-										<div class="input-group">
-											<input
-												v-model="option"
-												type="text"
-												class="form-control"
-												placeholder="Add Option"
-											/>
-											<div class="input-group-append">
-												<button
-													type="button"
-													@click="addOption"
-													class="btn waves-effect waves-light btn-primary"
-												>
-													Add
-												</button>
-											</div>
-										</div>
-
-										<br />
-
-										<div class="form-group">
-											<div class="text-xs-right">
-												<!-- here we call the submit function to submit our data's -->
-												<button
-													type="submit"
-													class="btn btn-info mr-3"
-													@click.prevent="submit"
-												>
-													Save
-												</button>
-												<button type="reset" class="btn btn-inverse">
-													Cancel
-												</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
+							<PollForm />
 						</div>
 						<div class="col-md-6">
 							<div class="card">
@@ -146,24 +83,30 @@
 	</div>
 </template>
 <script>
+import PollForm from "../components/PollForm";
 export default {
-	name: "pollform",
+	name: "PollForming",
+	components: {
+		PollForm
+	},
 	data: function() {
 		return {
 			question: "",
 			option: "",
 			options: [],
-			initialValue: [{}]
+			initialValue: { choice_text: [{}] },
+			choice_type: "TEXT"
 		};
 	},
 	methods: {
 		// var that = this;
 		addOption() {
 			this.options.push(this.option);
+			this.initialValue.choice_text.push({ choice_text: this.option });
 			this.option = "";
 		},
 		removeOption(opt) {
-			this.options.splice(opt);
+			this.options.splice(opt, 1);
 		},
 		// This function is used to submit the data to the vuex newPoll action which makes a post request to the
 		// required endpoint. Here we ensure that the question input is not empty  and that the length of options
@@ -173,22 +116,14 @@ export default {
 			if (this.question && this.options.length > 0) {
 				let data = {
 					question: this.question,
-					choices: this.initialValue
+					choices: this.initialValue.choice_text,
+					choice_type: this.choice_type
 				};
+				console.log(data, "for creating poll");
 				this.$store
 					.dispatch("newPoll", data)
 					.then(() => this.$router.push("/"));
 			}
-		},
-		// Since the API endpoint for creating polls requires a list of objects, We get the
-		// available list/array in the options data and call this function to convert them to a list of objects
-		convertListToObject(array, key) {
-			return array.reduce((obj, item) => {
-				return {
-					...obj,
-					[item[key]]: item
-				};
-			}, this.initialValue);
 		}
 	}
 };

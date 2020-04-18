@@ -41,11 +41,16 @@
 							>
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
-							<form class="app-search" style="display: none;">
+							<form
+								class="app-search"
+								style="display: none;"
+								@click.prevent="search"
+							>
 								<input
 									class="form-control"
 									placeholder="Search &amp; enter"
 									type="text"
+									v-model="searchPolls"
 								/>
 								<a class="srh-btn"><i class="ti-close"></i></a>
 							</form>
@@ -164,9 +169,9 @@
 								aria-expanded="false"
 							>
 								<img
-									src="http://wrappixel.com/demos/admin-templates/admin-wrap/assets/images/users/1.jpg"
+									src="../assets/img/profileimage.png"
 									alt="user"
-									class=""
+									class="img-circle"
 								/>
 								<span class="hidden-md-down"
 									>{{ getUser.userObj.user.username }} &nbsp;<i
@@ -179,14 +184,11 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img
-													src="http://wrappixel.com/demos/admin-templates/admin-wrap/assets/images/users/1.jpg"
-													alt="user"
-												/>
+												<img src="../assets/img/profileimage.png" alt="user" />
 											</div>
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
-												<p class="text-muted">varun@gmail.com</p>
+
 												<a
 													href="pages-profile.html"
 													class="btn btn-rounded btn-danger btn-sm"
@@ -234,11 +236,26 @@ export default {
 	components: {
 		SignupForm
 	},
+	data() {
+		return {
+			searchPolls: ""
+		};
+	},
 	methods: {
+		// This method is used to logout a loggedIn user, it dispatches the logout action which is
+		// being handled by vuex
 		logout: function() {
 			this.$store.dispatch("logout").then(() => {
 				this.$router.push("/login");
 			});
+		},
+		search: function() {
+			if (this.searchPolls.length > 0) {
+				const query = this.searchPolls.trim();
+				this.$store.dispatch("searchPolls", query).then(() => {
+					this.$router.push("/");
+				});
+			}
 		}
 	},
 	computed: {

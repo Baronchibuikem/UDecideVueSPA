@@ -16,6 +16,7 @@ const state = {
 	token: localStorage.getItem("token") || "",
 	loggedIn: false,
 	Polls: [],
+	trendingPolls: [],
 	SinglePolls: {}
 };
 
@@ -23,6 +24,7 @@ const state = {
 // present data to the user(s)
 const getters = {
 	allPolls: state => state.Polls,
+	pollsTrending: state => state.trendingPolls,
 	isLoggedIn: state => !!state.token,
 	authStatus: state => state.status,
 	getUser: state => state.user,
@@ -105,11 +107,12 @@ const actions = {
 	// This action is used to get all available polls from the server
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
-		console.log(response, "RESPONSESESESESES");
+		console.log(response.data, "Polls from the API");
 		commit("SUCCESS", response.data);
 	},
 	// this action is used to make a post request to create a new poll
 	newPoll({ commit, getters }, payload) {
+		console.log("DATA FROM POLL CREATE", payload);
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
@@ -132,6 +135,28 @@ const actions = {
 		};
 		axios
 			.post(`${apiBaseUrl.baseRoute}/userprofile/like-poll/`, payload, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SUCCESS", response.data);
+			});
+	},
+
+	// This action is used to select a post request for voting on a particular choice.
+	voteChoice({ commit, getters }, payload) {
+		console.log(payload, "FROM VOTE CHOICE ACTION");
+		const { poll, choice } = { ...payload };
+		let config = {
+			headers: {
+				// "Content-Type": "application/json",
+				Authorization: `Token ${getters.getToken}`
+			}
+		};
+		axios
+			.post(
+				`${apiBaseUrl.baseRoute}/polls/vote/${poll}/${choice}/`,
+				payload,
+				config
+			)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
 				commit("SUCCESS", response.data);
@@ -168,7 +193,7 @@ const actions = {
 			.then(response => {
 				console.log(response.data, "FROM TRENDING POLLS");
 				axios.defaults.headers.common["Authorization"] = config;
-				commit("SUCCESS", response.data);
+				commit("TRENDING_POLLS", response.data);
 			});
 	},
 	getTrendingFeeds({ commit, getters }) {
@@ -184,6 +209,21 @@ const actions = {
 				console.log(response.data, "FROM TRENDING Feeds");
 				axios.defaults.headers.common["Authorization"] = config;
 				commit("SUCCESS", response.data);
+			});
+	},
+	searchPolls({ commit, getters }, payload) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/search/poll/?search=` + payload, config)
+			.then(response => {
+				console.log(response.data, "SEARCH RESULT");
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SEARCH_RESULT", response.data);
 			});
 	}
 };
@@ -218,7 +258,8 @@ const mutations = {
 		state.user.polls = polls;
 		state.user.likes = likes;
 	},
-	SUCCESS: (state, payload) => (state.Polls = payload)
+	SUCCESS: (state, payload) => (state.Polls = payload),
+	TRENDING_POLLS: (state, payload) => (state.trendingPolls = payload)
 };
 
 // Going forward the config variable can be used as a helper function to avoid repeating same codes whenever

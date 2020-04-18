@@ -1,166 +1,151 @@
 <template>
-	<div class="card mb-3">
-		<div class="card-body">
-			<form @click.prevent="submit">
-				<div class="form-group">
-					<div class="controls">
-						<textarea
-							style="border-radius: 10px;"
-							rows="1"
-							@focus="showForm = true"
-							v-model="pollData.question"
-							class="form-control is-rounded"
-							placeholder=" What's your question?"
-						></textarea>
-					</div>
-				</div>
-				<div class="mb-3">
-					<p v-for="(option, index) in pollData.options" :key="index">
-						<input
-							:value="option"
-							class="form-control form-control-sm w-75 mr-2"
-							readonly
-						/>
-						<span
-							@click="removeOption(index)"
-							style="cursor: pointer; font-size: 12px;"
-							>X</span
-						>
-					</p>
-				</div>
+	<div id="content_area">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<div class="controls">
+									<textarea
+										style="border-radius: 10px;"
+										@focus="showForm = true"
+										v-model="question"
+										class="form-control is-rounded"
+										placeholder="What is your question"
+									></textarea>
+								</div>
+							</div>
 
-				<div v-if="showForm">
-					<div class="row mb-3">
-						<div class="col-md-12">
-							<div class="input-group">
-								<form @submit.prevent="addOption" class="w-100">
-									<div class="input-group mb-2 mr-sm-2">
-										<input
-											v-model="option"
-											type="text"
-											class="form-control form-control-sm"
-											placeholder="Add Option"
-											:readonly="!isQuestionAvailable"
-										/>
-										<div class="input-group-append">
-											<button
-												type="submit"
-												class="btn waves-effect waves-light btn-primary btn-sm"
-												:disabled="!submitable"
-											>
-												add
-											</button>
-										</div>
+							<div class="mb-3">
+								<p v-for="(option, index) in options" :key="index">
+									<span class="fa fa-check"></span>
+									{{ option }}
+									<span @click="removeOption(index)" style="cursor: pointer;"
+										>Remove</span
+									>
+								</p>
+							</div>
+							<div v-if="showForm">
+								<div class="input-group">
+									<input
+										v-model="option"
+										type="text"
+										class="form-control"
+										placeholder="Add Option"
+										:readonly="!isQuestionAvailable"
+									/>
+									<div class="input-group-append">
+										<button
+											type="button"
+											@click="addOption"
+											class="btn waves-effect waves-light btn-primary"
+										>
+											Add
+										</button>
 									</div>
-								</form>
-								<p class="mt-3"><small>Duration:</small></p>
-								<div class="row ml-1 mt-3">
-									<div class="col-3">
-										<select class="custom-select">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-										</select>
-										Days
-									</div>
-									<div class="col-3">
-										<select class="custom-select">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-										</select>
-										Hours
-									</div>
-									<div class="col-3">
-										<select class="custom-select">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-										</select>
-										Minutes
+								</div>
+
+								<br />
+
+								<p><small>Expiration Date:</small></p>
+								<input type="date" class="form-control" v-model="date" />
+								<div class="form-group mt-2">
+									<div class="text-xs-right">
+										<!-- here we call the submit function to submit our data's -->
+										<button
+											type="submit"
+											class="btn px-6 mr-3 ml-1"
+											@click.prevent="submit"
+											:disabled="!isPollActive"
+											:class="{
+												disabledButton: !isPollActive,
+												enableButton: isPollActive
+											}"
+										>
+											Save
+										</button>
+										<button type="reset" class="btn btn-inverse">
+											Cancel
+										</button>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="text-xs-right">
-							<button
-								type="button"
-								class="btn btn-info btn-sm mr-3 py-2 px-3"
-								:disabled="!isPollActive"
-								@click.prevent="submit"
-							>
-								Post
-							</button>
-							<button
-								type="reset"
-								class="btn btn-link btn-sm"
-								@click="cancelForm"
-							>
-								Discard
-							</button>
-						</div>
+						</form>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	name: "pollform",
-	data() {
+	name: "PollForm",
+	data: function() {
 		return {
+			question: "",
 			option: "",
-			pollData: {
-				question: "",
-				options: []
-			},
-			showForm: false
+			options: [],
+			initialValue: { choice_text: [{}] },
+			choice_type: "TEXT",
+			showForm: false,
+			date: ""
 		};
 	},
 	methods: {
+		// var that = this;
 		addOption() {
-			this.pollData.options.push(this.option);
+			this.options.push(this.option);
+			this.initialValue.choice_text.push({ choice_text: this.option });
 			this.option = "";
 		},
-		removeOption(index) {
-			this.pollData.options.splice(index, 1);
+		removeOption(opt) {
+			this.options.splice(opt, 1);
 		},
-		cancelForm() {
-			this.showForm = !this.showForm;
-			this.pollData.question = "";
-			this.pollData.options = [];
-			this.option = "";
-		},
-		submit: function() {
-			if (this.pollData.question && this.pollData.options) {
+		// This function is used to submit the data to the vuex newPoll action which makes a post request to the
+		// required endpoint. Here we ensure that the question input is not empty  and that the length of options
+		// is greater than 0, if all checks out, we pass in the question data and the initialValue which is our
+		// options list converted to an array of object and dispatch the newPoll action along with our data
+		submit() {
+			if (this.question && this.options.length > 0) {
 				let data = {
-					question: this.pollData.question,
-					choices: this.pollData.options
+					question: this.question,
+					choices: this.initialValue.choice_text,
+					choice_type: this.choice_type,
+					expire_date: this.date
 				};
 				this.$store
 					.dispatch("newPoll", data)
-					.then(() => this.$router.push("/"));
+					.then(() => this.$router.push("/feeds"));
 			}
 		}
 	},
 	computed: {
 		isQuestionAvailable() {
-			return this.pollData.question.trim() != "";
+			return this.question.trim() != "";
 		},
-		isOptionAvailable() {
-			return this.option.trim() != "";
+		isOptionsAvailable() {
+			return this.options.length > 0;
 		},
 		submitable() {
 			return this.isQuestionAvailable && this.isOptionAvailable;
 		},
 		isPollActive() {
-			return this.pollData.question.trim() != "" && this.pollData.options != [];
+			return this.question.trim() != "" && this.options != [];
 		}
 	}
 };
 </script>
+<style scoped>
+.disabledButton {
+	background-color: #d8d8d8;
+	/* padding: 8px 8px;
+	margin-right: 5px; */
+}
+.enableButton {
+	background-color: #20aee3;
+	/* padding: 8px 8px;
+	margin-right: 5px; */
+}
+</style>
