@@ -124,7 +124,6 @@ export default {
 	},
 	methods: {
 		addOption() {
-			console.log("Button clicjed");
 			this.pollData.options.push(this.option);
 			this.option = "";
 		},

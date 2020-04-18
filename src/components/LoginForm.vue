@@ -84,7 +84,7 @@ export default {
 			loading: false
 		};
 	},
-	props: ["login"],
+
 	methods: {
 		checkForm: function() {
 			axios

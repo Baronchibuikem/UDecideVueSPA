@@ -145,7 +145,9 @@
 																<a href="#" class="link">{{
 																	poll.poller_username
 																}}</a>
-																<span class="sl-date">{{ poll.pub_date }}</span>
+																<span class="sl-date"
+																	>{{ poll.pub_date }}
+																</span>
 															</div>
 															<div class="m-t-20">
 																<div class="col-md-12 col-xs-12">
@@ -153,13 +155,24 @@
 																</div>
 															</div>
 															<div class="like-comm m-t-20">
-																<a href="javascript:void(0)" class="link m-r-10"
-																	>{{ poll.vote_count }} Vote</a
+																<span
+																	class="linkHover m-r-10"
+																	@click="
+																		bookmarkPoll(poll, getUser.userObj.user.id)
+																	"
 																>
-																<a href="javascript:void(0)" class="link m-r-10"
-																	><i class="fa fa-heart text-danger"></i>
-																	{{ poll.total_likes }} Love</a
+																	<i class="fa fa-thumb text-danger"></i
+																	>{{ poll.vote_count }} Vote</span
 																>
+																<span
+																	class="linkHover m-r-10"
+																	@click="
+																		likePoll(poll, getUser.userObj.user.id)
+																	"
+																>
+																	<i class="fa fa-heart text-danger"></i>
+																	{{ poll.total_likes }} Love
+																</span>
 															</div>
 														</div>
 													</div>
@@ -436,7 +449,9 @@ export default {
 	name: "feed",
 	data() {
 		return {
-			list: []
+			list: [],
+			selected_poll: null,
+			poll_creator: null
 		};
 	},
 	methods: {
@@ -459,7 +474,32 @@ export default {
 					}
 				});
 		},
+		likePoll(value, userID) {
+			const { id } = { ...value };
 
+			this.selected_poll = id;
+			this.poll_creator = userID;
+			let data = {
+				poll: this.selected_poll,
+				user: this.poll_creator
+			};
+			this.$store
+				.dispatch("likePoll", data)
+				.then(() => this.$router.push("/feeds"));
+		},
+		bookmarkPoll(value, userID) {
+			const { id } = { ...value };
+
+			this.selected_poll = id;
+			this.poll_creator = userID;
+			let data = {
+				poll: this.selected_poll,
+				user: this.poll_creator
+			};
+			this.$store
+				.dispatch("bookmarkPoll", data)
+				.then(() => this.$router.push("/"));
+		},
 		...mapActions(["getPolls"])
 	},
 	components: {
@@ -477,12 +517,17 @@ export default {
 			"numberOfFollowed",
 			"numberOfPolls",
 			"isLoggedIn",
-			"isAuthenticated"
+			"isAuthenticated",
+			"getuserID"
 		])
 	},
-	created() {
-		this.getPolls();
-		// this.getUser(1);
+	mounted() {
+		// Added the called to ensure the element is mounted once it is called.
+		this.$nextTick(() => {
+			this.getPolls();
+			this.getTrendingPolls();
+			// this.getTrendingFeeds();
+		});
 	}
 };
 </script>
@@ -495,5 +540,8 @@ export default {
 	border-radius: 50%;
 	font-size: 22px;
 	line-height: 22px;
+}
+.linkHover:hover {
+	cursor: pointer !important;
 }
 </style>

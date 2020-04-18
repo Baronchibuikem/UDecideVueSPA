@@ -105,6 +105,7 @@ const actions = {
 	// This action is used to get all available polls from the server
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
+		console.log(response, "RESPONSESESESESES");
 		commit("SUCCESS", response.data);
 	},
 	// this action is used to make a post request to create a new poll
@@ -118,6 +119,69 @@ const actions = {
 		axios
 			.post(`${apiBaseUrl.baseRoute}/polls/create-polls/`, payload, config)
 			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SUCCESS", response.data);
+			});
+	},
+	likePoll({ commit, getters }, payload) {
+		let config = {
+			headers: {
+				// "Content-Type": "application/json",
+				Authorization: `Token ${getters.getToken}`
+			}
+		};
+		axios
+			.post(`${apiBaseUrl.baseRoute}/userprofile/like-poll/`, payload, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SUCCESS", response.data);
+			});
+	},
+	bookmarkPoll({ commit, getters }, payload) {
+		let config = {
+			headers: {
+				// "Content-Type": "application/json",
+				Authorization: `Token ${getters.getToken}`
+			}
+		};
+		axios
+			.post(
+				`${apiBaseUrl.baseRoute}/userprofile/bookmark-poll/`,
+				payload,
+				config
+			)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SUCCESS", response.data);
+			});
+	},
+
+	getTrendingPolls({ commit, getters }) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/trending/polls/`, config)
+			.then(response => {
+				console.log(response.data, "FROM TRENDING POLLS");
+				axios.defaults.headers.common["Authorization"] = config;
+				commit("SUCCESS", response.data);
+			});
+	},
+	getTrendingFeeds({ commit, getters }) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/trending/feed/`, config)
+			.then(response => {
+				console.log(response.data, "FROM TRENDING Feeds");
 				axios.defaults.headers.common["Authorization"] = config;
 				commit("SUCCESS", response.data);
 			});
