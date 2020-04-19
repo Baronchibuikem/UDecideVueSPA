@@ -100,7 +100,6 @@
 
 					<div class="col-md-6">
 						<div id="content_area" class="container mt-3">
-							<!-- <PollForming /> -->
 							<PollForm />
 							<div class="card rounded">
 								<!-- Nav tabs -->
@@ -139,7 +138,7 @@
 														<PollMenu></PollMenu>
 														<div class="sl-left">
 															<img
-																src="./../assets/img/01_UD.png"
+																src="../assets/img/profileimage.png"
 																alt="user"
 																class="img-circle"
 															/>
