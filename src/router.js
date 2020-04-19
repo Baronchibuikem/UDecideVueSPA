@@ -6,6 +6,7 @@ import LiveFeed from "./views/LiveFeed.vue";
 import PollForm from "./views/PollForming.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
+import SinglePollPage from "./views/SinglePollPage.vue";
 import store from "./store";
 
 Vue.use(Router);
@@ -25,16 +26,24 @@ let router = new Router({
 			component: LiveFeed,
 			meta: {
 				requiresAuth: true
-			}
+			},
+			children: [
+				{
+					path: "poll/:poll_id",
+					component: SinglePollPage,
+					meta: {
+						requiresAuth: true
+					}
+				}
+			]
 		},
-		{
-			path: "/feeds",
-			name: "feeds",
-			component: LiveFeed,
-			meta: {
-				requiresAuth: true
-			}
-		},
+		// {
+		// 	path: "/poll/:poll_id",
+		// 	component: SinglePollPage,
+		// 	meta: {
+		// 		requiresAuth: true
+		// 	}
+		// },
 		{
 			path: "/dashboard",
 			name: "dashboard",
@@ -67,9 +76,16 @@ let router = new Router({
 		},
 		{
 			path: "/signup",
-			name: "singup",
+			name: "signup",
 			component: Signup
 		}
+
+		// // return 404 error page if the link entered doesn't exist
+		// {
+		// 	path: "*",
+		// 	name: "error-404"
+		// 	// component: Error
+		// }
 	]
 });
 

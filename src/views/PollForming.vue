@@ -83,7 +83,7 @@
 	</div>
 </template>
 <script>
-import PollForm from "../components/PollForm";
+import PollForm from "../views/PollForm";
 export default {
 	name: "PollForming",
 	components: {

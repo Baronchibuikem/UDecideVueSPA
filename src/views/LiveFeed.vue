@@ -4,9 +4,6 @@
 			<Login />
 		</div>
 		<my-header />
-		<!-- <div v-if="!isAuthenticated">
-			<Login />
-		</div> -->
 		<div v-if="isAuthenticated">
 			<div class="page-container container">
 				<div class="row">
@@ -126,7 +123,7 @@
 								<!-- Tab panes -->
 								<div class="tab-content">
 									<div class="tab-pane active" id="home" role="tabpanel">
-										<div class="card-body">
+										<div class="card-body" v-if="polllist">
 											<div class="profiletimeline">
 												<!-- Here we are looping through the allPolls which we received from our getters -->
 												<div
@@ -134,7 +131,7 @@
 													v-for="poll in allPolls"
 													v-bind:key="poll.id"
 												>
-													<div class="sl-item">
+													<div class="sl-item" @click="singlePoll(poll.id)">
 														<PollMenu></PollMenu>
 														<div class="sl-left">
 															<img
@@ -210,6 +207,10 @@
 												</div>
 											</div>
 										</div>
+										<!-- <router-link to="/poll/:poll_id" append> </router-link> -->
+										<div v-if="!polllist">
+											<router-view></router-view>
+										</div>
 									</div>
 									<!--second tab-->
 									<div class="tab-pane" id="profile" role="tabpanel">
@@ -223,7 +224,7 @@
 					<div class="col-md-3 mt-3 d-none d-md-block">
 						<div class="card rounded">
 							<div class="card-body">
-								<h4 class="card-title">Top Trending</h4>
+								<h4 class="card-title">Top Trending Polls</h4>
 								<TrendingPolls />
 							</div>
 						</div>
@@ -336,8 +337,7 @@ import axios from "axios";
 import PollMenu from "./../components/PollMenu.vue";
 import LoginForm from "./../components/LoginForm.vue";
 import Login from "./Login";
-import PollForm from "@/components/PollForm.vue";
-import PollForming from "./PollForming.vue";
+import PollForm from "@/views/PollForm.vue";
 import TrendingPolls from "./TrendingPolls.vue";
 import { mapGetters, mapActions } from "vuex";
 
@@ -346,7 +346,6 @@ const api = "http://hn.algolia.com/api/v1/search_by_date?tags=story";
 export default {
 	name: "feed",
 	components: {
-		PollForming,
 		TrendingPolls,
 		PollForm,
 		LoginForm,
@@ -360,7 +359,8 @@ export default {
 			selected_poll: null,
 			poll_creator: null,
 			selected_choice: null,
-			current_date: ""
+			current_date: "",
+			polllist: true
 		};
 	},
 	methods: {
@@ -440,6 +440,12 @@ export default {
 			this.$store
 				.dispatch("voteChoice", data)
 				.then(() => this.$router.push("/"));
+		},
+		singlePoll(param) {
+			this.$store.dispatch("getSinglePoll", param).then(() => {
+				this.polllist = false;
+				this.$router.push(`poll/${param}`);
+			});
 		},
 		// Here we call our getPolls action
 		...mapActions(["getPolls", "getTrendingPolls"])

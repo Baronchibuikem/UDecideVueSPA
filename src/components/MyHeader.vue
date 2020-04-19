@@ -4,7 +4,7 @@
 			<nav class="navbar top-navbar navbar-expand-md navbar-light">
 				<div class="navbar-collapse">
 					<div class="navbar-header mr-auto">
-						<a class="navbar-brand" href="<%= BASE_URL %>">
+						<router-link class="navbar-brand" to="/">
 							<b>
 								<img
 									src="./../assets/img/01_UD.png"
@@ -30,7 +30,7 @@
 									alt="homepage"
 								/>
 							</span>
-						</a>
+						</router-link>
 					</div>
 
 					<ul class="navbar-nav my-lg-0">

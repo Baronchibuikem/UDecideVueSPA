@@ -17,11 +17,24 @@ const state = {
 	loggedIn: false,
 	Polls: [],
 	trendingPolls: [],
-	SinglePolls: {}
+	SinglePoll: {
+		id: "",
+		pub_date: "",
+		question: "",
+		choices: [{}],
+		poller_username: "",
+		choice_type: "",
+		expire_date: "",
+		slug_field: "",
+		poll_has_been_bookmarked: "",
+		poll_has_been_liked: "",
+		total_likes: "",
+		vote_count: ""
+	}
 };
 
-// getters pull updated value from our data and they are then called by the components that needs them to
-// present data to the user(s)
+/* getters pull updated value from our state data's and they are then called by the components that needs them to
+present data to the user(s) */
 const getters = {
 	allPolls: state => state.Polls,
 	pollsTrending: state => state.trendingPolls,
@@ -33,7 +46,8 @@ const getters = {
 	numberOfPolls: state => state.user.polls.length,
 	getToken: state => state.token,
 	getuserID: state => state.userID,
-	isAuthenticated: state => state.loggedIn
+	isAuthenticated: state => state.loggedIn,
+	getSinglePoll: state => state.SinglePoll
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -53,6 +67,7 @@ const actions = {
 					const user = response.data.pk;
 					localStorage.setItem("token", token);
 					axios.defaults.headers.common["Authorization"] = token;
+					// we call a mutation to commit our data
 					commit("auth_success", { token, user });
 					// Here we are dispatching the getUser action since we want to get the loggedIn users profile
 					// along with the data being sent back by the login action
@@ -84,12 +99,14 @@ const actions = {
 			data: payload,
 			method: "POST"
 		});
+		// We call a mutation to commit our reponse data
 		commit("auth_success", response);
 	},
 
 	// This action is used to make a get request to the API endpoint so we can fetch data to update our
 	// current loggedIn user profile
 	getUser({ commit, getters }, id) {
+		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`
@@ -100,6 +117,7 @@ const actions = {
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("fetch_users", response.data);
 			});
 	},
@@ -107,12 +125,31 @@ const actions = {
 	// This action is used to get all available polls from the server
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
-		console.log(response.data, "Polls from the API");
+		// We call a mutation to commit our response data
 		commit("SUCCESS", response.data);
 	},
+
+	// This action is used to get individual polls from the server
+	async getSinglePoll({ commit, getters }, id) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/polls/polls/${id}/`, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				console.log(response.data, "SINGLE POLL");
+				// We call a mutation to commit our response data
+				commit("SINGLE_POLL", response.data);
+			});
+	},
+
 	// this action is used to make a post request to create a new poll
 	newPoll({ commit, getters }, payload) {
-		console.log("DATA FROM POLL CREATE", payload);
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
@@ -123,9 +160,12 @@ const actions = {
 			.post(`${apiBaseUrl.baseRoute}/polls/create-polls/`, payload, config)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
 			});
 	},
+
+	// this action is used to make a post request to like an existing poll
 	likePoll({ commit, getters }, payload) {
 		let config = {
 			headers: {
@@ -137,17 +177,16 @@ const actions = {
 			.post(`${apiBaseUrl.baseRoute}/userprofile/like-poll/`, payload, config)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
 			});
 	},
 
-	// This action is used to select a post request for voting on a particular choice.
+	// This action is used to make a post request for voting on a particular choice.
 	voteChoice({ commit, getters }, payload) {
-		console.log(payload, "FROM VOTE CHOICE ACTION");
 		const { poll, choice } = { ...payload };
 		let config = {
 			headers: {
-				// "Content-Type": "application/json",
 				Authorization: `Token ${getters.getToken}`
 			}
 		};
@@ -159,13 +198,15 @@ const actions = {
 			)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
 			});
 	},
+
+	// This action is used to make a post request to bookmark a poll
 	bookmarkPoll({ commit, getters }, payload) {
 		let config = {
 			headers: {
-				// "Content-Type": "application/json",
 				Authorization: `Token ${getters.getToken}`
 			}
 		};
@@ -177,45 +218,47 @@ const actions = {
 			)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
 			});
 	},
 
+	// This action is used to make a get request to get list of trendingPolls from the server
 	getTrendingPolls({ commit, getters }) {
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`
-				// "Content-Type": "application/json"
 			}
 		};
 		axios
 			.get(`${apiBaseUrl.baseRoute}/trending/polls/`, config)
 			.then(response => {
-				console.log(response.data, "FROM TRENDING POLLS");
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("TRENDING_POLLS", response.data);
 			});
 	},
-	getTrendingFeeds({ commit, getters }) {
-		let config = {
-			headers: {
-				Authorization: `Token ${getters.getToken}`
-				// "Content-Type": "application/json"
-			}
-		};
-		axios
-			.get(`${apiBaseUrl.baseRoute}/trending/feed/`, config)
-			.then(response => {
-				console.log(response.data, "FROM TRENDING Feeds");
-				axios.defaults.headers.common["Authorization"] = config;
-				commit("SUCCESS", response.data);
-			});
-	},
+	// getTrendingFeeds({ commit, getters }) {
+	// 	let config = {
+	// 		headers: {
+	// 			Authorization: `Token ${getters.getToken}`
+	// 			// "Content-Type": "application/json"
+	// 		}
+	// 	};
+	// 	axios
+	// 		.get(`${apiBaseUrl.baseRoute}/trending/feed/`, config)
+	// 		.then(response => {
+	// 			console.log(response.data, "FROM TRENDING Feeds");
+	// 			axios.defaults.headers.common["Authorization"] = config;
+	// 			commit("SUCCESS", response.data);
+	// 		});
+	// },
+
+	// This action is used to make a post request to search for an existing poll
 	searchPolls({ commit, getters }, payload) {
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`
-				// "Content-Type": "application/json"
 			}
 		};
 		axios
@@ -223,6 +266,7 @@ const actions = {
 			.then(response => {
 				console.log(response.data, "SEARCH RESULT");
 				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
 				commit("SEARCH_RESULT", response.data);
 			});
 	}
@@ -250,6 +294,10 @@ const mutations = {
 		state.status = "";
 		state.token = "";
 	},
+
+	/* Used to update the states which are perculiar for display data specific to a user or userprofile
+	Since the the payload contains a user object, while destructing the payload, we use spread operator
+	to get the keys in the user object */
 	fetch_users(state, payload) {
 		const { followed, followers, likes, polls, ...user } = payload;
 		state.user.userObj = user;
@@ -258,19 +306,59 @@ const mutations = {
 		state.user.polls = polls;
 		state.user.likes = likes;
 	},
+
+	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
-	TRENDING_POLLS: (state, payload) => (state.trendingPolls = payload)
+	SINGLE_POLL: (state, payload) => {
+		const {
+			id,
+			pub_date,
+			question,
+			poller_username,
+			choice_type,
+			expire_date,
+			slug_field,
+			poll_has_been_bookmarked,
+			poll_has_been_liked,
+			total_likes,
+			vote_count,
+			...choices
+		} = payload;
+		state.SinglePoll.id = id;
+		state.SinglePoll.pub_date = pub_date;
+		state.SinglePoll.question = question;
+		state.SinglePoll.poller_username = poller_username;
+		state.SinglePoll.choice_type = choice_type;
+		state.SinglePoll.expire_date = expire_date;
+		state.SinglePoll.slug_field = slug_field;
+		state.SinglePoll.poll_has_been_bookmarked = poll_has_been_bookmarked;
+		state.SinglePoll.poll_has_been_liked = poll_has_been_liked;
+		state.SinglePoll.total_likes = total_likes;
+		state.SinglePoll.vote_count = vote_count;
+		state.SinglePoll.choices = { ...choices };
+	},
+
+	TRENDING_POLLS: (state, payload) => {
+		/* Since we are getting a list of items from the API which contains repeated questions, we filter out
+		this repeated question using javascript Set method and loop over the incoming date to fetch only the
+		questions which we then store in the filteredList variable. Next we use the spread operator on our set of questions,
+		converting it into a list and pass it to the state.trendingPolls to be updated in the state */
+		let filteredList = new Set(payload.map(poll => poll.question));
+		state.trendingPolls = [...filteredList];
+	}
 };
 
-// Going forward the config variable can be used as a helper function to avoid repeating same codes whenever
-// you want to make a request to an endpoint that is restricted
+/* 
+	Going forward the config variable can be used as a helper function to avoid repeating same codes whenever
+	you want to make a request to an endpoint that is restricted
 
-// const config = {
-// 	headers: {
-// 		Authorization: `Token ${getters.getToken}`
-// 		// "Content-Type": "application/json"
-// 	}
-// };
+	const config = {
+		headers: {
+			: `Token ${getters.getToken}`
+		 	"Content-Type": "application/json"
+		}
+	}; 
+*/
 
 export default {
 	state,
