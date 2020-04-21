@@ -10,7 +10,7 @@ const apiBaseUrl = {
 	// Server where our api are being called from
 	baseRoute:
 		process.env.NODE_ENV === "development"
-			? "http://127.0.0.1:8000"
+			? "http://127.0.0.1:8000/api/v1"
 			: "https://youdecideio.herokuapp.com/api/v1"
 };
 

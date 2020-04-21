@@ -100,8 +100,36 @@ const actions = {
 			method: "POST"
 		});
 		// We call a mutation to commit our reponse data
-		commit("auth_success", response);
+		commit("registration_success", response);
 	},
+
+	// register({ commit, dispatch }, payload){
+	// 	return new Promise((resolve, reject) => {
+	// 		commit("auth_request");
+	// 		axios({
+	// 			url: `${apiBaseUrl.baseRoute}/users/signup/`,
+	// 			data: payload,
+	// 			method: "POST"
+	// 		})
+	// 			.then(response => {
+	// 				// const token = response.data.token;
+	// 				const username = response.data.username;
+	// 				localStorage.setItem("token", token);
+	// 				axios.defaults.headers.common["Authorization"] = token;
+	// 				// we call a mutation to commit our data
+	// 				commit("auth_success", { token, user });
+	// 				// Here we are dispatching the getUser action since we want to get the loggedIn users profile
+	// 				// along with the data being sent back by the login action
+	// 				dispatch("getUser", user);
+	// 				resolve(response);
+	// 			})
+	// 			.catch(err => {
+	// 				commit("auth_error");
+	// 				// localStorage.removeItem("token");
+	// 				reject(err);
+	// 			});
+	// 	});
+	// },
 
 	// This action is used to make a get request to the API endpoint so we can fetch data to update our
 	// current loggedIn user profile
@@ -276,6 +304,10 @@ const actions = {
 const mutations = {
 	auth_request(state) {
 		state.status = "loading";
+	},
+	registration_success(state, payload) {
+		// const { username, email, ...profile} = payload
+		// state.user
 	},
 	auth_success(state, payload) {
 		const { token, pk } = payload;

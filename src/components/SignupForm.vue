@@ -172,12 +172,12 @@ export default {
 				};
 				this.$store
 					.dispatch("register", data)
-					.then(() => this.$router.push("/"))
-					.catch(function(err) {
-						if (err.response.data["email"] != undefined) {
-							self.emailExistValidation = err.response.data["email"][0];
-						}
-					});
+					.then(() => this.$router.push("/login"));
+				// .catch(function(err) {
+				// 	if (err.response.data["email"] != undefined) {
+				// 		self.emailExistValidation = err.response.data["email"][0];
+				// 	}
+				// });
 			}
 		},
 		// This function is called when a user clicks on the submit button, it checks if the
