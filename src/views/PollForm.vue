@@ -120,6 +120,10 @@ export default {
 					choice_type: this.choice_type,
 					expire_date: this.date
 				};
+				console.log(
+					"This is the data being sent to the as a post request in Poll",
+					data
+				);
 				this.$store
 					.dispatch("newPoll", data)
 					.then(() => this.$router.push("/feeds"));

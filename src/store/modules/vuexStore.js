@@ -187,6 +187,7 @@ const actions = {
 		axios
 			.post(`${apiBaseUrl.baseRoute}/polls/create-polls/`, payload, config)
 			.then(response => {
+				console.log("Response from poll request form", response.data);
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
