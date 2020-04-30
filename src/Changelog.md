@@ -38,3 +38,9 @@
 1. Added functionality to filtered our repeated trending poll questions in the vuexStore and update the TrendingPolls Component
 2. Added a SinglePollPage to get individual page and connected it to vuex
 3. Configured the SinglePollPage to render on same page as the Poll List page
+
+# **DATE**: 30-04-2020
+
+1. Refactored the Livefeed components and made the ProfileImageHeader and TrendingPage components for easily management
+2. Created a profile page component
+3. Integrated functionality to get only current users poll on the profile page

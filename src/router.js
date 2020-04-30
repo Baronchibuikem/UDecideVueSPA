@@ -7,6 +7,7 @@ import PollForm from "./views/PollForming.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import SinglePollPage from "./views/SinglePollPage.vue";
+import ViewProfilePage from "./views/ViewProfilePage.vue";
 import store from "./store";
 
 Vue.use(Router);
@@ -78,6 +79,11 @@ let router = new Router({
 			path: "/signup",
 			name: "signup",
 			component: Signup
+		},
+		{
+			path: "/profile",
+			name: "profile",
+			component: ViewProfilePage
 		}
 
 		// // return 404 error page if the link entered doesn't exist

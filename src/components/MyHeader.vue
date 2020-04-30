@@ -189,27 +189,35 @@
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
 
-												<a
-													href="pages-profile.html"
+												<router-link
+													to="profile"
 													class="btn btn-rounded btn-danger btn-sm"
-													>View Profile</a
+													>View Profile</router-link
 												>
 											</div>
 										</div>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
-										<a href="#"><i class="ti-user"></i> My Profile</a>
+										<router-link to="/profile"
+											><i class="ti-user"></i> My Profile</router-link
+										>
 									</li>
 									<li>
-										<a href="#"><i class="ti-wallet"></i> My Balance</a>
+										<router-link to="/"
+											><i class="ti-wallet"></i> My Balance</router-link
+										>
 									</li>
 									<li>
-										<a href="#"><i class="ti-email"></i> Inbox</a>
+										<router-link to="/"
+											><i class="ti-email"></i> Inbox</router-link
+										>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
-										<a href="#"><i class="ti-settings"></i> Account Setting</a>
+										<router-link to="/"
+											><i class="ti-settings"></i> Account Setting</router-link
+										>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li v-if="isLoggedIn">
