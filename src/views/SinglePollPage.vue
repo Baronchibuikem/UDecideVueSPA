@@ -46,7 +46,7 @@
 													data-toggle="modal"
 													data-target="#modalId"
 												>
-													Edit
+													Edit Poll
 												</v-text>
 
 												<div
@@ -134,25 +134,21 @@
 														{{ choice.choice_text }}
 													</button>
 													<!-- For deleting a choice -->
-													<div class="d-flex justify-content-between">
+													<div
+														class="d-flex justify-content-between"
+														v-if="
+															getUser.userObj.user.username ===
+																getSinglePoll.poller_username
+														"
+													>
 														<span
 															class="linkHover"
-															v-if="
-																getUser.userObj.user.username ===
-																	getSinglePoll.poller_username
-															"
 															@click="deletePollChoice(choice.id)"
 														>
 															<i class="fa fa-trash text-danger"></i>Delete
 														</span>
-														<span
-															class="linkHover"
-															v-if="
-																getUser.userObj.user.username ===
-																	getSinglePoll.poller_username
-															"
-														>
-															<i class="fa fa-pencil text-danger"></i>
+														<span class=" d-flex linkHover">
+															<i class="fa fa-pencil mr-6 text-success"></i>
 															<modal
 																title="Edit"
 																:id="choice.id"
