@@ -61,7 +61,7 @@
 										<button
 											type="submit"
 											class="btn px-6 mr-3 ml-1"
-											@click.prevent="submit"
+											@click="submit"
 											:disabled="!submitable"
 											:class="{
 												disabledButton: !submitable,
@@ -120,10 +120,6 @@ export default {
 					choice_type: this.choice_type,
 					expire_date: this.date
 				};
-				console.log(
-					"This is the data being sent to the as a post request in Poll",
-					data
-				);
 				this.$store
 					.dispatch("newPoll", data)
 					.then(() => this.$router.push("/"));

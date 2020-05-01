@@ -1,15 +1,11 @@
-import GlobalFunctions from "./GlobalFunctions";
 import axios from "axios";
-
 import Vue from "vue";
-
-// imports the store for state management
-import store from "./store";
-
-Vue.prototype.$navigate = new GlobalFunctions();
-
 import App from "./App.vue";
 import router from "./router";
+// imports the store for state management
+import store from "./store";
+import GlobalFunctions from "./GlobalFunctions";
+Vue.prototype.$navigate = new GlobalFunctions();
 
 import BackToTop from "vue-backtotop";
 Vue.use(BackToTop);

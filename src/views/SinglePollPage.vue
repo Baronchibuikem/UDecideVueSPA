@@ -133,6 +133,16 @@
 													>
 														{{ choice.choice_text }}
 													</button>
+													<span
+														class="linkHover"
+														v-if="
+															getUser.userObj.user.username ===
+																getSinglePoll.poller_username
+														"
+														@click="deletePollChoice(choice.id)"
+													>
+														<i class="fa fa-trash text-danger"></i>Delete
+													</span>
 													<!-- Here we call the voteChoice method and pass in the poll object and the selected choice id -->
 
 													<!-- <small> {{ choice.choice_vote_count }} Votes</small><br />
@@ -163,9 +173,9 @@
 											<i class="fa fa-heart text-danger"></i>
 											{{ getSinglePoll.vote_count }} total Vote
 										</span>
-										<span class="d-flex justify-content-end">
+										<h6 class="d-flex justify-content-end">
 											<router-link exact to="/">Back to polls </router-link>
-										</span>
+										</h6>
 									</div>
 								</div>
 							</div>
@@ -204,6 +214,11 @@ export default {
 			let question = this.getSinglePoll.question;
 			this.$store
 				.dispatch("editPoll", { id, question })
+				.then(() => this.$router.push("/"));
+		},
+		deletePollChoice(id) {
+			this.$store
+				.dispatch("deleteChoice", id)
 				.then(() => this.$router.push("/"));
 		}
 	},

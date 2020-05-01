@@ -126,9 +126,6 @@
 											</div>
 										</div>
 									</div>
-									<div v-if="!polllist">
-										<router-view></router-view>
-									</div>
 								</div>
 								<!--second tab-->
 								<div class="tab-pane" id="profile" role="tabpanel">
@@ -189,8 +186,7 @@ export default {
 			selected_poll: null,
 			poll_creator: null,
 			selected_choice: null,
-			current_date: "",
-			polllist: true
+			current_date: ""
 		};
 	},
 	methods: {
@@ -272,9 +268,7 @@ export default {
 				.then(() => this.$router.push("/"));
 		},
 		singlePoll(param) {
-			console.log("POLL SINGLE ID", param);
 			this.$store.dispatch("getSinglePoll", param).then(() => {
-				this.polllist = false;
 				this.$router.push(`poll/${param}`);
 			});
 		},

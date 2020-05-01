@@ -40,9 +40,20 @@ const actions = {
 		commit("SUCCESS", response.data);
 	},
 
+	// This action is used to delete a single choice in a poll
+	deleteChoice({ commit, getters }, id) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios.delete(`${apiBaseUrl.baseRoute}/polls/choice/${id}/`, config);
+	},
+
 	// This action is used to edit individual polls from the server
 	editPoll({ commit, getters }, payload) {
-		console.log("Editing poll from vuex", payload);
+		console.log("Deleting choice from vuex", payload);
 		const { id, question } = { ...payload };
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
