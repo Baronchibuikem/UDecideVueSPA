@@ -36,7 +36,6 @@ const state = {
 /* getters pull updated value from our state data's and they are then called by the components that needs them to
 present data to the user(s) */
 const getters = {
-	pollsTrending: state => state.trendingPolls,
 	isLoggedIn: state => !!state.token,
 	authStatus: state => state.status,
 	getUser: state => state.user,
@@ -45,8 +44,7 @@ const getters = {
 	numberOfPolls: state => state.user.polls.length,
 	getToken: state => state.token,
 	getuserID: state => state.userID,
-	isAuthenticated: state => state.loggedIn,
-	getSinglePoll: state => state.SinglePoll
+	isAuthenticated: state => state.loggedIn
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
