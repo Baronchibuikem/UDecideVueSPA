@@ -53,7 +53,6 @@ const actions = {
 
 	// This action is used to edit individual polls from the server
 	editPoll({ commit, getters }, payload) {
-		console.log("Deleting choice from vuex", payload);
 		const { id, question } = { ...payload };
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
@@ -64,6 +63,29 @@ const actions = {
 		};
 		axios
 			.patch(`${apiBaseUrl.baseRoute}/polls/polls/${id}/`, { question }, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("SINGLE_POLL", response.data);
+			});
+	},
+
+	// This action is used to edit individual choices in a poll from the server
+	editChoice({ commit, getters }, payload) {
+		const { id, choice_text } = { ...payload };
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.patch(
+				`${apiBaseUrl.baseRoute}/polls/choice-edit/${id}/`,
+				{ choice_text },
+				config
+			)
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data

@@ -2,14 +2,14 @@
 	<div>
 		<form @click="eventname">
 			<!-- Button trigger modal -->
-			<div class="" data-toggle="modal" data-target="#modalId">
+			<div class="" data-toggle="modal" :data-target="`#${id}`">
 				{{ title }}
 			</div>
 
 			<!-- Modal -->
 			<div
 				class="modal fade"
-				id="modalId"
+				:id="id"
 				tabindex="-1"
 				role="dialog"
 				aria-labelledby="modelTitleId"
@@ -30,8 +30,7 @@
 						</div>
 						<div class="modal-body">
 							<div class="container-fluid">
-								<textarea cols="5" rows="5" v-model="body" class="form-control">
-								</textarea>
+								<slot></slot>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -46,6 +45,7 @@
 								type="button"
 								class="btn btn-primary"
 								data-dismiss="modal"
+								@click="execute(id)"
 							>
 								Save
 							</button>
@@ -59,7 +59,15 @@
 
 <script>
 export default {
-	props: ["title", "id", "body", "eventname"]
+	props: ["title", "id", "eventProps"],
+	methods: {
+		execute(param) {
+			if (this.eventProps) {
+				console.log(param);
+				this.eventProps(param);
+			}
+		}
+	}
 };
 </script>
 

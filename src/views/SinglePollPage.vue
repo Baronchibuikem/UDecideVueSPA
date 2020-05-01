@@ -133,16 +133,43 @@
 													>
 														{{ choice.choice_text }}
 													</button>
-													<span
-														class="linkHover"
-														v-if="
-															getUser.userObj.user.username ===
-																getSinglePoll.poller_username
-														"
-														@click="deletePollChoice(choice.id)"
-													>
-														<i class="fa fa-trash text-danger"></i>Delete
-													</span>
+													<!-- For deleting a choice -->
+													<div class="d-flex justify-content-between">
+														<span
+															class="linkHover"
+															v-if="
+																getUser.userObj.user.username ===
+																	getSinglePoll.poller_username
+															"
+															@click="deletePollChoice(choice.id)"
+														>
+															<i class="fa fa-trash text-danger"></i>Delete
+														</span>
+														<span
+															class="linkHover"
+															v-if="
+																getUser.userObj.user.username ===
+																	getSinglePoll.poller_username
+															"
+														>
+															<i class="fa fa-pencil text-danger"></i>
+															<modal
+																title="Edit"
+																:id="choice.id"
+																class="edit"
+																data-toggle="tooltip"
+																:eventProps="editChoice"
+															>
+																<textarea
+																	cols="5"
+																	rows="5"
+																	v-model="choice.choice_text"
+																	class="form-control"
+																>
+																</textarea>
+															</modal>
+														</span>
+													</div>
 													<!-- Here we call the voteChoice method and pass in the poll object and the selected choice id -->
 
 													<!-- <small> {{ choice.choice_vote_count }} Votes</small><br />
@@ -195,30 +222,40 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
-// import modal from "../reusuable_components/modal.vue";
+import modal from "../reusuable_components/modal.vue";
 
 export default {
 	components: {
 		ProfileImageHeader,
 		TrendingLayout,
-		MyHeader
-		// modal
+		MyHeader,
+		modal
 	},
 	data() {
 		return {
-			question: ""
+			question: "",
+			choice_text: ""
 		};
 	},
 	methods: {
+		// for editing a poll
 		editPoll(id) {
 			let question = this.getSinglePoll.question;
 			this.$store
 				.dispatch("editPoll", { id, question })
 				.then(() => this.$router.push("/"));
 		},
+		// for deleting a choice in a poll
 		deletePollChoice(id) {
 			this.$store
 				.dispatch("deleteChoice", id)
+				.then(() => this.$router.push("/"));
+		},
+		// For editing a choice in a poll
+		editChoice(id) {
+			let choice_text = this.getSinglePoll.choice_text;
+			this.$store
+				.dispatch("editChoice", { id, choice_text })
 				.then(() => this.$router.push("/"));
 		}
 	},
