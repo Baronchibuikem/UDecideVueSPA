@@ -159,7 +159,7 @@ const actions = {
 	},
 
 	// This action is used to get individual polls from the server
-	async getSinglePoll({ commit, getters }, id) {
+	getSinglePoll({ commit, getters }, id) {
 		console.log("Getting Single ID from actions", id);
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {

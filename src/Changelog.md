@@ -44,3 +44,7 @@
 1. Refactored the Livefeed components and made the ProfileImageHeader and TrendingPage components for easily management
 2. Created a profile page component
 3. Integrated functionality to get only current users poll on the profile page
+
+# **DATE**: 01-05-2020
+
+1. Added functionality for editing a poll by the user who created the poll

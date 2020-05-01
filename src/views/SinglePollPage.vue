@@ -24,6 +24,81 @@
 										<router-link to="/" class="link text-uppercase">{{
 											getSinglePoll.poller_username
 										}}</router-link>
+										<form @click="editPoll(getSinglePoll.id)">
+											<span
+												v-if="
+													getUser.userObj.user.username ===
+														getSinglePoll.poller_username
+												"
+											>
+												<!-- <modal
+												title="Edit Poll"
+												id="first"
+												:body="getSinglePoll.question"
+												class="edit"
+												data-toggle="tooltip"
+												:eventname="editPoll(getSinglePoll.id)"
+											/> -->
+												<v-text
+													class="edit"
+													data-toggle="modal"
+													data-target="#modalId"
+												>
+													Edit
+												</v-text>
+
+												<div
+													class="modal fade"
+													id="modalId"
+													tabindex="-1"
+													role="dialog"
+													aria-labelledby="modelTitleId"
+													aria-hidden="true"
+												>
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title">Edit poll</h5>
+																<button
+																	type="button"
+																	class="close"
+																	data-dismiss="modal"
+																	aria-label="Close"
+																>
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<div class="container-fluid">
+																	<textarea
+																		cols="5"
+																		rows="5"
+																		v-model="getSinglePoll.question"
+																		class="form-control"
+																	>
+																	</textarea>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button
+																	type="button"
+																	class="btn btn-secondary"
+																	data-dismiss="modal"
+																>
+																	Close
+																</button>
+																<button
+																	class="btn btn-primary"
+																	data-dismiss="modal"
+																>
+																	Save
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</span>
+										</form>
 										<span class="sl-date">{{ getSinglePoll.pub_date }} </span>
 									</div>
 									<div class="m-t-20">
@@ -31,7 +106,7 @@
 											<h5 class="text-dark text-justified">
 												{{ getSinglePoll.question }}
 											</h5>
-											{{ getSinglePoll }}
+											{{ getSinglePoll.id }}
 										</div>
 										<hr />
 									</div>
@@ -107,20 +182,30 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
+import modal from "../reusuable_components/modal.vue";
 
 export default {
 	components: {
 		ProfileImageHeader,
 		TrendingLayout,
-		MyHeader
+		MyHeader,
+		modal
 	},
 	data() {
 		return {
-			polllist: false
+			question: ""
 		};
 	},
+	methods: {
+		editPoll(id) {
+			let question = this.getSinglePoll.question;
+			this.$store
+				.dispatch("editPoll", { id, question })
+				.then(() => this.$router.push("/"));
+		}
+	},
 	computed: {
-		...mapGetters(["getSinglePoll", "getUserID"])
+		...mapGetters(["getSinglePoll", "getUserID", "getUser"])
 	}
 };
 </script>
@@ -129,5 +214,9 @@ export default {
 .linkHover:hover {
 	cursor: pointer !important;
 	background-color: #eeeeee !important;
+}
+.edit:hover {
+	cursor: pointer !important;
+	color: blue !important;
 }
 </style>
