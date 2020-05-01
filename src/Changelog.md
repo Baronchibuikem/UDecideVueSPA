@@ -50,3 +50,4 @@
 1. Added functionality for editing a poll by the user who created the poll
 2. Split the vuex into modules, UserAuth and Polls
 3. Added functionality for deleting a choice in a poll
+4. Added functionality to edit a single choice in a poll
