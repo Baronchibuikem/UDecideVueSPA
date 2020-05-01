@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<div>
 		<div v-if="!isAuthenticated">
 			<Login />
 		</div>
@@ -8,7 +8,7 @@
 		</div>
 
 		<MyFooter />
-	</v-app>
+	</div>
 </template>
 
 <script>

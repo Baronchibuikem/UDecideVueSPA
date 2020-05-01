@@ -163,6 +163,7 @@ import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
 import MyFooter from "../components/MyFooter.vue";
+import TrendingPolls from "../views/TrendingPolls";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -179,7 +180,8 @@ export default {
 		PollMenu,
 		InfiniteLoading,
 		ProfileImageHeader,
-		TrendingLayout
+		TrendingLayout,
+		TrendingPolls
 	},
 	data() {
 		return {

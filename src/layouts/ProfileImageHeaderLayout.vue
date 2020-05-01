@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<div>
 		<div class="mt-3 d-none d-sm-block">
 			<div class="card rounded">
 				<img
@@ -91,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-	</v-app>
+	</div>
 </template>
 
 <script>

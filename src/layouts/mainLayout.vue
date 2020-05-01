@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<div>
 		<MyHeader />
 		<div class="container page-container ">
 			<div class="row mt-12">
@@ -16,7 +16,7 @@
 		</div>
 
 		<MyFooter />
-	</v-app>
+	</div>
 </template>
 
 <script>
