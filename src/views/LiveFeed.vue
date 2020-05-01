@@ -34,7 +34,7 @@
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane active" id="home" role="tabpanel">
-									<div class="card-body" v-if="polllist">
+									<div class="card-body">
 										<div class="profiletimeline">
 											<!-- Here we are looping through the allPolls which we received from our getters -->
 											<div
@@ -42,7 +42,7 @@
 												v-for="poll in allPolls"
 												v-bind:key="poll.id"
 											>
-												<div class="sl-item" @click="singlePoll(poll.id)">
+												<div class="sl-item">
 													<PollMenu></PollMenu>
 													<div class="sl-left">
 														<img
@@ -61,7 +61,9 @@
 														</div>
 														<div class="m-t-20">
 															<div class="col-md-12 col-xs-12 linkHover">
-																<p>{{ poll.question }}</p>
+																<p @click="singlePoll(poll.id)">
+																	{{ poll.question }}
+																</p>
 															</div>
 														</div>
 														<hr />

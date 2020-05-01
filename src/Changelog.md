@@ -48,3 +48,4 @@
 # **DATE**: 01-05-2020
 
 1. Added functionality for editing a poll by the user who created the poll
+2. Split the vuex into modules, UserAuth and Polls

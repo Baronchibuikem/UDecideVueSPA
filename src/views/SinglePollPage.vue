@@ -24,6 +24,8 @@
 										<router-link to="/" class="link text-uppercase">{{
 											getSinglePoll.poller_username
 										}}</router-link>
+
+										<!-- Modal for editing logged in users poll -->
 										<form @click="editPoll(getSinglePoll.id)">
 											<span
 												v-if="
@@ -99,6 +101,7 @@
 												</div>
 											</span>
 										</form>
+										<!-- End of modal -->
 										<span class="sl-date">{{ getSinglePoll.pub_date }} </span>
 									</div>
 									<div class="m-t-20">
@@ -115,7 +118,7 @@
 											<!-- Here we are looping through the choice array in our poll -->
 											<div
 												class="my-3"
-												v-for="(choice, index) in getSinglePoll.choices.choices"
+												v-for="choice in getSinglePoll.choices.choices"
 												v-bind:key="choice.id"
 											>
 												<div
@@ -182,14 +185,14 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
-import modal from "../reusuable_components/modal.vue";
+// import modal from "../reusuable_components/modal.vue";
 
 export default {
 	components: {
 		ProfileImageHeader,
 		TrendingLayout,
-		MyHeader,
-		modal
+		MyHeader
+		// modal
 	},
 	data() {
 		return {
