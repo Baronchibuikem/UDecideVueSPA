@@ -126,7 +126,7 @@ export default {
 				);
 				this.$store
 					.dispatch("newPoll", data)
-					.then(() => this.$router.push("/feeds"));
+					.then(() => this.$router.push("/"));
 			}
 		}
 	},

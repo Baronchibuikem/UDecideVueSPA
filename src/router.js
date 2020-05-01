@@ -27,24 +27,24 @@ let router = new Router({
 			component: LiveFeed,
 			meta: {
 				requiresAuth: true
-			},
-			children: [
-				{
-					path: "poll/:poll_id",
-					component: SinglePollPage,
-					meta: {
-						requiresAuth: true
-					}
-				}
-			]
+			}
+			// children: [
+			// 	{
+			// 		path: "poll/:poll_id",
+			// 		component: SinglePollPage,
+			// 		meta: {
+			// 			requiresAuth: true
+			// 		}
+			// 	}
+			// ]
 		},
-		// {
-		// 	path: "/poll/:poll_id",
-		// 	component: SinglePollPage,
-		// 	meta: {
-		// 		requiresAuth: true
-		// 	}
-		// },
+		{
+			path: "/poll/:poll_id",
+			component: SinglePollPage,
+			meta: {
+				requiresAuth: true
+			}
+		},
 		{
 			path: "/dashboard",
 			name: "dashboard",

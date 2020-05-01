@@ -91,7 +91,7 @@
 											v-bind:key="poll.pk"
 										>
 											<!-- <PollMenu></PollMenu> -->
-											<div class="mt-5">
+											<div class="mt-5 link">
 												<div class="d-flex justify-content-between">
 													<router-link to="#" class="text-uppercase">{{
 														getUser.userObj.user.username
@@ -137,15 +137,13 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
-import MyFooter from "../components/MyFooter.vue";
 
 export default {
 	name: "ViewProfilePage",
 	components: {
 		ProfileImageHeader,
 		TrendingLayout,
-		MyHeader,
-		MyFooter
+		MyHeader
 	},
 	data() {
 		return {

@@ -13,8 +13,16 @@
 					<h4 class="card-title text-capitalize">
 						<!-- This return the login in users username. It's coming from getters defined
 								in the userAuthentication store -->
-						{{ getUser.userObj.user.username }}
+						<router-link exact to="/profile" class="text-white">{{
+							getUser.userObj.user.username
+						}}</router-link>
+						<i
+							class="fa fa-eye text-white"
+							data-toggle="tooltip"
+							title="view profile"
+						></i>
 					</h4>
+
 					<br />
 				</div>
 
@@ -54,7 +62,7 @@
 			</div>
 			<div class="card rounded">
 				<div class="card-body">
-					<h4 class="card-title">Who to follow</h4>
+					<h4 class="card-title">Top Trending Feeds</h4>
 					<ul class="feeds">
 						<li>
 							<div class="bg-light-info">
@@ -105,4 +113,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+i:hover {
+	cursor: pointer !important;
+}
+</style>

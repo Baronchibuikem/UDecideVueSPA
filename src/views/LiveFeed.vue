@@ -60,14 +60,13 @@
 															<span class="sl-date">{{ poll.pub_date }} </span>
 														</div>
 														<div class="m-t-20">
-															<div class="col-md-12 col-xs-12">
+															<div class="col-md-12 col-xs-12 linkHover">
 																<p>{{ poll.question }}</p>
-																{{ getUser }}
 															</div>
 														</div>
 														<hr />
 														<div class="m-t-20">
-															<div class="row">
+															<div class="">
 																<!-- Here we are looping through the choice array in our poll -->
 																<div
 																	class=""
@@ -81,11 +80,17 @@
 																		v-if="choice.choice_text !== null"
 																	>
 																		<!-- Here we call the voteChoice method and pass in the poll object and the selected choice id -->
-																		<p @click="voteChoice(poll, choice.id)">
+
+																		<button
+																			class="form-control btn-info  text-white my-1 linkHover"
+																			@click="voteChoice(poll, choice.id)"
+																			data-toggle="tooltip"
+																			title="vote"
+																		>
 																			{{ choice.choice_vote_count }}-{{
 																				choice.choice_text
 																			}}
-																		</p>
+																		</button>
 																	</div>
 																</div>
 															</div>
@@ -94,6 +99,8 @@
 															<!-- Here we call the bookmarkPoll method and pass in the poll object and current user id which we get from our getUser from getters -->
 															<span
 																class="linkHover m-r-10"
+																data-toggle="tooltip"
+																title="up-vote"
 																@click="
 																	bookmarkPoll(poll, getUser.userObj.user.id)
 																"
@@ -104,6 +111,8 @@
 															<!--  Here we call the likePoll method and pass in the poll object and current user id which we get from our getUser from getters -->
 															<span
 																class="linkHover m-r-10"
+																data-toggle="tooltip"
+																title="up-vote"
 																@click="likePoll(poll, getUser.userObj.user.id)"
 															>
 																<i class="fa fa-heart text-danger"></i>
@@ -259,6 +268,7 @@ export default {
 				.then(() => this.$router.push("/"));
 		},
 		singlePoll(param) {
+			console.log("POLL SINGLE ID", param);
 			this.$store.dispatch("getSinglePoll", param).then(() => {
 				this.polllist = false;
 				this.$router.push(`poll/${param}`);
