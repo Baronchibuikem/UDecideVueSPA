@@ -109,7 +109,6 @@
 											<h5 class="text-dark text-justified">
 												{{ getSinglePoll.question }}
 											</h5>
-											{{ getSinglePoll.id }}
 										</div>
 										<hr />
 									</div>

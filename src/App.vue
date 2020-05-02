@@ -6,8 +6,6 @@
 		<div v-if="isAuthenticated">
 			<router-view />
 		</div>
-
-		<MyFooter />
 	</div>
 </template>
 
