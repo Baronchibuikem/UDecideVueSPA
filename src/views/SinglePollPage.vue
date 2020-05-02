@@ -105,7 +105,7 @@
 										<span class="sl-date">{{ getSinglePoll.pub_date }} </span>
 									</div>
 									<div class="m-t-20">
-										<div class="col-md-12 col-xs-12 my-12" @click="homepage">
+										<div class="col-md-12 col-xs-12 my-12">
 											<h5 class="text-dark text-justified">
 												{{ getSinglePoll.question }}
 											</h5>

@@ -63,6 +63,7 @@
 															<div class="col-md-12 col-xs-12 linkHover">
 																<p @click="singlePoll(poll.id)">
 																	{{ poll.question }}
+																	{{ poll }}
 																</p>
 															</div>
 														</div>
@@ -268,6 +269,7 @@ export default {
 				.then(() => this.$router.push("/"));
 		},
 		singlePoll(param) {
+			console.log("ID of single poll", param);
 			this.$store.dispatch("getSinglePoll", param).then(() => {
 				this.$router.push(`poll/${param}`);
 			});
