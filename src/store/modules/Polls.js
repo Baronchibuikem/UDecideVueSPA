@@ -41,14 +41,18 @@ const actions = {
 	},
 
 	// This action is used to delete a single choice in a poll
-	deleteChoice({ commit, getters }, id) {
+	deleteChoice({ getters }, payload) {
+		const { id, poll_id } = { ...payload };
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`
 				// "Content-Type": "application/json"
 			}
 		};
-		axios.delete(`${apiBaseUrl.baseRoute}/polls/choice/${id}/`, config);
+		axios.delete(
+			`${apiBaseUrl.baseRoute}/polls/choice/${id}/${poll_id}`,
+			config
+		);
 	},
 
 	// This action is used to edit individual polls from the server
@@ -72,7 +76,7 @@ const actions = {
 
 	// This action is used to edit individual choices in a poll from the server
 	editChoice({ commit, getters }, payload) {
-		const { id, choice_text } = { ...payload };
+		const { id, choice_text, poll_id } = { ...payload };
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
@@ -82,7 +86,7 @@ const actions = {
 		};
 		axios
 			.patch(
-				`${apiBaseUrl.baseRoute}/polls/choice-edit/${id}/`,
+				`${apiBaseUrl.baseRoute}/polls/choice-edit/${id}/${poll_id}/`,
 				{ choice_text },
 				config
 			)

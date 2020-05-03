@@ -8,7 +8,6 @@
 				</div>
 				<div class="col-md-6 card-body">
 					<div class="profiletimeline">
-						<!-- Here we are looping through the allPolls which we received from our getters -->
 						<div class="todo-item sl-right">
 							<div class="sl-item">
 								<div class="sl-left">
@@ -24,84 +23,23 @@
 										<router-link to="/" class="link text-uppercase">{{
 											getSinglePoll.poller_username
 										}}</router-link>
-
-										<!-- Modal for editing logged in users poll -->
-										<form @click="editPoll(getSinglePoll.id)">
-											<span
-												v-if="
-													getUser.userObj.user.username ===
-														getSinglePoll.poller_username
-												"
-											>
-												<!-- <modal
-												title="Edit Poll"
-												id="first"
-												:body="getSinglePoll.question"
+										<span
+											v-if="
+												getUser.userObj.user.username ===
+													getSinglePoll.poller_username
+											"
+										>
+											<!-- this modal is responsible for editing a single poll -->
+											<modal
+												title="Edit poll"
+												:id="getSinglePoll.id"
+												:value="getSinglePoll.question"
 												class="edit"
 												data-toggle="tooltip"
-												:eventname="editPoll(getSinglePoll.id)"
-											/> -->
-												<v-text
-													class="edit"
-													data-toggle="modal"
-													data-target="#modalId"
-												>
-													Edit Poll
-												</v-text>
-
-												<div
-													class="modal fade"
-													id="modalId"
-													tabindex="-1"
-													role="dialog"
-													aria-labelledby="modelTitleId"
-													aria-hidden="true"
-												>
-													<div class="modal-dialog" role="document">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title">Edit poll</h5>
-																<button
-																	type="button"
-																	class="close"
-																	data-dismiss="modal"
-																	aria-label="Close"
-																>
-																	<span aria-hidden="true">&times;</span>
-																</button>
-															</div>
-															<div class="modal-body">
-																<div class="container-fluid">
-																	<textarea
-																		cols="5"
-																		rows="5"
-																		v-model="getSinglePoll.question"
-																		class="form-control"
-																	>
-																	</textarea>
-																</div>
-															</div>
-															<div class="modal-footer">
-																<button
-																	type="button"
-																	class="btn btn-secondary"
-																	data-dismiss="modal"
-																>
-																	Close
-																</button>
-																<button
-																	class="btn btn-primary"
-																	data-dismiss="modal"
-																>
-																	Save
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</span>
-										</form>
-										<!-- End of modal -->
+												:eventProps="editPoll"
+											/>
+											<!-- end of modal for editing a single for -->
+										</span>
 										<span class="sl-date">{{ getSinglePoll.pub_date }} </span>
 									</div>
 									<div class="m-t-20">
@@ -142,27 +80,25 @@
 													>
 														<span
 															class="linkHover"
-															@click="deletePollChoice(choice.id)"
+															@click="
+																deletePollChoice(choice.id, getSinglePoll.id)
+															"
 														>
 															<i class="fa fa-trash text-danger"></i>Delete
 														</span>
 														<span class=" d-flex linkHover">
 															<i class="fa fa-pencil mr-6 text-success"></i>
+															<!-- this modal is responsible for editing a single choice -->
 															<modal
 																title="Edit"
+																:poll_id="getSinglePoll.id"
 																:id="choice.id"
+																:value="choice.choice_text"
 																class="edit"
 																data-toggle="tooltip"
 																:eventProps="editChoice"
-															>
-																<textarea
-																	cols="5"
-																	rows="5"
-																	v-model="choice.choice_text"
-																	class="form-control"
-																>
-																</textarea>
-															</modal>
+															/>
+															<!-- end of modal for editing a single choice -->
 														</span>
 													</div>
 													<!-- Here we call the voteChoice method and pass in the poll object and the selected choice id -->
@@ -186,7 +122,6 @@
 										</div>
 									</div>
 									<div class="like-comm m-t-20">
-										<!--  Here we call the likePoll method and pass in the poll object and current user id which we get from our getUser from getters -->
 										<span class=" m-r-10">
 											<i class="fa fa-heart text-danger"></i>
 											{{ getSinglePoll.total_likes }} total Like
@@ -233,24 +168,45 @@ export default {
 		};
 	},
 	methods: {
-		// for editing a poll
-		editPoll(id) {
-			let question = this.getSinglePoll.question;
+		/* FOR EDITING A POLL
+		This function is being passed into the modal component defined in the template above
+		as a props, the modal upon executing a function inside it returns an object for us which we are calling payload
+		and passing it into our editPoll function. 
+		Next we go ahead and destructure the object using spread operator and pick the items we want, pass the items into
+		variable names that our backend expects and dispatch them to our editPoll action, if successful, we return to our 
+		homepage		
+		*/
+		editPoll(payload) {
+			const { param, param3 } = { ...payload };
+			let question = param3;
+			let id = param;
 			this.$store
 				.dispatch("editPoll", { id, question })
 				.then(() => this.$router.push("/"));
 		},
+
 		// for deleting a choice in a poll
-		deletePollChoice(id) {
+		deletePollChoice(id, poll_id) {
 			this.$store
-				.dispatch("deleteChoice", id)
+				.dispatch("deleteChoice", { id, poll_id })
 				.then(() => this.$router.push("/"));
 		},
-		// For editing a choice in a poll
-		editChoice(id) {
-			let choice_text = this.getSinglePoll.choice_text;
+
+		/* FOR EDITING A CHOICE IN A POLL
+		This function is being passed into the modal component defined in the template above
+		as a props, the modal upon executing a function inside it returns an object for us which we are calling payload
+		and passing it into our editChoice function. 
+		Next we go ahead and destructure the object using spread operator and pick the items we want, pass the items into
+		variable names that our backend expects and dispatch them to our editChoice action, if successful, we return to our 
+		homepage		
+		*/
+		editChoice(payload) {
+			const { param, param2, param3 } = { ...payload };
+			let id = param;
+			let poll_id = param2;
+			let choice_text = param3;
 			this.$store
-				.dispatch("editChoice", { id, choice_text })
+				.dispatch("editChoice", { id, poll_id, choice_text })
 				.then(() => this.$router.push("/"));
 		}
 	},

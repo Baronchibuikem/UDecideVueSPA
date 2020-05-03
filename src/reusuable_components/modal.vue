@@ -30,7 +30,12 @@
 						</div>
 						<div class="modal-body">
 							<div class="container-fluid">
-								<slot></slot>
+								<textarea
+									cols="5"
+									rows="5"
+									v-model="text"
+									class="form-control"
+								/>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -45,7 +50,7 @@
 								type="button"
 								class="btn btn-primary"
 								data-dismiss="modal"
-								@click="execute(id)"
+								@click="execute(id, poll_id, text)"
 							>
 								Save
 							</button>
@@ -59,15 +64,26 @@
 
 <script>
 export default {
-	props: ["title", "id", "eventProps"],
+	props: ["title", "id", "eventProps", "poll_id", "value"],
+
+	/* We needed to add this.value which is a props from our SinglePollPage to our data
+	since we plan to modify the props. There with text referencing this.value, we can go ahead and
+	make changes to our value props and vue wouldn't complain */
+	data() {
+		return {
+			text: this.value,
+			submit: this.eventProps
+		};
+	},
 	methods: {
-		execute(param) {
-			if (this.eventProps) {
-				console.log(param);
-				this.eventProps(param);
+		execute(param, param2, param3) {
+			if (this.submit) {
+				// let choice_text = this.value;
+				this.submit({ param, param2, param3 });
 			}
 		}
-	}
+	},
+	computed: {}
 };
 </script>
 
