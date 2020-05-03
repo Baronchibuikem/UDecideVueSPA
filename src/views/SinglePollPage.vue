@@ -152,7 +152,7 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
-import modal from "../reusuable_components/modal.vue";
+import modal from "../reusuable_components/userProfileModal.vue";
 
 export default {
 	components: {

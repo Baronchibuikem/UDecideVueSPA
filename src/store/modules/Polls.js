@@ -37,6 +37,7 @@ const actions = {
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
 		// We call a mutation to commit our response data
+		console.log(response.data, "Polls");
 		commit("SUCCESS", response.data);
 	},
 
@@ -224,13 +225,14 @@ const actions = {
 
 	// This action is used to make a post request to search for an existing poll
 	searchPolls({ commit, getters }, payload) {
+		console.log("SEARCH PAYLOAD", payload);
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`
 			}
 		};
 		axios
-			.get(`${apiBaseUrl.baseRoute}/search/poll/?search=` + payload, config)
+			.get(`${apiBaseUrl.baseRoute}/search/poll?q=` + payload, config)
 			.then(response => {
 				console.log(response.data, "SEARCH RESULT");
 				axios.defaults.headers.common["Authorization"] = config;

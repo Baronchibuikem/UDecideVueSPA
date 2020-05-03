@@ -3,7 +3,12 @@
 		<form @click="eventname">
 			<!-- Button trigger modal -->
 			<div class="" data-toggle="modal" :data-target="`#${id}`">
-				{{ title }}
+				<i
+					class="fa fa-pencil text-info"
+					data-toggle="tooltip"
+					title="edit"
+				></i>
+				Edit
 			</div>
 
 			<!-- Modal -->

@@ -257,17 +257,24 @@ export default {
 				this.$router.push("/login");
 			});
 		},
-		search: function() {
+		search() {
 			if (this.searchPolls.length > 0) {
 				const query = this.searchPolls.trim();
-				this.$store.dispatch("searchPolls", query).then(() => {
-					this.$router.push("/");
+				console.log(query, "VALUE ENTERED IN THE HEADER");
+				this.$store.dispatch("searchPolls", query).then(res => {
+					// this.$router.push("/");
+					console.log(res.data);
 				});
 			}
 		}
 	},
 	computed: {
 		...mapGetters(["getUser", "isLoggedIn"])
+	},
+	watch: {
+		searchPolls() {
+			this.search();
+		}
 	}
 };
 </script>

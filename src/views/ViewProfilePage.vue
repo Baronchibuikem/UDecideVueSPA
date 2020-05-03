@@ -33,32 +33,15 @@
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											{{ getUser.userObj.user.username }}
-											<i
-												class="fa fa-pencil text-info"
-												data-toggle="tooltip"
-												title="edit"
-											></i>
 										</span>
 									</div>
-									<div class="row mx-3">
-										<span class="py-6 col-md-3">
-											Email
-										</span>
-										<span class="py-6 col-md-6 text-left">
-											.....
-											<i
-												class="fa fa-pencil text-info"
-												data-toggle="tooltip"
-												title="edit"
-											></i>
-										</span>
-									</div>
+
 									<div class="row mx-3">
 										<span class="py-6 col-md-3">
 											Firstname
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											....
+											{{ getUser.userObj.user.profile.first_name }}
 											<i
 												class="fa fa-pencil text-info"
 												data-toggle="tooltip"
@@ -71,7 +54,73 @@
 											Lastname
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											....
+											{{ getUser.userObj.user.profile.last_name }}
+
+											<modal
+												:id="getUser.userObj.user.username"
+												:value="getUser.userObj.user.profile.last_name"
+												class="edit"
+												data-toggle="tooltip"
+												:eventProps="updateProfile"
+											/>
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Place of work
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											{{ getUser.userObj.user.profile.place_of_work }}
+											<i
+												class="fa fa-pencil text-info"
+												data-toggle="tooltip"
+												title="edit"
+											></i>
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Position
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											{{ getUser.userObj.user.profile.position }}
+											<i
+												class="fa fa-pencil text-info"
+												data-toggle="tooltip"
+												title="edit"
+											></i>
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Number of followers
+										</span>
+										<span
+											class="py-6 col-md-6 text-left"
+											v-for="(follower, index) in getUser.followers"
+											v-bind:key="index"
+										>
+											{{ follower.total_followers_no }}
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Number of followed users
+										</span>
+										<span
+											class="py-6 col-md-6 text-left"
+											v-for="(follower, index) in getUser.followed"
+											v-bind:key="index"
+										>
+											{{ follower.total_followed_no }}
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											About me
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											{{ getUser.userObj.user.profile.about }}
 											<i
 												class="fa fa-pencil text-info"
 												data-toggle="tooltip"
@@ -109,6 +158,7 @@
 														<!-- Here we are looping through the choice array in our poll -->
 													</div>
 												</div>
+												{{ getUser }}
 												<span class="d-flex justify-content-end">
 													<router-link exact to="/">Back to polls </router-link>
 												</span>
@@ -137,21 +187,32 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
+import modal from "../reusuable_components/modal";
 
 export default {
 	name: "ViewProfilePage",
 	components: {
 		ProfileImageHeader,
 		TrendingLayout,
-		MyHeader
+		MyHeader,
+		modal
 	},
 	data() {
 		return {
 			polllist: true
 		};
 	},
+	method: {
+		updateProfile(payload) {
+			const { param } = { ...payload };
+			let id = param;
+			this.$store
+				.dispatch("updateProfile", id)
+				.then(() => this.$router.push("/profile"));
+		}
+	},
 	computed: {
-		...mapGetters(["getUser"])
+		...mapGetters(["getUser", "getSinglePoll"])
 	}
 };
 </script>

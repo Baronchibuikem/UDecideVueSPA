@@ -54,9 +54,15 @@
 
 													<div>
 														<div class="d-flex justify-content-between">
-															<a href="#" class="link">{{
-																poll.poller_username
-															}}</a>
+															<div class="link">
+																<!-- {{ poll.poller_username }} -->
+																<modal
+																	:title="poll.poller_username"
+																	:value="poll.poller_username"
+																	:id="poll.poller_username_id"
+																	:body="poll"
+																/>
+															</div>
 															<span class="sl-date">{{ poll.pub_date }} </span>
 														</div>
 														<div class="m-t-20">
@@ -161,6 +167,7 @@ import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
 import MyFooter from "../components/MyFooter.vue";
 import TrendingPolls from "../views/TrendingPolls";
+import modal from "../reusuable_components/userProfileModal.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -178,7 +185,8 @@ export default {
 		InfiniteLoading,
 		ProfileImageHeader,
 		TrendingLayout,
-		TrendingPolls
+		TrendingPolls,
+		modal
 	},
 	data() {
 		return {
@@ -224,9 +232,7 @@ export default {
 				poll: this.selected_poll,
 				user: this.poll_creator
 			};
-			this.$store
-				.dispatch("likePoll", data)
-				.then(() => this.$router.push("/feeds"));
+			this.$store.dispatch("likePoll", data).then(() => this.$router.push("/"));
 		},
 
 		/* 	This function is used to bookmark a poll,
@@ -272,6 +278,11 @@ export default {
 				this.$router.push(`poll/${param}`);
 			});
 		},
+		// getCurrentUser(param) {
+		// 	this.$store.dispatch("getSingleUser", param).then(() => {
+		// 		// this.$router.push("/profile");
+		// 	});
+		// },
 		// Here we call our getPolls action
 		...mapActions(["getPolls", "getTrendingPolls"])
 	},
