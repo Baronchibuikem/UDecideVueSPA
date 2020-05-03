@@ -42,11 +42,13 @@
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											{{ getUser.userObj.user.profile.first_name }}
-											<i
-												class="fa fa-pencil text-info"
+											<modal
+												:id="1"
+												:value="getUser.userObj.user.profile.first_name"
+												class="edit"
 												data-toggle="tooltip"
-												title="edit"
-											></i>
+												:eventProps="updateProfile"
+											/>
 										</span>
 									</div>
 									<div class="row mx-3">
@@ -57,7 +59,7 @@
 											{{ getUser.userObj.user.profile.last_name }}
 
 											<modal
-												:id="getUser.userObj.user.username"
+												:id="2"
 												:value="getUser.userObj.user.profile.last_name"
 												class="edit"
 												data-toggle="tooltip"
@@ -71,11 +73,13 @@
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											{{ getUser.userObj.user.profile.place_of_work }}
-											<i
-												class="fa fa-pencil text-info"
+											<modal
+												:id="3"
+												:value="getUser.userObj.user.profile.place_of_work"
+												class="edit"
 												data-toggle="tooltip"
-												title="edit"
-											></i>
+												:eventProps="updateProfile"
+											/>
 										</span>
 									</div>
 									<div class="row mx-3">
@@ -84,11 +88,13 @@
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											{{ getUser.userObj.user.profile.position }}
-											<i
-												class="fa fa-pencil text-info"
+											<modal
+												:id="4"
+												:value="getUser.userObj.user.profile.position"
+												class="edit"
 												data-toggle="tooltip"
-												title="edit"
-											></i>
+												:eventProps="updateProfile"
+											/>
 										</span>
 									</div>
 									<div class="row mx-3">
@@ -121,11 +127,13 @@
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											{{ getUser.userObj.user.profile.about }}
-											<i
-												class="fa fa-pencil text-info"
+											<modal
+												:id="5"
+												:value="getUser.userObj.user.profile.about"
+												class="edit"
 												data-toggle="tooltip"
-												title="edit"
-											></i>
+												:eventProps="updateProfile"
+											/>
 										</span>
 									</div>
 									<span class="d-flex justify-content-end">
