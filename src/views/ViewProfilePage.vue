@@ -166,15 +166,11 @@
 														<!-- Here we are looping through the choice array in our poll -->
 													</div>
 												</div>
-												{{ getUser }}
-												<span class="d-flex justify-content-end">
-													<router-link exact to="/">Back to polls </router-link>
-												</span>
 											</div>
 										</div>
-									</div>
-									<div v-if="!polllist">
-										<router-view></router-view>
+										<span class="d-flex justify-content-end">
+											<router-link exact to="/">Back to polls </router-link>
+										</span>
 									</div>
 								</div>
 							</div>

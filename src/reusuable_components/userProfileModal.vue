@@ -33,6 +33,7 @@
 							alt=""
 							class="image-responsive img_style"
 						/>
+						number of polls {{ numberOfPolls }}
 						<hr />
 						{{ body }}
 					</div>
@@ -53,8 +54,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-	props: ["title", "value", "id", "body"]
+	props: ["title", "value", "id", "body"],
+	computed: {
+		// This returns all our updated state
+		...mapGetters(["numberOfFollowers", "numberOfFollowed", "numberOfPolls"])
+	}
 };
 </script>
 

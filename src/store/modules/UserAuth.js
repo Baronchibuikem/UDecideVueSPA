@@ -212,6 +212,7 @@ const mutations = {
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
 	SINGLE_POLL: (state, payload) => {
+		console.log(payload, "from mutation");
 		const {
 			id,
 			pub_date,

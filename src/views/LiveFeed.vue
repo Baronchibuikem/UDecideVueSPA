@@ -75,9 +75,13 @@
 														<hr />
 														<div class="m-t-20">
 															<div class="">
+																<!-- <div v-if="poll.poll_has_expired">
+																	<h5 class="text-danger">
+																		Sorry voting on this poll has expired
+																	</h5>
+																</div> -->
 																<!-- Here we are looping through the choice array in our poll -->
 																<div
-																	class=""
 																	v-for="choice in poll.choices"
 																	v-bind:key="choice.id"
 																>
@@ -88,17 +92,35 @@
 																		v-if="choice.choice_text !== null"
 																	>
 																		<!-- Here we call the voteChoice method and pass in the poll object and the selected choice id -->
-
-																		<button
-																			class="form-control btn-info  text-white my-1 linkHover"
-																			@click="voteChoice(poll, choice.id)"
-																			data-toggle="tooltip"
-																			title="vote"
+																		<div
+																			v-if="
+																				getUser.userObj.user.username !==
+																					poll.poller_username
+																			"
 																		>
-																			{{ choice.choice_vote_count }}-{{
-																				choice.choice_text
-																			}}
-																		</button>
+																			<button
+																				class="form-control btn-info  text-white my-1 linkHover"
+																				@click="voteChoice(poll, choice.id)"
+																				data-toggle="tooltip"
+																				title="vote"
+																			>
+																				{{ choice.choice_vote_count }}-{{
+																					choice.choice_text
+																				}}
+																			</button>
+																		</div>
+																		<div v-else>
+																			<button
+																				class="form-control btn-info  text-white my-1 linkHover"
+																				data-toggle="tooltip"
+																				title="Can't vote on your own poll"
+																				:disabled="disable"
+																			>
+																				{{ choice.choice_vote_count }}-{{
+																					choice.choice_text
+																				}}
+																			</button>
+																		</div>
 																	</div>
 																</div>
 															</div>
@@ -194,7 +216,8 @@ export default {
 			selected_poll: null,
 			poll_creator: null,
 			selected_choice: null,
-			current_date: ""
+			current_date: "",
+			disable: true
 		};
 	},
 	methods: {

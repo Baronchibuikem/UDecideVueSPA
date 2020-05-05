@@ -87,8 +87,7 @@ export default {
 				this.submit({ param, param2, param3 });
 			}
 		}
-	},
-	computed: {}
+	}
 };
 </script>
 
