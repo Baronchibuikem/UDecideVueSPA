@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<!-- Button trigger modal -->
-		<div class="linkHover" data-toggle="modal" :data-target="`#${id}`">
+		<div class="linkHover" data-toggle="modal" :data-target="`#${user_id}`">
 			{{ title }}
 		</div>
 
 		<!-- Modal -->
 		<div
 			class="modal fade"
-			:id="id"
+			:id="user_id"
 			tabindex="-1"
 			role="dialog"
 			aria-labelledby="modelTitleId"
@@ -35,7 +35,22 @@
 						/>
 						number of polls {{ numberOfPolls }}
 						<hr />
-						{{ body }}
+
+						{{ user_id }}
+
+						<div v-if="show === false">
+							<button
+								@click="getCurrentUser(user_id)"
+								class="form-control btn-info"
+								data-toggle="tooltip"
+								title="View Profile"
+							>
+								View user
+							</button>
+						</div>
+						<div v-if="show === true">
+							{{ viewUserProfile }}
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button
@@ -54,13 +69,37 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	props: ["title", "value", "id", "body"],
+	data() {
+		return {
+			user_id: this.id,
+			show: false
+		};
+	},
+	methods: {
+		getCurrentUser(id) {
+			this.show = true;
+			this.$store.dispatch("viewUserProfileAction", id).then(response => {
+				console.log(response.data, "from modal file");
+			});
+		}
+	},
 	computed: {
 		// This returns all our updated state
-		...mapGetters(["numberOfFollowers", "numberOfFollowed", "numberOfPolls"])
+		...mapGetters([
+			"numberOfFollowers",
+			"numberOfFollowed",
+			"numberOfPolls",
+			"viewUserProfile"
+		])
 	}
+	// mounted() {
+	// 	this.$nextTick(() => {
+	// 		this.viewUserProfileAction(this.user_id);
+	// 	});
+	// }
 };
 </script>
 

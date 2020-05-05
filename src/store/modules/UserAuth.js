@@ -10,6 +10,13 @@ const state = {
 		polls: [],
 		likes: []
 	},
+	viewuser: {
+		userObj: {},
+		followers: [],
+		followed: [],
+		polls: [],
+		likes: []
+	},
 	userID: null,
 	error: [],
 	status: "",
@@ -44,7 +51,8 @@ const getters = {
 	numberOfPolls: state => state.user.polls.length,
 	getToken: state => state.token,
 	getuserID: state => state.userID,
-	isAuthenticated: state => state.loggedIn
+	isAuthenticated: state => state.loggedIn,
+	viewUserProfile: state => state.viewuser
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -147,6 +155,25 @@ const actions = {
 				commit("fetch_users", response.data);
 			});
 	},
+
+	viewUserProfileAction({ commit, getters }, id) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
+			.then(response => {
+				console.log(response.data);
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("view_user", response.data);
+			});
+	},
+
 	// This action is used to edit individual choices in a poll from the server
 	updateProfile({ commit, getters }, payload) {
 		// config is used to set the authorization by getting the token of the the logged in user
@@ -207,6 +234,15 @@ const mutations = {
 		state.user.followers = followers;
 		state.user.polls = polls;
 		state.user.likes = likes;
+	},
+
+	view_user(state, payload) {
+		const { followed, followers, likes, polls, ...user } = payload;
+		state.viewuser.userObj = user;
+		state.viewuser.followed = followed;
+		state.viewuser.followers = followers;
+		state.viewuser.polls = polls;
+		state.viewuser.likes = likes;
 	},
 
 	// this simply updates the Polls data in the state with the data coming from the payload
