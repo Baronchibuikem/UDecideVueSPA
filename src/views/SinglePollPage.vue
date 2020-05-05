@@ -115,11 +115,6 @@
 												</div>
 											</div>
 										</div>
-										<div>
-											<span class="text-danger"
-												>Expire on {{ getSinglePoll.expire_date }}</span
-											>
-										</div>
 									</div>
 									<div class="like-comm m-t-20">
 										<span class=" m-r-10">
