@@ -28,28 +28,72 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<img
-							src="../assets/img/profileimage.png"
-							alt=""
-							class="image-responsive img_style"
-						/>
-						number of polls {{ numberOfPolls }}
+						<div class="row">
+							<div class="col-md-5 col sm-12">
+								<img
+									src="../assets/img/profileimage.png"
+									alt=""
+									class="image-responsive img_style"
+									width="100%"
+								/>
+							</div>
+							<div class="col-md-7 col sm-12 mt-1">
+								<div v-if="show === true">
+									<h6>
+										<b>Username</b>
+										{{ viewUserProfile.userObj.user.username }}
+									</h6>
+									<h6 class="mt-4">
+										<b>First Name</b>
+										{{ viewUserProfile.userObj.user.profile.first_name }}
+									</h6>
+									<h6 class="mt-4">
+										<b>Last Name</b>
+										{{ viewUserProfile.userObj.user.profile.last_name }}
+									</h6>
+									<h6 class="mt-4">
+										<b>Place of work</b>
+										{{ viewUserProfile.userObj.user.profile.place_of_work }}
+									</h6>
+									<h6 class="mt-4">
+										<b>Position</b>
+										{{ viewUserProfile.userObj.user.profile.position }}
+									</h6>
+									<div
+										v-for="(follower, index) in viewUserProfile.followers"
+										v-bind:key="index"
+									>
+										<h6 class="mt-4">
+											<b>followers</b> {{ follower.total_followers_no }}
+										</h6>
+									</div>
+									<div
+										v-for="(follower, index) in viewUserProfile.followed"
+										v-bind:key="index"
+									>
+										<h6 class="mt-4">
+											<b>Following </b> {{ follower.total_followed_no }}
+										</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<hr />
 
-						{{ user_id }}
+						<div v-if="show === true">
+							<h6>
+								<b>About</b> {{ viewUserProfile.userObj.user.profile.about }}
+							</h6>
+						</div>
 
-						<div v-if="show === false">
+						<div v-if="show === false" class="d-flex justify-content-center">
 							<button
 								@click="getCurrentUser(user_id)"
-								class="form-control btn-info"
-								data-toggle="tooltip"
-								title="View Profile"
+								class="form-control btn-info col-md-6 col-sm-12"
 							>
-								View user
+								View user profile
 							</button>
-						</div>
-						<div v-if="show === true">
-							{{ viewUserProfile }}
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -80,8 +124,8 @@ export default {
 	methods: {
 		getCurrentUser(id) {
 			this.show = true;
-			this.$store.dispatch("viewUserProfileAction", id).then(response => {
-				console.log(response.data, "from modal file");
+			this.$store.dispatch("viewUserProfileAction", id).then(() => {
+				console.log("from modal file");
 			});
 		}
 	},
@@ -102,7 +146,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .linkHover:hover {
 	cursor: pointer !important;
 	color: #20aee3;
@@ -111,6 +155,6 @@ export default {
 	display: block;
 	margin: auto auto;
 	max-height: 100%;
-	border-radius: 50%;
+	padding-top: 30%;
 }
 </style>
