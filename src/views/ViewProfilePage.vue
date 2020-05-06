@@ -206,13 +206,52 @@ export default {
 			polllist: true
 		};
 	},
-	method: {
+	methods: {
 		updateProfile(payload) {
-			const { param } = { ...payload };
+			console.log(payload, "Profile update");
+			const { param, param3 } = { ...payload };
 			let id = param;
-			this.$store
-				.dispatch("updateProfile", id)
-				.then(() => this.$router.push("/profile"));
+			if (id === 1) {
+				const data = {
+					first_name: param3
+				};
+				console.log(data, "text from id 1");
+				this.$store
+					.dispatch("updateProfile", { ...data })
+					.then(() => this.$router.push("/profile"));
+			} else if (id === 2) {
+				const data = {
+					last_name: param3
+				};
+				console.log(data, "text from id 2");
+				this.$store
+					.dispatch("updateProfile", { ...data })
+					.then(() => this.$router.push("/profile"));
+			} else if (id === 3) {
+				const data = {
+					place_of_work: param3
+				};
+				console.log(data, "text from id 3");
+				this.$store
+					.dispatch("updateProfile", { ...data })
+					.then(() => this.$router.push("/profile"));
+			} else if (id === 4) {
+				const data = {
+					position: param3
+				};
+				console.log(data, "text from id 4");
+				this.$store
+					.dispatch("updateProfile", { ...data })
+					.then(() => this.$router.push("/profile"));
+			} else if (id === 5) {
+				const data = {
+					about: param3
+				};
+				console.log(data, "text from id 5");
+				this.$store
+					.dispatch("updateProfile", { ...data })
+					.then(() => this.$router.push("/profile"));
+			}
 		}
 	},
 	computed: {

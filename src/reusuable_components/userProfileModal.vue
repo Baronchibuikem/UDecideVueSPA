@@ -85,12 +85,15 @@
 							<h6>
 								<b>About</b> {{ viewUserProfile.userObj.user.profile.about }}
 							</h6>
-						</div>
 
+							<div class="d-flex justify-content-center col-md-6 col-sm-6">
+								<button class="btn-info form-control">follow</button>
+							</div>
+						</div>
 						<div v-if="show === false" class="d-flex justify-content-center">
 							<button
 								@click="getCurrentUser(user_id)"
-								class="form-control btn-info col-md-6 col-sm-12"
+								class="form-control btn-info col-md-6 col-sm-6"
 							>
 								View user profile
 							</button>

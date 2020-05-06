@@ -8,7 +8,6 @@
 					data-toggle="tooltip"
 					title="edit"
 				></i>
-				Edit
 			</div>
 
 			<!-- Modal -->
@@ -91,4 +90,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+i:hover {
+	cursor: pointer !important;
+}
+</style>

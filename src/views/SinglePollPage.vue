@@ -20,9 +20,15 @@
 
 								<div>
 									<div class="d-flex justify-content-between">
-										<router-link to="/" class="link text-uppercase">{{
+										<!-- <router-link to="/" class="link text-uppercase">{{
 											getSinglePoll.poller_username
-										}}</router-link>
+										}}</router-link> -->
+										<modal
+											:title="getSinglePoll.poller_username"
+											:value="getSinglePoll.poller_username"
+											:id="getSinglePoll.id"
+											:body="getSinglePoll"
+										/>
 										<span
 											v-if="
 												getUser.userObj.user.username ===
