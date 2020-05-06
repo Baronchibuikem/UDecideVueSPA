@@ -86,8 +86,13 @@
 								<b>About</b> {{ viewUserProfile.userObj.user.profile.about }}
 							</h6>
 
-							<div class="d-flex justify-content-center col-md-6 col-sm-6">
-								<button class="btn-info form-control">follow</button>
+							<div class="d-flex justify-content-center col-md-4 col-sm-6">
+								<button
+									class="btn-info form-control"
+									@click="followUser(id, getUser.userObj.user.id)"
+								>
+									follow
+								</button>
 							</div>
 						</div>
 						<div v-if="show === false" class="d-flex justify-content-center">
@@ -130,6 +135,15 @@ export default {
 			this.$store.dispatch("viewUserProfileAction", id).then(() => {
 				console.log("from modal file");
 			});
+		},
+		followUser(param, param2) {
+			let data = {
+				follower: param2,
+				following: param
+			};
+			this.$store
+				.dispatch("followUser", { ...data })
+				.then(() => this.$router.push("/profile"));
 		}
 	},
 	computed: {
@@ -138,7 +152,8 @@ export default {
 			"numberOfFollowers",
 			"numberOfFollowed",
 			"numberOfPolls",
-			"viewUserProfile"
+			"viewUserProfile",
+			"getUser"
 		])
 	}
 	// mounted() {

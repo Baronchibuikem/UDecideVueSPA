@@ -138,6 +138,7 @@ const actions = {
 
 	// This action is used to make a get request to the API endpoint so we can fetch data to update our
 	// current loggedIn user profile
+
 	getUser({ commit, getters }, id) {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
@@ -193,6 +194,23 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("update_user", response.data);
+			});
+	},
+
+	followUser({ commit, getters }, payload) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.post(`${apiBaseUrl.baseRoute}/social/follow-user/`, payload, config)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("follow_user", response.data);
 			});
 	}
 };
