@@ -38,17 +38,33 @@
 										v-else
 										class="d-flex justify-content-center col-md-4 col-sm-6"
 									>
-										<button
-											class="btn-info form-control"
-											@click="
-												followUser(
-													viewUserProfile.userObj.user.id,
-													getUser.userObj.user.id
-												)
-											"
+										<div
+											class="sl-item container mt-3"
+											v-for="follower in viewUserProfile.followers"
+											v-bind:key="follower.id"
 										>
-											Follow
-										</button>
+											<div
+												v-if="
+													follower.follower_username ===
+														getUser.userObj.user.username
+												"
+											>
+												<button class="form-control btn-info">Unfollow</button>
+											</div>
+											<div v-else>
+												<button
+													class="btn-info form-control"
+													@click="
+														followUser(
+															viewUserProfile.userObj.user.id,
+															getUser.userObj.user.id
+														)
+													"
+												>
+													Follow
+												</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -135,10 +151,6 @@
 											{{ viewUserProfile.userObj.user.profile.about }}
 										</h6>
 									</div>
-									{{ viewUserProfile }}
-									<h1>
-										Followers {{ viewUserProfile.followersfollower_username }}
-									</h1>
 								</div>
 
 								<div class="tab-pane" id="polls" role="tabpanel">
