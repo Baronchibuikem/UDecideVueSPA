@@ -28,16 +28,7 @@
 									</button>
 								</div>
 								<div v-if="show === true">
-									<div
-										v-if="
-											viewUserProfile.userObj.user.username ===
-												getUser.userObj.user.username
-										"
-									></div>
-									<div
-										v-else
-										class="d-flex justify-content-center col-md-4 col-sm-6"
-									>
+									<div class="d-flex justify-content-center col-md-6 col-sm-6">
 										<div
 											class="sl-item container mt-3"
 											v-for="follower in viewUserProfile.followers"
@@ -49,7 +40,16 @@
 														getUser.userObj.user.username
 												"
 											>
-												<button class="form-control btn-info">Unfollow</button>
+												<h1>{{ follower.follower_username }}</h1>
+												<h4>
+													{{
+														!getUser.userObj.user.username ===
+															follower.follower_username
+													}}
+												</h4>
+												<button class="form-control btn-info">
+													Unfollow
+												</button>
 											</div>
 											<div v-else>
 												<button

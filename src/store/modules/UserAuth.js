@@ -52,7 +52,8 @@ const getters = {
 	getToken: state => state.token,
 	getuserID: state => state.userID,
 	isAuthenticated: state => state.loggedIn,
-	viewUserProfile: state => state.viewuser
+	viewUserProfile: state => state.viewuser,
+	errorStatus: state => state.error
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -80,7 +81,7 @@ const actions = {
 					resolve(response);
 				})
 				.catch(err => {
-					commit("auth_error");
+					commit("auth_error", err);
 					// localStorage.removeItem("token");
 					reject(err);
 				});
@@ -233,7 +234,7 @@ const mutations = {
 	},
 	auth_error(state, payload) {
 		const { data } = payload;
-		state.status = "error";
+		state.status = "Try Again";
 		state.isLoading = false;
 		state.error = data;
 	},

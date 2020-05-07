@@ -8,6 +8,8 @@
 			</div>
 			<h6 class="fb-black">OR</h6>
 			<div class="form-group">
+				<span class="text-danger">{{ errors.validation }}</span>
+				<span>{{ errorStatus }}</span>
 				<div class="col-xs-12">
 					<input
 						v-model="username"
@@ -55,7 +57,10 @@
 						type="submit"
 						@click="login"
 					>
-						Log In
+						<span v-if="loading === true">{{ authStatus }}</span>
+						<span v-else>
+							Log In
+						</span>
 					</button>
 				</div>
 			</div>
@@ -78,7 +83,9 @@ export default {
 	name: "LoginForm",
 	data() {
 		return {
-			errors: [],
+			errors: {
+				validation: ""
+			},
 			username: "",
 			password: "",
 			loading: false
@@ -103,14 +110,24 @@ export default {
 		// This function is used to dispatch a vuex action which in turn submits
 		//  data entered by the user to the backend
 		login() {
+			this.loading = true;
 			let username = this.username;
 			let password = this.password;
+			let self = this;
 			this.$store
 				.dispatch("login", { username, password })
 				.then(() => this.$router.push("/"))
-				// eslint-disable-next-line no-console
-				.catch(err => console.error(err));
+				.catch(function(err) {
+					console.log(err.response.data.error, "ERROR");
+					if (err.response.data !== undefined) {
+						self.errors.validation = err.response.data.error;
+					}
+					console.log(self.errors.validation, "ERROR 2222");
+				});
 		}
+	},
+	computed: {
+		...mapGetters(["authStatus", "errorStatus"])
 	}
 };
 </script>

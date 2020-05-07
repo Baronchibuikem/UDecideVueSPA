@@ -62,3 +62,7 @@
 2. Added a reusable modal to view the user profile
 3. Completed the design of the user profile on the modal
 4. Added functionality to get a user profile when the user is clicked on from the live feed
+
+# **DATE**: 05-05-2020
+
+1. Added validation functionality to login component
