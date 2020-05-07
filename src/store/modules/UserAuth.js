@@ -98,47 +98,23 @@ const actions = {
 		});
 	},
 
-	// This action is used to send a post request to the backend API to register a new user
-	register: async ({ commit }, payload) => {
-		let { response } = await axios({
-			url: `${apiBaseUrl.baseRoute}/users/signup/`,
-			data: payload,
-			method: "POST"
+	register({ commit }, payload) {
+		return new Promise((resolve, reject) => {
+			commit("auth_request");
+			axios
+				.post(`${apiBaseUrl.baseRoute}/users/signup/`, payload)
+				.then(response => {
+					// We call a mutation to commit our response data
+					commit("auth_success", response);
+					resolve(response);
+				})
+				.catch(err => {
+					commit("auth_error", err);
+					// localStorage.removeItem("token");
+					reject(err);
+				});
 		});
-		// We call a mutation to commit our reponse data
-		commit("registration_success", response);
 	},
-
-	// register({ commit, dispatch }, payload){
-	// 	return new Promise((resolve, reject) => {
-	// 		commit("auth_request");
-	// 		axios({
-	// 			url: `${apiBaseUrl.baseRoute}/users/signup/`,
-	// 			data: payload,
-	// 			method: "POST"
-	// 		})
-	// 			.then(response => {
-	// 				// const token = response.data.token;
-	// 				const username = response.data.username;
-	// 				localStorage.setItem("token", token);
-	// 				axios.defaults.headers.common["Authorization"] = token;
-	// 				// we call a mutation to commit our data
-	// 				commit("auth_success", { token, user });
-	// 				// Here we are dispatching the getUser action since we want to get the loggedIn users profile
-	// 				// along with the data being sent back by the login action
-	// 				dispatch("getUser", user);
-	// 				resolve(response);
-	// 			})
-	// 			.catch(err => {
-	// 				commit("auth_error");
-	// 				// localStorage.removeItem("token");
-	// 				reject(err);
-	// 			});
-	// 	});
-	// },
-
-	// This action is used to make a get request to the API endpoint so we can fetch data to update our
-	// current loggedIn user profile
 
 	getUser({ commit, getters }, id) {
 		// config is used to set the authorization by getting the token of the the logged in user

@@ -66,3 +66,4 @@
 # **DATE**: 05-05-2020
 
 1. Added validation functionality to login component
+2. Added validation functionality to signup component

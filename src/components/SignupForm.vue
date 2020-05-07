@@ -25,7 +25,10 @@
 							<h3 class="box-title m-b-20">Join Anyskillz</h3>
 
 							<div class="form-group">
+								<small class="text-danger">{{ error.fieldsError }}</small>
 								<div class="col-xs-12">
+									<small class="text-danger">{{ error.usernameError }}</small>
+									<small class="text-danger">{{ error.usernameExist }}</small>
 									<input
 										class="form-control"
 										type="text"
@@ -37,6 +40,8 @@
 							</div>
 
 							<div class="form-group ">
+								<small class="text-danger">{{ error.emailError }}</small>
+								<small class="text-danger">{{ error.emailExist }}</small>
 								<div class="col-xs-12">
 									<input
 										class="form-control"
@@ -69,15 +74,15 @@
 										placeholder="Confirm Password"
 										v-model="confirm_password"
 									/>
-									<!-- <div v-if="this.errors.passwordMatchError">
-										{{ errors.passwordMatchError }}
-									</div>
-									<div v-else></div> -->
+									<small class="text-danger">
+										{{ error.passwordMatchError }}
+									</small>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<div class="col-md-12">
+									<small class="text-danger">{{ error.termsError }}</small>
 									<div class="checkbox checkbox-success p-t-0">
 										<input
 											id="checkbox-signup"
@@ -87,8 +92,7 @@
 											@click="termsFunc"
 										/>
 										<label for="checkbox-signup"
-											>&nbsp;I agree to all
-											<a href="javascript:void(0)">Terms</a></label
+											>&nbsp;I agree to all Terms</label
 										>
 									</div>
 								</div>
@@ -99,9 +103,12 @@
 									<button
 										class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light"
 										type="submit"
-										@click.prevent="submit"
+										@click.prevent="errorCheck"
 									>
-										Sign Up
+										<small v-if="loading === true">{{ authStatus }}</small>
+										<small v-else>
+											Register
+										</small>
 									</button>
 								</div>
 							</div>
@@ -109,7 +116,9 @@
 							<div class="form-group m-b-0">
 								<div class="col-sm-12 text-center">
 									Already have an account?
-									<a href="/login" class="text-info m-l-5"><b>Sign In</b></a>
+									<router-link to="/login" class="text-info m-l-5"
+										><b>Sign In</b></router-link
+									>
 								</div>
 							</div>
 						</form>
@@ -123,11 +132,12 @@
 <script>
 import axios from "axios";
 import { verify } from "crypto";
+import { mapGetters } from "vuex";
+
 export default {
 	name: "SignupForm",
 	data() {
 		return {
-			errors: [],
 			username: "",
 			email: "",
 			password: "",
@@ -137,7 +147,13 @@ export default {
 			profile: {},
 			emailExistValidation: "",
 			error: {
-				passwordMatchError: ""
+				passwordMatchError: "",
+				fieldsError: "",
+				usernameError: "",
+				emailError: "",
+				termsError: "",
+				usernameExist: "",
+				emailExist: ""
 			}
 		};
 	},
@@ -157,38 +173,54 @@ export default {
 				});
 		},
 		// This function is used to register users into the platform. it's called by the submit function.
-		// It passes data which contains values entered by the user to register action from vuex, if successful
+		// It passes data which contains values entered by the user to register action from vuex, if successfull
 		// the user is redirected to the feeds page else if email entered by user already exist, it throws an error
 
-		register: function() {
+		register() {
+			this.loading = true;
+			let data = {
+				username: this.username,
+				email: this.email,
+				password: this.password,
+				terms: this.terms,
+				profile: this.profile
+			};
 			let self = this;
-			if (this.username && this.email && this.password && this.terms) {
-				let data = {
-					username: this.username,
-					email: this.email,
-					password: this.password,
-					terms: this.terms,
-					profile: this.profile
-				};
-				this.$store
-					.dispatch("register", data)
-					.then(() => this.$router.push("/login"));
-				// .catch(function(err) {
-				// 	if (err.response.data["email"] != undefined) {
-				// 		self.emailExistValidation = err.response.data["email"][0];
-				// 	}
-				// });
-			}
+			this.$store
+				.dispatch("register", data)
+				.then(() => this.$router.push("/login"))
+				.catch(function(err) {
+					console.log(err.response.data.email, "ERROR");
+					if (err.response.data !== undefined) {
+						self.error.usernameExist = err.response.data.username;
+						self.error.emailExist = err.response.data.email;
+					}
+				});
 		},
 		// This function is called when a user clicks on the submit button, it checks if the
 		// passowrd matches the confirm password and it the terms agreement checkbox was clicked
 		// If all that passes, then its calls the register function which is defined above
-		submit: function() {
-			if (this.password === this.confirm_password && this.terms === true) {
+
+		errorCheck() {
+			var all_passed = [];
+			if (!this.username) {
+				this.error.usernameError = "Username must not be empty";
+				all_passed.push(false);
+			}
+			if (!this.email) {
+				this.error.emailError = "Email must not be empty";
+				all_passed.push(false);
+			}
+			if (this.password !== this.confirm_password) {
+				this.error.passwordMatchError = "The two passwords don't match";
+				all_passed.push(false);
+			}
+			if (this.terms !== true) {
+				this.error.termsError = "You need to agreed to our terms to proceed";
+				all_passed.push(false);
+			}
+			if (all_passed.length === 0) {
 				this.register();
-			} else {
-				this.errors.passwordMatchError = "The two passwords don't match";
-				this.errors.terms = "You need to agreed to our terms to proceed";
 			}
 		},
 
@@ -196,6 +228,9 @@ export default {
 		termsFunc: function() {
 			this.terms = true;
 		}
+	},
+	computed: {
+		...mapGetters(["authStatus"])
 	}
 };
 </script>
