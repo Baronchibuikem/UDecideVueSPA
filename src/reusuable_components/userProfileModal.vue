@@ -85,8 +85,20 @@
 							<h6>
 								<b>About</b> {{ viewUserProfile.userObj.user.profile.about }}
 							</h6>
-
-							<div class="d-flex justify-content-center col-md-4 col-sm-6">
+							<!-- if current loggedIn user's username is equal to the user who's
+								 profile he/she is viewing, we will not display the button else, we show
+								 the follow button
+							 -->
+							<div
+								v-if="
+									viewUserProfile.userObj.user.username ===
+										getUser.userObj.user.username
+								"
+							></div>
+							<div
+								v-else
+								class="d-flex justify-content-center col-md-4 col-sm-6"
+							>
 								<button
 									class="btn-info form-control"
 									@click="followUser(id, getUser.userObj.user.id)"
@@ -103,6 +115,7 @@
 								View user profile
 							</button>
 						</div>
+						{{ getUser }}
 					</div>
 					<div class="modal-footer">
 						<button
@@ -132,9 +145,7 @@ export default {
 	methods: {
 		getCurrentUser(id) {
 			this.show = true;
-			this.$store.dispatch("viewUserProfileAction", id).then(() => {
-				console.log("from modal file");
-			});
+			this.$store.dispatch("viewUserProfileAction", id).then(() => {});
 		},
 		followUser(param, param2) {
 			let data = {

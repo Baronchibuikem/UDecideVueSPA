@@ -55,13 +55,18 @@
 													<div>
 														<div class="d-flex justify-content-between">
 															<div class="link">
-																<!-- {{ poll.poller_username }} -->
-																<modal
+																<h6
+																	class="linkHover"
+																	@click="getProfile(poll.poller_username_id)"
+																>
+																	@{{ poll.poller_username }}
+																</h6>
+																<!-- <modal
 																	:title="poll.poller_username"
 																	:value="poll.poller_username"
 																	:id="poll.poller_username_id"
 																	:body="poll"
-																/>
+																/> -->
 															</div>
 															<span class="sl-date">{{ poll.pub_date }} </span>
 														</div>
@@ -299,6 +304,11 @@ export default {
 		singlePoll(param) {
 			this.$store.dispatch("getSinglePoll", param).then(() => {
 				this.$router.push(`poll/${param}`);
+			});
+		},
+		getProfile(param) {
+			this.$store.dispatch("viewUserProfileAction", param).then(() => {
+				this.$router.push(`user/${param}`);
 			});
 		},
 		// getCurrentUser(param) {

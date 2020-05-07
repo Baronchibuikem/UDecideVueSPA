@@ -8,6 +8,7 @@ import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import SinglePollPage from "./views/SinglePollPage.vue";
 import ViewProfilePage from "./views/ViewProfilePage.vue";
+import getUserProfile from "./views/getUserProfile.vue";
 import store from "./store";
 
 Vue.use(Router);
@@ -45,6 +46,14 @@ let router = new Router({
 				requiresAuth: true
 			}
 		},
+		{
+			path: "/user/:user_id",
+			component: getUserProfile,
+			meta: {
+				requiresAuth: true
+			}
+		},
+
 		{
 			path: "/dashboard",
 			name: "dashboard",
