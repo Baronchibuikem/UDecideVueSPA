@@ -187,8 +187,28 @@ const actions = {
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("follow_user", response.data);
+				commit("view_user", response.data);
 			});
+	},
+
+	unfollowUser({ commit, getters }, payload) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios.delete(
+			`${apiBaseUrl.baseRoute}/social/unfollow-user/${payload}/`,
+			payload,
+			config
+		);
+		// .then(response => {
+		// 	axios.defaults.headers.common["Authorization"] = config;
+		// 	// We call a mutation to commit our response data
+		// 	commit("view_user", response.data);
+		// });
 	}
 };
 
@@ -197,10 +217,7 @@ const mutations = {
 	auth_request(state) {
 		state.status = "loading";
 	},
-	registration_success(state, payload) {
-		// const { username, email, ...profile} = payload
-		// state.user
-	},
+
 	auth_success(state, payload) {
 		const { token, pk } = payload;
 		state.status = "success";

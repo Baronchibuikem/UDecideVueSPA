@@ -9,7 +9,7 @@
 			<h6 class="fb-black">OR</h6>
 			<div class="form-group">
 				<span class="text-danger">{{ errors.validation }}</span>
-				<span>{{ errorStatus }}</span>
+				<!-- <span>{{ errorStatus }}</span> -->
 				<div class="col-xs-12">
 					<input
 						v-model="username"

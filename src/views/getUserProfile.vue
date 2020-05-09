@@ -28,42 +28,29 @@
 									</button>
 								</div>
 								<div v-if="show === true">
-									<div class="d-flex justify-content-center col-md-6 col-sm-6">
-										<div
-											class="sl-item container mt-3"
-											v-for="follower in viewUserProfile.followers"
-											v-bind:key="follower.id"
-										>
-											<div
-												v-if="
-													follower.follower_username ===
-														getUser.userObj.user.username
+									<div class="col-md-6 col-sm-6">
+										<div v-if="followingUser.length > 0">
+											<button
+												class="form-control btn-info"
+												data-toggle="tooltip"
+												title="click to unfollow"
+												@click="unfollowUser(getUser.userObj.user.id)"
+											>
+												Following
+											</button>
+										</div>
+										<div v-if="!followingUser.length > 0">
+											<button
+												class="btn-info form-control"
+												@click="
+													followUser(
+														viewUserProfile.userObj.user.id,
+														getUser.userObj.user.id
+													)
 												"
 											>
-												<h1>{{ follower.follower_username }}</h1>
-												<h4>
-													{{
-														!getUser.userObj.user.username ===
-															follower.follower_username
-													}}
-												</h4>
-												<button class="form-control btn-info">
-													Unfollow
-												</button>
-											</div>
-											<div v-else>
-												<button
-													class="btn-info form-control"
-													@click="
-														followUser(
-															viewUserProfile.userObj.user.id,
-															getUser.userObj.user.id
-														)
-													"
-												>
-													Follow
-												</button>
-											</div>
+												Follow
+											</button>
 										</div>
 									</div>
 								</div>
@@ -215,6 +202,17 @@
 							<span class="d-flex justify-content-end">
 								<router-link exact to="/">Back to polls </router-link>
 							</span>
+							<h6>
+								{{
+									getUser.userObj.user.username ===
+										viewUserProfile.userObj.user.username
+								}}
+							</h6>
+							<hr />
+
+							{{ viewUserProfile.followers }}
+
+							<h2>{{ followingUser }}</h2>
 						</div>
 					</div>
 				</div>
@@ -251,10 +249,10 @@ export default {
 	},
 	methods: {
 		getCurrentUser(id) {
-			console.log(id, "IDENTITY");
 			this.show = true;
 			this.$store.dispatch("viewUserProfileAction", id).then(() => {});
 		},
+		// This function is used to follow a user
 		followUser(param, param2) {
 			let data = {
 				follower: param2,
@@ -262,6 +260,12 @@ export default {
 			};
 			this.$store
 				.dispatch("followUser", { ...data })
+				.then(() => this.$router.push("/"));
+		},
+		// this function is used to unfollow a user
+		unfollowUser(param) {
+			this.$store
+				.dispatch("unfollowUser", param)
 				.then(() => this.$router.push("/"));
 		}
 	},
@@ -273,7 +277,29 @@ export default {
 			"numberOfPolls",
 			"viewUserProfile",
 			"getUser"
-		])
+		]),
+
+		/* this function is being used to loop over the profile of the user being clicked on
+		we are looping through the list of the users followers, and we check if the name of the
+		current logged in user is in the list of our followers being looped over, if it is we
+		push the name to the following varible which is a list, if no, we push the name to the
+		unfollowing variable and finally return the list of following.
+		so in our template, we check if the length of following is greater than zero, if it is we
+		know our current logged in user is following the user being viewed else we know he/she is not
+ 		*/
+		followingUser() {
+			let following = [];
+			let unfollowing = [];
+			let currentUser = this.getUser.userObj.user.username;
+			this.viewUserProfile.followers.map(follower => {
+				if (follower.follower_username === currentUser) {
+					following.push(follower.follower_username);
+				} else {
+					unfollowing.push(follower.follower_username);
+				}
+			});
+			return following;
+		}
 	}
 };
 </script>

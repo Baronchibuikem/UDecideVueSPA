@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<div>
 		<MyHeader />
 		<div class="container page-container">
 			<div class="row">
@@ -182,7 +182,7 @@
 				</div>
 			</div>
 		</div>
-	</v-app>
+	</div>
 </template>
 
 <script>
