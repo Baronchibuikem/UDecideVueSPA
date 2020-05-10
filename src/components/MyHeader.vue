@@ -42,9 +42,10 @@
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
 							<form
+								method="GET"
 								class="app-search"
 								style="display: none;"
-								@click.prevent="search"
+								@click="search"
 							>
 								<input
 									class="form-control"
@@ -258,13 +259,19 @@ export default {
 			});
 		},
 		search() {
-			if (this.searchPolls.length > 0) {
-				const query = this.searchPolls.trim();
+			let self = this;
+			if (self.searchPolls.length > 0) {
+				const query = self.searchPolls.trim();
 				console.log(query, "VALUE ENTERED IN THE HEADER");
-				this.$store.dispatch("searchPolls", query).then(res => {
-					// this.$router.push("/");
-					console.log(res.data);
-				});
+				this.$store
+					.dispatch("searchPolls", query)
+					.then(res => {
+						// this.$router.push("/");
+						console.log(res.data);
+					})
+					.catch(err => {
+						console.log(err);
+					});
 			}
 		}
 	},

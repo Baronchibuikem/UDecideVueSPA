@@ -16,7 +16,7 @@
 									class="image-responsive img_style"
 									width="50%"
 								/> -->
-								<div
+								<!-- <div
 									v-if="show === false"
 									class="d-flex justify-content-center"
 								>
@@ -26,7 +26,7 @@
 									>
 										View {{ viewUserProfile.userObj.user.username }}'s profile
 									</button>
-								</div>
+								</div> -->
 								<div v-if="show === true">
 									<div class="col-md-6 col-sm-6">
 										<div v-if="followingUser.length > 0">
@@ -37,7 +37,7 @@
 												@click="
 													unfollowUser(
 														viewUserProfile.userObj.user.id,
-														getUser.userObj.user.id
+														followingUser[1]
 													)
 												"
 											>
@@ -238,7 +238,7 @@ export default {
 	data() {
 		return {
 			user_id: this.id,
-			show: false
+			show: true
 		};
 	},
 	methods: {
@@ -258,8 +258,6 @@ export default {
 		},
 		// this function is used to unfollow a user
 		unfollowUser(param, param2) {
-			console.log(param, param2, "PARAMS");
-
 			this.$store
 				.dispatch("unfollowUser", { param, param2 })
 				.then(() => this.$router.push("/"))
@@ -292,11 +290,12 @@ export default {
 			let currentUser = this.getUser.userObj.user.username;
 			this.viewUserProfile.followers.map(follower => {
 				if (follower.follower_username === currentUser) {
-					following.push(follower.follower_username);
+					following.push(follower.follower_username, follower.id);
 				} else {
 					unfollowing.push(follower.follower_username);
 				}
 			});
+			console.log(following);
 			return following;
 		}
 	}

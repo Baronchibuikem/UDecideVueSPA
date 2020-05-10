@@ -207,13 +207,11 @@ const actions = {
 		};
 		console.log(config, "authorization", id, "id", Id, "UserId");
 		axios
-			.delete(`${apiBaseUrl.baseRoute}/social/unfollow-user/${id}/`, {
+			.delete(`${apiBaseUrl.baseRoute}/social/unfollow-user/${Id}/`, {
 				headers: {
 					Authorization: `Token ${getters.getToken}`
 				},
-				data: {
-					...Id
-				}
+				data: Id
 			})
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;

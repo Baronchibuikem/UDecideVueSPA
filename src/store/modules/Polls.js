@@ -232,7 +232,11 @@ const actions = {
 			}
 		};
 		axios
-			.get(`${apiBaseUrl.baseRoute}/search/poll?q=` + payload, config)
+			.get(
+				`${apiBaseUrl.baseRoute}/search/poll?q=${payload}`,
+				{ payload },
+				config
+			)
 			.then(response => {
 				console.log(response.data, "SEARCH RESULT");
 				axios.defaults.headers.common["Authorization"] = config;

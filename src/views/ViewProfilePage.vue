@@ -221,6 +221,7 @@
 								<router-link exact to="/">Back to polls </router-link>
 							</span>
 						</div>
+						{{ getUser }}
 					</div>
 				</div>
 				<div class="col-md-3">

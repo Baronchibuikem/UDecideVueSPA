@@ -43,7 +43,7 @@
 												v-bind:key="poll.id"
 											>
 												<div class="sl-item">
-													<PollMenu></PollMenu>
+													<!-- <PollMenu></PollMenu> -->
 													<div class="sl-left">
 														<img
 															src="../assets/img/profileimage.png"
@@ -135,7 +135,7 @@
 															<span
 																class="linkHover m-r-10"
 																data-toggle="tooltip"
-																title="up-vote"
+																title="bookmark poll"
 																@click="
 																	bookmarkPoll(poll, getUser.userObj.user.id)
 																"
@@ -147,11 +147,11 @@
 															<span
 																class="linkHover m-r-10"
 																data-toggle="tooltip"
-																title="up-vote"
+																title="Like poll"
 																@click="likePoll(poll, getUser.userObj.user.id)"
 															>
 																<i class="fa fa-heart text-danger"></i>
-																{{ poll.total_likes }} Love
+																{{ poll.total_likes }} Like
 															</span>
 														</div>
 													</div>
