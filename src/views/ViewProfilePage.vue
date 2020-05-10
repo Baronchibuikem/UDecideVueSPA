@@ -24,6 +24,24 @@
 										>My Polls</a
 									>
 								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link"
+										data-toggle="tab"
+										href="#followers"
+										role="tab"
+										>Follower</a
+									>
+								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link"
+										data-toggle="tab"
+										href="#followings"
+										role="tab"
+										>Following</a
+									>
+								</li>
 							</ul>
 							<div class="tab-content">
 								<div class="tab-pane active" id="profile" role="tabpanel">
@@ -168,12 +186,40 @@
 												</div>
 											</div>
 										</div>
-										<span class="d-flex justify-content-end">
-											<router-link exact to="/">Back to polls </router-link>
-										</span>
 									</div>
 								</div>
+								<div class="tab-pane" id="followers" role="tabpanel">
+									<span
+										class="py-6 col-md-6 text-left"
+										v-for="(follower, index) in getUser.followers"
+										v-bind:key="index"
+									>
+										<h6 class="linkHover">
+											@{{ follower.following_username }}
+											<!-- {{ follower.follwer.id }} -->
+										</h6>
+										<p>This user's Bio will be updated here shortly</p>
+										<hr />
+									</span>
+								</div>
+								<div class="tab-pane" id="followings" role="tabpanel">
+									<span
+										class="py-6 col-md-6 text-left mt-2"
+										v-for="(follower, index) in getUser.followed"
+										v-bind:key="index"
+									>
+										<h6 class="linkHover">
+											@{{ follower.following_username }}
+											<!-- {{ follower.follwer.id }} -->
+										</h6>
+										<p>This user's Bio will be updated here shortly</p>
+										<hr />
+									</span>
+								</div>
 							</div>
+							<span class="d-flex justify-content-end">
+								<router-link exact to="/">Back to polls </router-link>
+							</span>
 						</div>
 					</div>
 				</div>

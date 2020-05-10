@@ -34,7 +34,12 @@
 												class="form-control btn-info"
 												data-toggle="tooltip"
 												title="click to unfollow"
-												@click="unfollowUser(getUser.userObj.user.id)"
+												@click="
+													unfollowUser(
+														viewUserProfile.userObj.user.id,
+														getUser.userObj.user.id
+													)
+												"
 											>
 												Following
 											</button>
@@ -252,10 +257,15 @@ export default {
 				.then(() => this.$router.push("/"));
 		},
 		// this function is used to unfollow a user
-		unfollowUser(param) {
+		unfollowUser(param, param2) {
+			console.log(param, param2, "PARAMS");
+
 			this.$store
-				.dispatch("unfollowUser", param)
-				.then(() => this.$router.push("/"));
+				.dispatch("unfollowUser", { param, param2 })
+				.then(() => this.$router.push("/"))
+				.catch(err => {
+					console.log(err);
+				});
 		}
 	},
 	computed: {

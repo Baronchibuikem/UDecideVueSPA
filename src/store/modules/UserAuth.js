@@ -192,6 +192,12 @@ const actions = {
 	},
 
 	unfollowUser({ commit, getters }, payload) {
+		console.log(payload, "Payl");
+		let { param, param2 } = { ...payload };
+
+		let id = param;
+		let Id = param2;
+
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
@@ -199,12 +205,16 @@ const actions = {
 				// "Content-Type": "application/json"
 			}
 		};
+		console.log(config, "authorization", id, "id", Id, "UserId");
 		axios
-			.delete(
-				`${apiBaseUrl.baseRoute}/social/unfollow-user/${payload}/`,
-				payload,
-				config
-			)
+			.delete(`${apiBaseUrl.baseRoute}/social/unfollow-user/${id}/`, {
+				headers: {
+					Authorization: `Token ${getters.getToken}`
+				},
+				data: {
+					...Id
+				}
+			})
 			.then(response => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
