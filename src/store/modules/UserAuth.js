@@ -199,16 +199,17 @@ const actions = {
 				// "Content-Type": "application/json"
 			}
 		};
-		axios.delete(
-			`${apiBaseUrl.baseRoute}/social/unfollow-user/${payload}/`,
-			payload,
-			config
-		);
-		// .then(response => {
-		// 	axios.defaults.headers.common["Authorization"] = config;
-		// 	// We call a mutation to commit our response data
-		// 	commit("view_user", response.data);
-		// });
+		axios
+			.delete(
+				`${apiBaseUrl.baseRoute}/social/unfollow-user/${payload}/`,
+				payload,
+				config
+			)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("view_user", response.data);
+			});
 	}
 };
 

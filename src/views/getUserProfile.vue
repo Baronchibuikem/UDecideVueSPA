@@ -202,17 +202,6 @@
 							<span class="d-flex justify-content-end">
 								<router-link exact to="/">Back to polls </router-link>
 							</span>
-							<h6>
-								{{
-									getUser.userObj.user.username ===
-										viewUserProfile.userObj.user.username
-								}}
-							</h6>
-							<hr />
-
-							{{ viewUserProfile.followers }}
-
-							<h2>{{ followingUser }}</h2>
 						</div>
 					</div>
 				</div>

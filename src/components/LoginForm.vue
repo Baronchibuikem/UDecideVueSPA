@@ -118,11 +118,9 @@ export default {
 				.dispatch("login", { username, password })
 				.then(() => this.$router.push("/"))
 				.catch(function(err) {
-					console.log(err.response.data.error, "ERROR");
 					if (err.response.data !== undefined) {
 						self.errors.validation = err.response.data.error;
 					}
-					console.log(self.errors.validation, "ERROR 2222");
 				});
 		}
 	},
