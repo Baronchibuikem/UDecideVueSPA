@@ -35,17 +35,14 @@
 
 					<ul class="navbar-nav my-lg-0">
 						<li class="nav-item hidden-xs-down search-box">
-							<a
-								class="nav-link hidden-sm-down waves-effect waves-dark"
-								href="javascript:void(0)"
-							>
+							<a class="nav-link hidden-sm-down waves-effect waves-dark">
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
 							<form
 								method="GET"
 								class="app-search"
 								style="display: none;"
-								@click="search"
+								@click.prevent="search"
 							>
 								<input
 									class="form-control"
@@ -259,19 +256,15 @@ export default {
 			});
 		},
 		search() {
-			let self = this;
-			if (self.searchPolls.length > 0) {
-				const query = self.searchPolls.trim();
+			if (this.searchPolls.length > 0) {
+				const query = this.searchPolls.trim();
 				console.log(query, "VALUE ENTERED IN THE HEADER");
 				this.$store
 					.dispatch("searchPolls", query)
-					.then(res => {
-						// this.$router.push("/");
-						console.log(res.data);
-					})
-					.catch(err => {
-						console.log(err);
-					});
+					.then(() => this.$router.push("/"));
+				// .catch(err => {
+				// 	console.log(err.response.data);
+				// });
 			}
 		}
 	},
