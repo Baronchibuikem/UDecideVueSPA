@@ -5,6 +5,7 @@ const state = {
 	// The keys defined below represents the initial state of our data the first time our app loads
 	token: localStorage.getItem("token") || "",
 	Polls: [],
+	search_polls: [],
 	trendingPolls: [],
 	SinglePoll: {
 		id: "",
@@ -28,7 +29,8 @@ const getters = {
 	allPolls: state => state.Polls,
 	pollsTrending: state => state.trendingPolls,
 	getToken: state => state.token,
-	getSinglePoll: state => state.SinglePoll
+	getSinglePoll: state => state.SinglePoll,
+	searchPollResults: state => state.search_polls
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -241,7 +243,7 @@ const actions = {
 				console.log(response.data, "SEARCH RESULT");
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("SEARCH_RESULT", response.data);
+				commit("SEARCH_POLLS", response.data);
 			});
 	}
 };
@@ -286,6 +288,9 @@ const mutations = {
 		converting it into a list and pass it to the state.trendingPolls to be updated in the state */
 		let filteredList = new Set(payload.map(poll => poll.question));
 		state.trendingPolls = [...filteredList];
+	},
+	SEARCH_POLLS(state, payload) {
+		state.search_polls = payload;
 	}
 };
 
