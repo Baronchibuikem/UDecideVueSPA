@@ -141,6 +141,35 @@
 									</div>
 									<div class="row mx-3">
 										<span class="py-6 col-md-3">
+											Profile Image
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											{{ getUser.userObj.user.profile.photo }}
+											<!-- <modal
+												:id="1"
+												:value="getUser.userObj.user.profile.first_name"
+												class="edit"
+												data-toggle="tooltip"
+												:eventProps="updateProfile"
+											/> -->
+											<form>
+												<input
+													type="file"
+													accept="image/*"
+													@change="imageSelected"
+												/>
+												<button
+													class="form-control bg-info"
+													style="width:50% !important"
+													@click.prevent="updateImage"
+												>
+													Edit
+												</button>
+											</form>
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
 											About me
 										</span>
 										<span class="py-6 col-md-6 text-left">
@@ -154,9 +183,6 @@
 											/>
 										</span>
 									</div>
-									<span class="d-flex justify-content-end">
-										<router-link exact to="/">Back to polls </router-link>
-									</span>
 								</div>
 								<div class="tab-pane" id="polls" role="tabpanel">
 									<div v-if="polllist">
@@ -221,7 +247,6 @@
 								<router-link exact to="/">Back to polls </router-link>
 							</span>
 						</div>
-						{{ getUser }}
 					</div>
 				</div>
 				<div class="col-md-3">
@@ -250,7 +275,8 @@ export default {
 	},
 	data() {
 		return {
-			polllist: true
+			polllist: true,
+			image: null
 		};
 	},
 	methods: {
@@ -299,6 +325,20 @@ export default {
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
 			}
+		},
+		imageSelected(event) {
+			this.image = event.target.files[0];
+		},
+		updateImage() {
+			let form = new FormData();
+			let image = this.image;
+			form.append("image", image);
+			this.$store
+				.dispatch("updateProfileImage", {
+					image: form
+				})
+				.then(() => this.$router.push("/profile"))
+				.catch(err => console.error(err));
 		}
 	},
 	computed: {

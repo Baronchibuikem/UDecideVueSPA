@@ -279,7 +279,7 @@ export default {
 		/* this function is being used to loop over the profile of the user being clicked on
 		we are looping through the list of the users followers, and we check if the name of the
 		current logged in user is in the list of our followers being looped over, if it is we
-		push the name to the following varible which is a list, if no, we push the name to the
+		push the name and id to the following varible which is a list, if no, we push the name to the
 		unfollowing variable and finally return the list of following.
 		so in our template, we check if the length of following is greater than zero, if it is we
 		know our current logged in user is following the user being viewed else we know he/she is not

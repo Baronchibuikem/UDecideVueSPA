@@ -5,10 +5,16 @@
 				<img
 					class="card-img img-responsive"
 					src="../assets/img/01_UD.png"
-					alt="Card image"
+					alt="My profile image"
+					width="50%"
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
-					<img src="../assets/img/profileimage.png" class="img-circle" />
+					<img
+						:src="getUser.userObj.user.profile.image"
+						class="img-circle"
+						alt="My profile image"
+						width="100%"
+					/>
 
 					<h4 class="card-title text-capitalize">
 						<!-- This return the login in users username. It's coming from getters defined
@@ -88,6 +94,11 @@
 							New user registered.<span class="text-muted">30 May</span>
 						</li>
 					</ul>
+					<img
+						:src="getUser.userObj.user.profile.image"
+						alt="testing image"
+						width="100%"
+					/>
 				</div>
 			</div>
 		</div>

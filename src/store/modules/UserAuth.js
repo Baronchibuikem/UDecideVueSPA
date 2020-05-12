@@ -218,6 +218,26 @@ const actions = {
 				// We call a mutation to commit our response data
 				commit("view_user", response.data);
 			});
+	},
+	updateProfileImage({ commit, getters }, payload) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`
+				// "Content-Type": "application/json"
+			}
+		};
+		axios
+			.patch(
+				`${apiBaseUrl.baseRoute}/userprofile/update-profile/`,
+				payload.image,
+				config
+			)
+			.then(response => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("auth_success", response.data);
+			});
 	}
 };
 
