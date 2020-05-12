@@ -94,11 +94,9 @@
 							New user registered.<span class="text-muted">30 May</span>
 						</li>
 					</ul>
-					<img
-						:src="getUser.userObj.user.profile.image"
-						alt="testing image"
-						width="100%"
-					/>
+					<img :src="image" alt="testing image" width="100%" />
+
+					{{ getUser.userObj.user.profile.image }}
 				</div>
 			</div>
 		</div>
@@ -119,7 +117,10 @@ export default {
 			"isLoggedIn",
 			"isAuthenticated",
 			"getuserID"
-		])
+		]),
+		image() {
+			return this.getUser.userObj.user.profile.image;
+		}
 	}
 };
 </script>

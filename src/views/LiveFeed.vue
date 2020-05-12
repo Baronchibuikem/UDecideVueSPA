@@ -35,11 +35,20 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="home" role="tabpanel">
 									<div class="card-body">
-										<div class="profiletimeline">
+										<div class="profiletimeline" v-if="searchPollResults">
+											<div
+												class="todo-item sl-right"
+												v-for="poll in searchPollResults"
+												v-bind:key="poll.id"
+											>
+												<h5>{{ poll.question }}</h5>
+											</div>
+										</div>
+										<div v-if="!searchPollResults">
 											<!-- Here we are looping through the allPolls which we received from our getters -->
 											<div
 												class="todo-item sl-right"
-												v-for="poll in displayPolls"
+												v-for="poll in allPolls"
 												v-bind:key="poll.id"
 											>
 												<div class="sl-item">
@@ -318,7 +327,7 @@ export default {
 		// 	});
 		// },
 		// Here we call our getPolls action
-		...mapActions(["getPolls", "getTrendingPolls", "searchPolls"])
+		...mapActions(["getPolls", "getTrendingPolls"])
 	},
 	computed: {
 		// This returns all our updated state
@@ -344,9 +353,8 @@ export default {
 	mounted() {
 		// Added the called to ensure the element is mounted once it is called.
 		this.$nextTick(() => {
-			this.displayPolls();
 			this.getTrendingPolls();
-
+			this.getPolls();
 			// this.getTrendingFeeds();
 		});
 	}
