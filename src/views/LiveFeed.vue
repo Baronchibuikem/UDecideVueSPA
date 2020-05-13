@@ -44,7 +44,6 @@
 												<h5>{{ poll.question }}</h5>
 											</div>
 										</div> -->
-											-->
 
 											<!-- Here we are looping through the allPolls which we received from our getters -->
 											<div
