@@ -38,11 +38,10 @@
 							<a class="nav-link hidden-sm-down waves-effect waves-dark">
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
-							<form
-								method="GET"
+							<div
 								class="app-search"
 								style="display: none;"
-								@click.prevent="search"
+								v-on:click="search($event)"
 							>
 								<input
 									class="form-control"
@@ -51,7 +50,7 @@
 									v-model="searchPolls"
 								/>
 								<a class="srh-btn"><i class="ti-close"></i></a>
-							</form>
+							</div>
 						</li>
 
 						<li class="nav-item dropdown">
@@ -256,15 +255,9 @@ export default {
 			});
 		},
 		search() {
-			if (this.searchPolls.length > 0) {
-				const query = this.searchPolls.trim();
-				console.log(query, "VALUE ENTERED IN THE HEADER");
-				this.$store
-					.dispatch("searchPolls", query)
-					.then(() => this.$router.push("/"));
-				// .catch(err => {
-				// 	console.log(err.response.data);
-				// });
+			const query = this.searchPolls.trim();
+			if (query.length) {
+				this.$store.dispatch("searchPolls", query);
 			}
 		}
 	},

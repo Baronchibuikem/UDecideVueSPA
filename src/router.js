@@ -9,6 +9,7 @@ import Signup from "./views/Signup.vue";
 import SinglePollPage from "./views/SinglePollPage.vue";
 import ViewProfilePage from "./views/ViewProfilePage.vue";
 import getUserProfile from "./views/getUserProfile.vue";
+import SearchResults from "./views/SearchResults.vue";
 import store from "./store";
 
 Vue.use(Router);
@@ -93,6 +94,11 @@ let router = new Router({
 			path: "/profile",
 			name: "profile",
 			component: ViewProfilePage
+		},
+		{
+			path: "/search",
+			name: "SearchResults",
+			component: SearchResults
 		}
 
 		// // return 404 error page if the link entered doesn't exist

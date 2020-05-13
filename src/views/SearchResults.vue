@@ -48,7 +48,7 @@
 											<!-- Here we are looping through the allPolls which we received from our getters -->
 											<div
 												class="todo-item sl-right"
-												v-for="poll in displayPolls"
+												v-for="poll in searchPollResults"
 												v-bind:key="poll.id"
 											>
 												<div class="sl-item">
@@ -328,7 +328,7 @@ export default {
 		// 	});
 		// },
 		// Here we call our getPolls action
-		...mapActions(["getPolls", "getTrendingPolls"])
+		...mapActions(["getPolls", "getTrendingPolls", "searchPolls"])
 	},
 	computed: {
 		// This returns all our updated state
@@ -343,20 +343,13 @@ export default {
 			"getuserID",
 			"searchPollResults",
 			"searchPollLength"
-		]),
-		displayPolls() {
-			if (!this.searchPollResults.length) {
-				return this.allPolls;
-			} else {
-				return this.searchPollResults;
-			}
-		}
+		])
 	},
 	mounted() {
 		// Added the called to ensure the element is mounted once it is called.
 		this.$nextTick(() => {
 			this.getTrendingPolls();
-			this.getPolls();
+
 			// this.getTrendingFeeds();
 		});
 	}
