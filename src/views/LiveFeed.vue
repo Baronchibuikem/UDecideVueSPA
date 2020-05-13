@@ -35,20 +35,21 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="home" role="tabpanel">
 									<div class="card-body">
-										<div class="profiletimeline" v-if="searchPollResults">
-											<div
+										<div class="profiletimeline">
+											<!-- <div
 												class="todo-item sl-right"
-												v-for="poll in searchPollResults"
+												v-for="poll in displayPolls"
 												v-bind:key="poll.id"
 											>
 												<h5>{{ poll.question }}</h5>
 											</div>
-										</div>
-										<div v-if="!searchPollResults">
+										</div> -->
+											-->
+
 											<!-- Here we are looping through the allPolls which we received from our getters -->
 											<div
 												class="todo-item sl-right"
-												v-for="poll in allPolls"
+												v-for="poll in displayPolls"
 												v-bind:key="poll.id"
 											>
 												<div class="sl-item">
@@ -168,6 +169,7 @@
 											</div>
 										</div>
 									</div>
+									{{ searchPollLength }}
 								</div>
 								<!--second tab-->
 								<div class="tab-pane" id="profile" role="tabpanel">
@@ -340,12 +342,14 @@ export default {
 			"isLoggedIn",
 			"isAuthenticated",
 			"getuserID",
-			"searchPollResults"
+			"searchPollResults",
+			"searchPollLength"
 		]),
 		displayPolls() {
-			if (this.searchPollResults > 0) {
+			if (this.searchPollLength > 0) {
 				return this.searchPollResults;
 			} else {
+				self.showPolls = true;
 				return this.allPolls;
 			}
 		}

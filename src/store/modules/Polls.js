@@ -30,7 +30,8 @@ const getters = {
 	pollsTrending: state => state.trendingPolls,
 	getToken: state => state.token,
 	getSinglePoll: state => state.SinglePoll,
-	searchPollResults: state => state.search_polls
+	searchPollResults: state => state.search_polls,
+	searchPollLength: state => state.search_polls.length
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
