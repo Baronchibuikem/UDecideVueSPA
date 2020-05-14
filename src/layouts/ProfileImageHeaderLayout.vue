@@ -10,8 +10,8 @@
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
 					<img
-						:src="getUser.userObj.user.profile.image"
-						class="img-circle"
+						:src="getUser.userObj.user.profile.photo"
+						class="header-image"
 						alt="My profile image"
 						width="100%"
 					/>
@@ -94,9 +94,12 @@
 							New user registered.<span class="text-muted">30 May</span>
 						</li>
 					</ul>
-					<img :src="image" alt="testing image" width="100%" />
-
-					{{ getUser.userObj.user.profile.image }}
+			<img
+						:src="getUser.userObj.user.profile.photo"
+						class="header-image"
+						alt="My profile image"
+						width="100%"
+					/>
 				</div>
 			</div>
 		</div>
@@ -107,6 +110,7 @@
 import { mapGetters } from "vuex";
 export default {
 	name: "ProfileImageHeader",
+
 	computed: {
 		// This returns all our updated state
 		...mapGetters([
@@ -116,17 +120,20 @@ export default {
 			"numberOfPolls",
 			"isLoggedIn",
 			"isAuthenticated",
-			"getuserID"
+			"getuserID",
 		]),
-		image() {
-			return this.getUser.userObj.user.profile.image;
-		}
-	}
+	},
 };
 </script>
 
 <style scoped>
 i:hover {
 	cursor: pointer !important;
+}
+.header-image {
+	display: block !important;
+	margin: auto auto !important;
+
+	border-radius: 50% !important;
 }
 </style>
