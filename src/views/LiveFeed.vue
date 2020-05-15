@@ -223,7 +223,7 @@ export default {
 		ProfileImageHeader,
 		TrendingLayout,
 		TrendingPolls,
-		modal
+		modal,
 	},
 	data() {
 		return {
@@ -233,7 +233,7 @@ export default {
 			selected_choice: null,
 			current_date: "",
 			disable: true,
-			showPolls: true
+			showPolls: true,
 		};
 	},
 	methods: {
@@ -241,8 +241,8 @@ export default {
 			axios
 				.get(api, {
 					params: {
-						page: this.list.length / 20 + 1
-					}
+						page: this.list.length / 20 + 1,
+					},
 				})
 				.then(({ data }) => {
 					if (data.hits.length) {
@@ -269,7 +269,7 @@ export default {
 			this.poll_creator = userID;
 			let data = {
 				poll: this.selected_poll,
-				user: this.poll_creator
+				user: this.poll_creator,
 			};
 			this.$store.dispatch("likePoll", data).then(() => this.$router.push("/"));
 		},
@@ -287,7 +287,7 @@ export default {
 			this.poll_creator = userID;
 			let data = {
 				poll: this.selected_poll,
-				user: this.poll_creator
+				user: this.poll_creator,
 			};
 			this.$store
 				.dispatch("bookmarkPoll", data)
@@ -306,7 +306,7 @@ export default {
 			this.selected_choice = userID;
 			let data = {
 				poll: this.selected_poll,
-				choice: this.selected_choice
+				choice: this.selected_choice,
 			};
 			this.$store
 				.dispatch("voteChoice", data)
@@ -328,7 +328,7 @@ export default {
 		// 	});
 		// },
 		// Here we call our getPolls action
-		...mapActions(["getPolls", "getTrendingPolls"])
+		...mapActions(["getPolls", "getTrendingPolls"]),
 	},
 	computed: {
 		// This returns all our updated state
@@ -342,7 +342,7 @@ export default {
 			"isAuthenticated",
 			"getuserID",
 			"searchPollResults",
-			"searchPollLength"
+			"searchPollLength",
 		]),
 		displayPolls() {
 			if (!this.searchPollResults.length) {
@@ -350,7 +350,7 @@ export default {
 			} else {
 				return this.searchPollResults;
 			}
-		}
+		},
 	},
 	mounted() {
 		// Added the called to ensure the element is mounted once it is called.
@@ -359,7 +359,7 @@ export default {
 			this.getPolls();
 			// this.getTrendingFeeds();
 		});
-	}
+	},
 };
 </script>
 

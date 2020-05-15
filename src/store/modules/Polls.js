@@ -19,19 +19,19 @@ const state = {
 		poll_has_been_bookmarked: "",
 		poll_has_been_liked: "",
 		total_likes: "",
-		vote_count: ""
-	}
+		vote_count: "",
+	},
 };
 
 /* getters pull updated value from our state data's and they are then called by the components that needs them to
 present data to the user(s) */
 const getters = {
-	allPolls: state => state.Polls,
-	pollsTrending: state => state.trendingPolls,
-	getToken: state => state.token,
-	getSinglePoll: state => state.SinglePoll,
-	searchPollResults: state => state.search_polls,
-	searchPollLength: state => state.search_polls.length
+	allPolls: (state) => state.Polls,
+	pollsTrending: (state) => state.trendingPolls,
+	getToken: (state) => state.token,
+	getSinglePoll: (state) => state.SinglePoll,
+	searchPollResults: (state) => state.search_polls,
+	searchPollLength: (state) => state.search_polls.length,
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -49,9 +49,9 @@ const actions = {
 		const { id, poll_id } = { ...payload };
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios.delete(
 			`${apiBaseUrl.baseRoute}/polls/choice/${id}/${poll_id}`,
@@ -65,13 +65,13 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.patch(`${apiBaseUrl.baseRoute}/polls/polls/${id}/`, { question }, config)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SINGLE_POLL", response.data);
@@ -84,9 +84,9 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.patch(
@@ -94,7 +94,7 @@ const actions = {
 				{ choice_text },
 				config
 			)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SINGLE_POLL", response.data);
@@ -106,13 +106,13 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.get(`${apiBaseUrl.baseRoute}/polls/polls/${id}/`, config)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SINGLE_POLL", response.data);
@@ -124,12 +124,12 @@ const actions = {
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
-				Authorization: `Token ${getters.getToken}`
-			}
+				Authorization: `Token ${getters.getToken}`,
+			},
 		};
 		axios
 			.post(`${apiBaseUrl.baseRoute}/polls/create-polls/`, payload, config)
-			.then(response => {
+			.then((response) => {
 				console.log("Response from poll request form", response.data);
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
@@ -142,12 +142,12 @@ const actions = {
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
-				Authorization: `Token ${getters.getToken}`
-			}
+				Authorization: `Token ${getters.getToken}`,
+			},
 		};
 		axios
 			.post(`${apiBaseUrl.baseRoute}/userprofile/like-poll/`, payload, config)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
@@ -159,8 +159,8 @@ const actions = {
 		const { poll, choice } = { ...payload };
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
-			}
+				Authorization: `Token ${getters.getToken}`,
+			},
 		};
 		axios
 			.post(
@@ -168,7 +168,7 @@ const actions = {
 				payload,
 				config
 			)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
@@ -179,8 +179,8 @@ const actions = {
 	bookmarkPoll({ commit, getters }, payload) {
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
-			}
+				Authorization: `Token ${getters.getToken}`,
+			},
 		};
 		axios
 			.post(
@@ -188,7 +188,7 @@ const actions = {
 				payload,
 				config
 			)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);
@@ -199,12 +199,12 @@ const actions = {
 	getTrendingPolls({ commit, getters }) {
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
-			}
+				Authorization: `Token ${getters.getToken}`,
+			},
 		};
 		axios
 			.get(`${apiBaseUrl.baseRoute}/trending/polls/`, config)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("TRENDING_POLLS", response.data);
@@ -230,17 +230,17 @@ const actions = {
 	searchPolls({ commit, getters }, payload) {
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
-			}
+				Authorization: `Token ${getters.getToken}`,
+			},
 		};
 		axios
 			.get(`${apiBaseUrl.baseRoute}/search/poll/?search=` + payload, config)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SEARCH_POLLS", response.data);
 			});
-	}
+	},
 };
 
 // These are used to update our state depending on the response gotten when an action is dispatched
@@ -281,18 +281,18 @@ const mutations = {
 		this repeated question using javascript Set method and loop over the incoming date to fetch only the
 		questions which we then store in the filteredList variable. Next we use the spread operator on our set of questions,
 		converting it into a list and pass it to the state.trendingPolls to be updated in the state */
-		let filteredList = new Set(payload.map(poll => poll.question));
+		let filteredList = new Set(payload.map((poll) => poll.question));
 		state.trendingPolls = [...filteredList];
 	},
 	SEARCH_POLLS(state, payload) {
 		state.search_polls = payload;
-	}
+	},
 };
 
 export default {
 	state,
 	getters,
 	actions,
-	mutations
+	mutations,
 	// config
 };

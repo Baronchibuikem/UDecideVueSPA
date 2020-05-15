@@ -9,8 +9,14 @@
 					width="50%"
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
-					<img
+					<!-- <img
 						:src="getUser.userObj.user.profile.photo"
+						class="header-image"
+						alt="My profile image"
+						width="100%"
+					/> -->
+					<img
+						:src="getUser.userObj.user.profile.image"
 						class="header-image"
 						alt="My profile image"
 						width="100%"
@@ -94,12 +100,8 @@
 							New user registered.<span class="text-muted">30 May</span>
 						</li>
 					</ul>
-			<img
-						:src="getUser.userObj.user.profile.photo"
-						class="header-image"
-						alt="My profile image"
-						width="100%"
-					/>
+			{{getUser.userObj.user.profile}}
+				
 				</div>
 			</div>
 		</div>
