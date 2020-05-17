@@ -153,6 +153,7 @@
 																<i class="fa fa-thumb text-danger"></i
 																>{{ poll.vote_count }} bookmark</span
 															>
+															{{poll}}
 															<!--  Here we call the likePoll method and pass in the poll object and current user id which we get from our getUser from getters -->
 															<span
 																class="linkHover m-r-10"
