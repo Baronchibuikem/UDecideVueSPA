@@ -166,7 +166,7 @@
 								aria-expanded="false"
 							>
 								<img
-									src="../assets/img/profileimage.png"
+									:src="getImage(this.getUser.userObj.user.profile.image)"
 									alt="user"
 									class="img-circle"
 								/>
@@ -181,7 +181,7 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img src="../assets/img/profileimage.png" alt="user" />
+												<img :src="getImage(this.getUser.userObj.user.profile.image)" alt="user" />
 											</div>
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
@@ -239,11 +239,11 @@ import { mapGetters } from "vuex";
 export default {
 	name: "myheader",
 	components: {
-		SignupForm
+		SignupForm,
 	},
 	data() {
 		return {
-			searchPolls: ""
+			searchPolls: "",
 		};
 	},
 	methods: {
@@ -259,15 +259,18 @@ export default {
 			if (query.length) {
 				this.$store.dispatch("searchPolls", query);
 			}
-		}
+		},
+		getImage(pic) {
+			return `https://res.cloudinary.com/dwzk9ckul/${pic}`;
+		},
 	},
 	computed: {
-		...mapGetters(["getUser", "isLoggedIn"])
+		...mapGetters(["getUser", "isLoggedIn"]),
 	},
 	watch: {
 		searchPolls() {
 			this.search();
-		}
-	}
+		},
+	},
 };
 </script>

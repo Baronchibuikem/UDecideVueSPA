@@ -100,7 +100,6 @@
 							New user registered.<span class="text-muted">30 May</span>
 						</li>
 					</ul>
-			{{getUser.userObj.user.profile}}
 				
 				</div>
 			</div>
