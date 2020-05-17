@@ -51,7 +51,7 @@
 											Username
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.username }}
+											{{ userprofile.user.username }}
 										</span>
 									</div>
 
@@ -60,10 +60,10 @@
 											Firstname
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.profile.first_name }}
+											{{ userprofile.user.profile.first_name }}
 											<modal
 												:id="1"
-												:value="getUser.userObj.user.profile.first_name"
+												:value="userprofile.user.profile.first_name"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -75,11 +75,11 @@
 											Lastname
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.profile.last_name }}
+											{{ userprofile.user.profile.last_name }}
 
 											<modal
 												:id="2"
-												:value="getUser.userObj.user.profile.last_name"
+												:value="userprofile.user.profile.last_name"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -91,10 +91,10 @@
 											Place of work
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.profile.place_of_work }}
+											{{ userprofile.user.profile.place_of_work }}
 											<modal
 												:id="3"
-												:value="getUser.userObj.user.profile.place_of_work"
+												:value="userprofile.user.profile.place_of_work"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -106,10 +106,10 @@
 											Position
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.profile.position }}
+											{{ userprofile.user.profile.position }}
 											<modal
 												:id="4"
-												:value="getUser.userObj.user.profile.position"
+												:value="userprofile.user.profile.position"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -168,15 +168,17 @@
 											About me
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.profile.about }}
+											{{ userprofile.user.profile.about }}
 											<modal
 												:id="5"
-												:value="getUser.userObj.user.profile.about"
+												:value="userprofile.user.profile.about"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
 											/>
 										</span>
+
+										{{userprofile}}
 									</div>
 								</div>
 								<div class="tab-pane" id="polls" role="tabpanel">
@@ -330,7 +332,7 @@ export default {
 		// },
 	},
 	computed: {
-		...mapGetters(["getUser", "getSinglePoll"]),
+		...mapGetters(["getUser", "getSinglePoll", "userprofile"]),
 	},
 };
 </script>

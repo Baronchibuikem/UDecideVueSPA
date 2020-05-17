@@ -54,6 +54,7 @@ const getters = {
 	isAuthenticated: (state) => state.loggedIn,
 	viewUserProfile: (state) => state.viewuser,
 	errorStatus: (state) => state.error,
+	userprofile: (state) => state.user.userObj,
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
