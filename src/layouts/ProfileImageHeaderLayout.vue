@@ -174,13 +174,6 @@ export default {
 			"isAuthenticated",
 			"getuserID",
 		]),
-		image: {
-			get: function(newValue) {
-				const self = this;
-				const photo = newValue;
-				return (self.image = photo);
-			},
-		},
 	},
 	methods: {
 		getImage(pic) {
