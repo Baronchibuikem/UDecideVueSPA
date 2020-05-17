@@ -11,7 +11,7 @@
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
 					<div @click.prevent="updateImageProfile" data-toggle="modal" data-target="#modelId">
 						<img
-						:src="getImage(getUser.userObj.user.profile.image)"
+						:src="getImage(userprofile.image)"
 						class="header-image"
 						alt="My profile image"
 						width="70%"
@@ -35,7 +35,7 @@
 										<div class="container-fluid">	
 											<div class="mb-3">											
 												<img
-													:src="getImage(getUser.userObj.user.profile.image)"
+													:src="getImage(userprofile.image)"
 													class="header-image"
 													alt="My profile image"
 													width="50%"
@@ -61,12 +61,7 @@
 						
 					</div>
 
-					<!-- <img
-						:src="getImage(this.getUser.userObj.user.profile.image)"
-						class="header-image"
-						alt="My profile image"
-						width="100%"
-					/> -->
+			
 
 					<h4 class="card-title text-capitalize">
 						<!-- This return the login in users username. It's coming from getters defined
@@ -118,7 +113,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="card rounded">
+			<!-- <div class="card rounded">
 				<div class="card-body">
 					<h4 class="card-title">Top Trending Feeds</h4>
 					<ul class="feeds">
@@ -146,9 +141,9 @@
 							New user registered.<span class="text-muted">30 May</span>
 						</li>
 					</ul>
-				{{ getUser}}
+				
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -173,6 +168,7 @@ export default {
 			"isLoggedIn",
 			"isAuthenticated",
 			"getuserID",
+			"userprofile",
 		]),
 	},
 	methods: {

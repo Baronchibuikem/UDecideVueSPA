@@ -40,7 +40,6 @@ const actions = {
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
 		// We call a mutation to commit our response data
-		console.log(response.data, "Polls");
 		commit("SUCCESS", response.data);
 	},
 
@@ -102,7 +101,6 @@ const actions = {
 	},
 	// This action is used to get individual polls from the server
 	getSinglePoll({ commit, getters }, id) {
-		console.log("Getting Single ID from actions", id);
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
@@ -130,7 +128,6 @@ const actions = {
 		axios
 			.post(`${apiBaseUrl.baseRoute}/polls/create-polls/`, payload, config)
 			.then((response) => {
-				console.log("Response from poll request form", response.data);
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("SUCCESS", response.data);

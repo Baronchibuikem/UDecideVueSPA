@@ -7,7 +7,7 @@
 					<profile-image-header />
 				</div>
 				<div class="col-md-6">
-					<div class="container mt-3">
+					<div class="mt-3">
 						<div class="shadow card page-container">
 							<ul class="nav nav-tabs profile-tab" role="tablist">
 								<li class="nav-item">
@@ -42,6 +42,15 @@
 										>Following</a
 									>
 								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link"
+										data-toggle="tab"
+										href="#bookmarks"
+										role="tab"
+										>Bookmarks</a
+									>
+								</li>
 							</ul>
 							<div class="tab-content">
 								<div class="tab-pane active" id="profile" role="tabpanel">
@@ -51,7 +60,7 @@
 											Username
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ userprofile.user.username }}
+											{{ getUser.userObj.user.username }}
 										</span>
 									</div>
 
@@ -60,10 +69,11 @@
 											Firstname
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ userprofile.user.profile.first_name }}
+											{{ userprofile.first_name }}
 											<modal
+											:title="edit_firstname"
 												:id="1"
-												:value="userprofile.user.profile.first_name"
+												:value="userprofile.first_name"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -75,11 +85,12 @@
 											Lastname
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ userprofile.user.profile.last_name }}
+											{{ userprofile.last_name }}
 
 											<modal
+											:title="edit_lastname"
 												:id="2"
-												:value="userprofile.user.profile.last_name"
+												:value="userprofile.last_name"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -91,10 +102,11 @@
 											Place of work
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ userprofile.user.profile.place_of_work }}
+											{{ userprofile.place_of_work }}
 											<modal
+											:title="edit_place_of_work"
 												:id="3"
-												:value="userprofile.user.profile.place_of_work"
+												:value="userprofile.place_of_work"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -106,10 +118,11 @@
 											Position
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ userprofile.user.profile.position }}
+											{{ userprofile.position }}
 											<modal
+												:title="edit_position"
 												:id="4"
-												:value="userprofile.user.profile.position"
+												:value="userprofile.position"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -168,17 +181,16 @@
 											About me
 										</span>
 										<span class="py-6 col-md-6 text-left">
-											{{ userprofile.user.profile.about }}
+											{{ userprofile.about }}
 											<modal
+												:title="edit_about"
 												:id="5"
-												:value="userprofile.user.profile.about"
+												:value="userprofile.about"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
 											/>
 										</span>
-
-										{{userprofile}}
 									</div>
 								</div>
 								<div class="tab-pane" id="polls" role="tabpanel">
@@ -239,6 +251,21 @@
 										<hr />
 									</span>
 								</div>
+								<div class="tab-pane" id="bookmarks" role="tabpanel">
+									<!-- <span
+										class="py-6 col-md-6 text-left mt-2"
+										v-for="(follower, index) in getUser.followed"
+										v-bind:key="index"
+									>
+										<h6 class="linkHover">
+											@{{ follower.following_username }}
+											
+										</h6>
+										<p>This user's Bio will be updated here shortly</p>
+										<hr />
+									</span> -->
+									<span class="linkHover"  data-toggle="tooltip" title="click to view your profile"> Bookmarks</span>
+								</div>
 							</div>
 							<span class="d-flex justify-content-end">
 								<router-link exact to="/">Back to polls </router-link>
@@ -274,6 +301,11 @@ export default {
 		return {
 			polllist: true,
 			image: null,
+			edit_firstname: "Edit your First Name",
+			edit_lastname: "Edit your Last Name",
+			edit_place_of_work: "Edit your place of work",
+			edit_about: "Edit your bio ",
+			edit_position: "Edit your position",
 		};
 	},
 	methods: {

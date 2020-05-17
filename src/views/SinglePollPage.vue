@@ -23,12 +23,7 @@
 										<!-- <router-link to="/" class="link text-uppercase">{{
 											getSinglePoll.poller_username
 										}}</router-link> -->
-										<modal
-											:title="getSinglePoll.poller_username"
-											:value="getSinglePoll.poller_username"
-											:id="getSinglePoll.id"
-											:body="getSinglePoll"
-										/>
+										
 										<span
 											v-if="
 												getUser.userObj.user.username ===
@@ -37,13 +32,14 @@
 										>
 											<!-- this modal is responsible for editing a single poll -->
 											<modal
-												title="Edit poll"
+												:title="poll_title"
 												:id="getSinglePoll.id"
 												:value="getSinglePoll.question"
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="editPoll"
 											/>
+											
 											<!-- end of modal for editing a single for -->
 										</span>
 										<span class="sl-date">{{ getSinglePoll.pub_date }} </span>
@@ -93,10 +89,10 @@
 															<i class="fa fa-trash text-danger"></i>Delete
 														</span>
 														<span class=" d-flex linkHover">
-															<i class="fa fa-pencil mr-6 text-success"></i>
+															
 															<!-- this modal is responsible for editing a single choice -->
 															<modal
-																title="Edit"
+																:title="choice_title"
 																:poll_id="getSinglePoll.id"
 																:id="choice.id"
 																:value="choice.choice_text"
@@ -153,19 +149,21 @@ import { mapGetters } from "vuex";
 import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
-import modal from "../reusuable_components/userProfileModal.vue";
+import modal from "../reusuable_components/modal.vue";
 
 export default {
 	components: {
 		ProfileImageHeader,
 		TrendingLayout,
 		MyHeader,
-		modal
+		modal,
 	},
 	data() {
 		return {
 			question: "",
-			choice_text: ""
+			choice_text: "",
+			poll_title: "Edit poll",
+			choice_title: "Edit choice",
 		};
 	},
 	methods: {
@@ -209,11 +207,11 @@ export default {
 			this.$store
 				.dispatch("editChoice", { id, poll_id, choice_text })
 				.then(() => this.$router.push("/"));
-		}
+		},
 	},
 	computed: {
-		...mapGetters(["getSinglePoll", "getUserID", "getUser"])
-	}
+		...mapGetters(["getSinglePoll", "getUserID", "getUser"]),
+	},
 };
 </script>
 

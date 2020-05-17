@@ -166,12 +166,12 @@
 								aria-expanded="false"
 							>
 								<img
-									:src="getImage(userprofile.user.profile.image)"
+									:src="getImage(userprofile.image)"
 									alt="user"
 									class="img-circle"
 								/>
 								<span class="hidden-md-down"
-									>{{ userprofile.user.username }} &nbsp;<i
+									>{{ getUser.userObj.user.username }} &nbsp;<i
 										class="fa fa-angle-down"
 									></i
 								></span>
@@ -181,10 +181,10 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img :src="getImage(userprofile.user.profile.image)" alt="user" />
+												<img :src="getImage(userprofile.image)" alt="user" />
 											</div>
 											<div class="u-text">
-												<h4>{{ userprofile.user.username }}</h4>
+												<h4>{{ getUser.userObj.user.username }}</h4>
 
 												<router-link
 													to="profile"
@@ -265,7 +265,7 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters(["userprofile", "isLoggedIn"]),
+		...mapGetters(["userprofile", "isLoggedIn", "getUser"]),
 	},
 	watch: {
 		searchPolls() {

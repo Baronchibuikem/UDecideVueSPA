@@ -102,8 +102,6 @@
 																>
 																	<div
 																		class="col-md-12 linkHover"
-																		data-toggle="tooltip"
-																		title="vote"
 																		v-if="choice.choice_text !== null"
 																	>
 																		<!-- Here we call the voteChoice method and pass in the poll object and the selected choice id -->

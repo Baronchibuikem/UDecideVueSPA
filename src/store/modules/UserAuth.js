@@ -4,7 +4,22 @@ import { apiBaseUrl } from "../baseUrl";
 const state = {
 	// The keys defined below represents the initial state of our data the first time our app loads
 	user: {
-		userObj: {},
+		userObj: {
+			user: {
+				id: "",
+				username: "",
+				follow_status: {},
+				profile: {
+					first_name: "",
+					last_name: "",
+					place_of_work: "",
+					position: "",
+					about: "",
+					image: "",
+					photo: "",
+				},
+			},
+		},
 		followers: [],
 		followed: [],
 		polls: [],
@@ -54,7 +69,7 @@ const getters = {
 	isAuthenticated: (state) => state.loggedIn,
 	viewUserProfile: (state) => state.viewuser,
 	errorStatus: (state) => state.error,
-	userprofile: (state) => state.user.userObj,
+	userprofile: (state) => state.user.userObj.user.profile,
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -237,7 +252,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("auth_success", response.data);
+				commit("update_user", response.data);
 			});
 	},
 };
@@ -268,7 +283,7 @@ const mutations = {
 
 	update_user(state, payload) {
 		const { ...user } = payload;
-		state.user.userObj = user;
+		state.user.userObj.user.profile = user;
 	},
 	/* Used to update the states which are perculiar for display data specific to a user or userprofile
 	Since the the payload contains a user object, while destructing the payload, we use spread operator

@@ -1,14 +1,13 @@
 <template>
 	<div>
-		<!-- <form @click="eventname"> -->
-			<form @click="execute(id, poll_id, text)">
+			<form>
 			<!-- Button trigger modal -->
 			<div class="" data-toggle="modal" :data-target="`#${id}`">
-				<i
-					class="fa fa-pencil text-info"
-					data-toggle="tooltip"
-					title="edit"
-				></i>
+				<span data-toggle="tooltip" title="edit">
+					<i
+					class="fa fa-pencil text-info"></i>Edit
+				</span>
+			
 			</div>
 
 			<!-- Modal -->
@@ -23,7 +22,7 @@
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Edit poll</h5>
+							<h5 class="modal-title">{{ title }}</h5>
 							<button
 								type="button"
 								class="close"
@@ -85,6 +84,7 @@ export default {
 			if (this.submit) {
 				// let choice_text = this.value;
 				this.submit({ param, param2, param3 });
+				this.$router.push("/");
 			}
 		},
 	},
