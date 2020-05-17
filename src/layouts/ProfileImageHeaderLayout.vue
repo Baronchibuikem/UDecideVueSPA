@@ -16,7 +16,7 @@
 						width="100%"
 					/> -->
 					<img
-						:src="getUser.userObj.user.profile.photo"
+						:src="getImage(this.getUser.userObj.user.profile.image)"
 						class="header-image"
 						alt="My profile image"
 						width="100%"
@@ -124,6 +124,11 @@ export default {
 			"isAuthenticated",
 			"getuserID",
 		]),
+	},
+	methods: {
+		getImage(pic) {
+			return `https://res.cloudinary.com/dwzk9ckul/${pic}`;
+		},
 	},
 };
 </script>
