@@ -16,7 +16,7 @@
 						width="100%"
 					/> -->
 					<img
-						:src="getUser.userObj.user.profile.image"
+						:src="getUser.userObj.user.profile.photo"
 						class="header-image"
 						alt="My profile image"
 						width="100%"
