@@ -55,7 +55,7 @@
 													<!-- <PollMenu></PollMenu> -->
 													<div class="sl-left">
 														<img
-															src="../assets/img/profileimage.png"
+															:src="poll.poller_image"
 															alt="user"
 															class="img-circle"
 														/>
@@ -82,6 +82,7 @@
 														<div class="m-t-20">
 															<div class="col-md-12 col-xs-12 linkHover">
 																<p @click="singlePoll(poll.id)">
+																
 																	{{ poll.question }}
 																</p>
 															</div>
@@ -168,7 +169,7 @@
 											</div>
 										</div>
 									</div>
-									{{ searchPollLength }}
+									
 								</div>
 								<!--second tab-->
 								<div class="tab-pane" id="profile" role="tabpanel">

@@ -115,7 +115,7 @@
 											/>
 										</span>
 									</div>
-									<div class="row mx-3">
+									<!-- <div class="row mx-3">
 										<span class="py-6 col-md-3">
 											Number of followers
 										</span>
@@ -138,7 +138,7 @@
 										>
 											{{ follower.total_followed_no }}
 										</span>
-									</div>
+									</div> -->
 									<!-- <div class="row mx-3">
 										<span class="py-6 col-md-3">
 											Profile Image
