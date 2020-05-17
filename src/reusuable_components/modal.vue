@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<form @click="eventname">
+		<!-- <form @click="eventname"> -->
+			<form @click="execute(id, poll_id, text)">
 			<!-- Button trigger modal -->
 			<div class="" data-toggle="modal" :data-target="`#${id}`">
 				<i
@@ -76,7 +77,7 @@ export default {
 	data() {
 		return {
 			text: this.value,
-			submit: this.eventProps
+			submit: this.eventProps,
 		};
 	},
 	methods: {
@@ -85,8 +86,8 @@ export default {
 				// let choice_text = this.value;
 				this.submit({ param, param2, param3 });
 			}
-		}
-	}
+		},
+	},
 };
 </script>
 

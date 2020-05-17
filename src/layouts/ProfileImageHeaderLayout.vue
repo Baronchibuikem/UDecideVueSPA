@@ -193,8 +193,7 @@ export default {
 				.dispatch("updateProfileImage", {
 					image: form,
 				})
-				.then(() => this.$router.push("/"))
-				.catch((err) => console.error(err));
+				.then(() => this.$router.push("/"));
 		},
 	},
 };

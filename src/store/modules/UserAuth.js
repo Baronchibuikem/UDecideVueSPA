@@ -265,6 +265,10 @@ const mutations = {
 		state.token = "";
 	},
 
+	update_user(state, payload) {
+		const { ...user } = payload;
+		state.user.userObj = user;
+	},
 	/* Used to update the states which are perculiar for display data specific to a user or userprofile
 	Since the the payload contains a user object, while destructing the payload, we use spread operator
 	to get the keys in the user object */

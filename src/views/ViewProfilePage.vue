@@ -45,6 +45,7 @@
 							</ul>
 							<div class="tab-content">
 								<div class="tab-pane active" id="profile" role="tabpanel">
+								
 									<div class="mx-3 row mb-7">
 										<span class="py-6 col-md-3">
 											Username
@@ -275,14 +276,12 @@ export default {
 	},
 	methods: {
 		updateProfile(payload) {
-			console.log(payload, "Profile update");
 			const { param, param3 } = { ...payload };
 			let id = param;
 			if (id === 1) {
 				const data = {
 					first_name: param3,
 				};
-				console.log(data, "text from id 1");
 				this.$store
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
@@ -290,7 +289,6 @@ export default {
 				const data = {
 					last_name: param3,
 				};
-				console.log(data, "text from id 2");
 				this.$store
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
@@ -298,7 +296,6 @@ export default {
 				const data = {
 					place_of_work: param3,
 				};
-				console.log(data, "text from id 3");
 				this.$store
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
@@ -306,7 +303,6 @@ export default {
 				const data = {
 					position: param3,
 				};
-				console.log(data, "text from id 4");
 				this.$store
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
@@ -314,26 +310,24 @@ export default {
 				const data = {
 					about: param3,
 				};
-				console.log(data, "text from id 5");
 				this.$store
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
 			}
 		},
-		imageSelected(event) {
-			this.image = event.target.files[0];
-		},
-		updateImage() {
-			let form = new FormData();
-			let image = this.image;
-			form.append("image", image);
-			this.$store
-				.dispatch("updateProfileImage", {
-					image: form,
-				})
-				.then(() => this.$router.push("/profile"))
-				.catch((err) => console.error(err));
-		},
+		// imageSelected(event) {
+		// 	this.image = event.target.files[0];
+		// },
+		// updateImage() {
+		// 	let form = new FormData();
+		// 	let image = this.image;
+		// 	form.append("image", image);
+		// 	this.$store
+		// 		.dispatch("updateProfileImage", {
+		// 			image: form,
+		// 		})
+		// 		.then(() => this.$router.push("/profile"));
+		// },
 	},
 	computed: {
 		...mapGetters(["getUser", "getSinglePoll"]),

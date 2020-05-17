@@ -115,7 +115,7 @@
 								View user profile
 							</button>
 						</div>
-						{{ getUser }}
+						
 					</div>
 					<div class="modal-footer">
 						<button
@@ -139,7 +139,7 @@ export default {
 	data() {
 		return {
 			user_id: this.id,
-			show: false
+			show: false,
 		};
 	},
 	methods: {
@@ -150,12 +150,12 @@ export default {
 		followUser(param, param2) {
 			let data = {
 				follower: param2,
-				following: param
+				following: param,
 			};
 			this.$store
 				.dispatch("followUser", { ...data })
 				.then(() => this.$router.push("/profile"));
-		}
+		},
 	},
 	computed: {
 		// This returns all our updated state
@@ -164,9 +164,9 @@ export default {
 			"numberOfFollowed",
 			"numberOfPolls",
 			"viewUserProfile",
-			"getUser"
-		])
-	}
+			"getUser",
+		]),
+	},
 	// mounted() {
 	// 	this.$nextTick(() => {
 	// 		this.viewUserProfileAction(this.user_id);
