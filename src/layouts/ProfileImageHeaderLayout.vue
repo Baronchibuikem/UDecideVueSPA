@@ -11,7 +11,7 @@
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
 					<div @click.prevent="updateImageProfile" data-toggle="modal" data-target="#modelId">
 						<img
-						:src="getUser.userObj.user.profile.image"
+						:src="getImage(getUser.userObj.user.profile.image)"
 						class="header-image"
 						alt="My profile image"
 						width="70%"
@@ -35,7 +35,7 @@
 										<div class="container-fluid">	
 											<div class="mb-3">											
 												<img
-													:src="getUser.userObj.user.profile.image"
+													:src="getImage(getUser.userObj.user.profile.image)"
 													class="header-image"
 													alt="My profile image"
 													width="50%"
