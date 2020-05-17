@@ -139,19 +139,13 @@
 											{{ follower.total_followed_no }}
 										</span>
 									</div>
-									<div class="row mx-3">
+									<!-- <div class="row mx-3">
 										<span class="py-6 col-md-3">
 											Profile Image
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											{{ getUser.userObj.user.profile.photo }}
-											<!-- <modal
-												:id="1"
-												:value="getUser.userObj.user.profile.first_name"
-												class="edit"
-												data-toggle="tooltip"
-												:eventProps="updateProfile"
-											/> -->
+											
 											<form>
 												<input
 													type="file"
@@ -167,7 +161,7 @@
 												</button>
 											</form>
 										</span>
-									</div>
+									</div> -->
 									<div class="row mx-3">
 										<span class="py-6 col-md-3">
 											About me
@@ -271,12 +265,12 @@ export default {
 		ProfileImageHeader,
 		TrendingLayout,
 		MyHeader,
-		modal
+		modal,
 	},
 	data() {
 		return {
 			polllist: true,
-			image: null
+			image: null,
 		};
 	},
 	methods: {
@@ -286,7 +280,7 @@ export default {
 			let id = param;
 			if (id === 1) {
 				const data = {
-					first_name: param3
+					first_name: param3,
 				};
 				console.log(data, "text from id 1");
 				this.$store
@@ -294,7 +288,7 @@ export default {
 					.then(() => this.$router.push("/profile"));
 			} else if (id === 2) {
 				const data = {
-					last_name: param3
+					last_name: param3,
 				};
 				console.log(data, "text from id 2");
 				this.$store
@@ -302,7 +296,7 @@ export default {
 					.then(() => this.$router.push("/profile"));
 			} else if (id === 3) {
 				const data = {
-					place_of_work: param3
+					place_of_work: param3,
 				};
 				console.log(data, "text from id 3");
 				this.$store
@@ -310,7 +304,7 @@ export default {
 					.then(() => this.$router.push("/profile"));
 			} else if (id === 4) {
 				const data = {
-					position: param3
+					position: param3,
 				};
 				console.log(data, "text from id 4");
 				this.$store
@@ -318,7 +312,7 @@ export default {
 					.then(() => this.$router.push("/profile"));
 			} else if (id === 5) {
 				const data = {
-					about: param3
+					about: param3,
 				};
 				console.log(data, "text from id 5");
 				this.$store
@@ -335,15 +329,15 @@ export default {
 			form.append("image", image);
 			this.$store
 				.dispatch("updateProfileImage", {
-					image: form
+					image: form,
 				})
 				.then(() => this.$router.push("/profile"))
-				.catch(err => console.error(err));
-		}
+				.catch((err) => console.error(err));
+		},
 	},
 	computed: {
-		...mapGetters(["getUser", "getSinglePoll"])
-	}
+		...mapGetters(["getUser", "getSinglePoll"]),
+	},
 };
 </script>
 

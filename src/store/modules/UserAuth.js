@@ -8,14 +8,14 @@ const state = {
 		followers: [],
 		followed: [],
 		polls: [],
-		likes: []
+		likes: [],
 	},
 	viewuser: {
 		userObj: {},
 		followers: [],
 		followed: [],
 		polls: [],
-		likes: []
+		likes: [],
 	},
 	userID: null,
 	error: [],
@@ -36,24 +36,24 @@ const state = {
 		poll_has_been_bookmarked: "",
 		poll_has_been_liked: "",
 		total_likes: "",
-		vote_count: ""
-	}
+		vote_count: "",
+	},
 };
 
 /* getters pull updated value from our state data's and they are then called by the components that needs them to
 present data to the user(s) */
 const getters = {
-	isLoggedIn: state => !!state.token,
-	authStatus: state => state.status,
-	getUser: state => state.user,
-	numberOfFollowers: state => state.user.followers.length,
-	numberOfFollowed: state => state.user.followed.length,
-	numberOfPolls: state => state.user.polls.length,
-	getToken: state => state.token,
-	getuserID: state => state.userID,
-	isAuthenticated: state => state.loggedIn,
-	viewUserProfile: state => state.viewuser,
-	errorStatus: state => state.error
+	isLoggedIn: (state) => !!state.token,
+	authStatus: (state) => state.status,
+	getUser: (state) => state.user,
+	numberOfFollowers: (state) => state.user.followers.length,
+	numberOfFollowed: (state) => state.user.followed.length,
+	numberOfPolls: (state) => state.user.polls.length,
+	getToken: (state) => state.token,
+	getuserID: (state) => state.userID,
+	isAuthenticated: (state) => state.loggedIn,
+	viewUserProfile: (state) => state.viewuser,
+	errorStatus: (state) => state.error,
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -66,9 +66,9 @@ const actions = {
 			axios({
 				url: `${apiBaseUrl.baseRoute}/users/login/`,
 				data: payload,
-				method: "POST"
+				method: "POST",
 			})
-				.then(response => {
+				.then((response) => {
 					const token = response.data.token;
 					const user = response.data.pk;
 					localStorage.setItem("token", token);
@@ -80,7 +80,7 @@ const actions = {
 					dispatch("getUser", user);
 					resolve(response);
 				})
-				.catch(err => {
+				.catch((err) => {
 					commit("auth_error", err);
 					// localStorage.removeItem("token");
 					reject(err);
@@ -90,7 +90,7 @@ const actions = {
 
 	logout({ commit }) {
 		// This action is used to logout a user
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			commit("logout");
 			localStorage.removeItem("token");
 			delete axios.defaults.headers.common["Authorization"];
@@ -103,12 +103,12 @@ const actions = {
 			commit("auth_request");
 			axios
 				.post(`${apiBaseUrl.baseRoute}/users/signup/`, payload)
-				.then(response => {
+				.then((response) => {
 					// We call a mutation to commit our response data
 					commit("auth_success", response);
 					resolve(response);
 				})
-				.catch(err => {
+				.catch((err) => {
 					commit("auth_error", err);
 					// localStorage.removeItem("token");
 					reject(err);
@@ -120,13 +120,13 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
-			.then(response => {
+			.then((response) => {
 				console.log(response.data);
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
@@ -138,13 +138,13 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
-			.then(response => {
+			.then((response) => {
 				console.log(response.data);
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
@@ -157,9 +157,9 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.patch(
@@ -167,7 +167,7 @@ const actions = {
 				payload,
 				config
 			)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("update_user", response.data);
@@ -178,13 +178,13 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.post(`${apiBaseUrl.baseRoute}/social/follow-user/`, payload, config)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("view_user", response.data);
@@ -201,19 +201,19 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		console.log(config, "authorization", id, "id", Id, "UserId");
 		axios
 			.delete(`${apiBaseUrl.baseRoute}/social/unfollow-user/${Id}/`, {
 				headers: {
-					Authorization: `Token ${getters.getToken}`
+					Authorization: `Token ${getters.getToken}`,
 				},
-				data: Id
+				data: Id,
 			})
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("view_user", response.data);
@@ -223,9 +223,9 @@ const actions = {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
-				Authorization: `Token ${getters.getToken}`
+				Authorization: `Token ${getters.getToken}`,
 				// "Content-Type": "application/json"
-			}
+			},
 		};
 		axios
 			.patch(
@@ -233,12 +233,12 @@ const actions = {
 				payload.image,
 				config
 			)
-			.then(response => {
+			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("auth_success", response.data);
 			});
-	}
+	},
 };
 
 // These are used to update our state depending on the response gotten when an action is dispatched
@@ -323,9 +323,9 @@ const mutations = {
 		this repeated question using javascript Set method and loop over the incoming date to fetch only the
 		questions which we then store in the filteredList variable. Next we use the spread operator on our set of questions,
 		converting it into a list and pass it to the state.trendingPolls to be updated in the state */
-		let filteredList = new Set(payload.map(poll => poll.question));
+		let filteredList = new Set(payload.map((poll) => poll.question));
 		state.trendingPolls = [...filteredList];
-	}
+	},
 };
 
 /* 
@@ -344,6 +344,6 @@ export default {
 	state,
 	getters,
 	actions,
-	mutations
+	mutations,
 	// config
 };

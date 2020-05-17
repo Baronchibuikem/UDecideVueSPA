@@ -9,18 +9,64 @@
 					width="50%"
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
-					<!-- <img
+					<div @click.prevent="updateImageProfile" data-toggle="modal" data-target="#modelId">
+						<img
 						:src="getUser.userObj.user.profile.photo"
 						class="header-image"
 						alt="My profile image"
-						width="100%"
-					/> -->
-					<img
+						width="70%"
+						title="Clic to edit picture"
+						data-toggle="tooltip"
+					/>
+					</div>
+					<div v-if="showmodal === true">
+						<form>
+						<!-- Modal -->
+						<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+										<div class="modal-header">
+												<h5 class="modal-title">Edit your image</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+											</div>
+									<div class="modal-body">
+										<div class="container-fluid">	
+											<div class="mb-3">											
+												<img
+													:src="getUser.userObj.user.profile.photo"
+													class="header-image"
+													alt="My profile image"
+													width="50%"
+												/>
+											</div>
+												<input
+													type="file"
+													accept="image/*"
+													@change="imageSelected"
+													class="form-control"
+												/>
+																				
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary"  data-dismiss="modal" @click.prevent="updateImage">Save</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						</form>
+						
+					</div>
+
+					<!-- <img
 						:src="getImage(this.getUser.userObj.user.profile.image)"
 						class="header-image"
 						alt="My profile image"
 						width="100%"
-					/>
+					/> -->
 
 					<h4 class="card-title text-capitalize">
 						<!-- This return the login in users username. It's coming from getters defined
@@ -111,7 +157,12 @@
 import { mapGetters } from "vuex";
 export default {
 	name: "ProfileImageHeader",
-
+	data() {
+		return {
+			showmodal: false,
+			image: null,
+		};
+	},
 	computed: {
 		// This returns all our updated state
 		...mapGetters([
@@ -123,10 +174,34 @@ export default {
 			"isAuthenticated",
 			"getuserID",
 		]),
+		image: {
+			get: function(newValue) {
+				const self = this;
+				const photo = newValue;
+				return (self.image = photo);
+			},
+		},
 	},
 	methods: {
 		getImage(pic) {
 			return `https://res.cloudinary.com/dwzk9ckul/${pic}`;
+		},
+		updateImageProfile() {
+			this.showmodal = true;
+		},
+		imageSelected(event) {
+			this.image = event.target.files[0];
+		},
+		updateImage() {
+			let form = new FormData();
+			let image = this.image;
+			form.append("image", image);
+			this.$store
+				.dispatch("updateProfileImage", {
+					image: form,
+				})
+				.then(() => this.$router.push("/"))
+				.catch((err) => console.error(err));
 		},
 	},
 };
@@ -140,6 +215,6 @@ i:hover {
 	display: block !important;
 	margin: auto auto !important;
 
-	border-radius: 50% !important;
+	border-radius: 30% !important;
 }
 </style>
