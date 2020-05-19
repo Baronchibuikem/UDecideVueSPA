@@ -23,7 +23,14 @@ const state = {
 		followers: [],
 		followed: [],
 		polls: [],
-		likes: [],
+		likes: [
+			{
+				like_date: "",
+				question: "",
+				pk: "",
+				pub_date: "",
+			},
+		],
 	},
 	viewuser: {
 		userObj: {},
@@ -70,6 +77,10 @@ const getters = {
 	viewUserProfile: (state) => state.viewuser,
 	errorStatus: (state) => state.error,
 	userprofile: (state) => state.user.userObj.user.profile,
+	UserLikes: (state) =>
+		state.user.likes.map((like) => {
+			return like.question;
+		}),
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -309,7 +320,6 @@ const mutations = {
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
 	SINGLE_POLL: (state, payload) => {
-		console.log(payload, "from mutation");
 		const {
 			id,
 			pub_date,

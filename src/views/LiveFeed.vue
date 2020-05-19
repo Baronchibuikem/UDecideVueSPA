@@ -153,7 +153,14 @@
 															>
 															
 															<!--  Here we call the likePoll method and pass in the poll object and current user id which we get from our getUser from getters -->
+														<!-- <div v-for="like in getUser.likes" :key="like.id"> -->
 															<span
+															v-if="UserLikes.indexOf(poll.question) !== -1">
+															You already like this poll
+															</span>
+															
+															<span
+															v-else
 																class="linkHover m-r-10"
 																data-toggle="tooltip"
 																title="Like poll"
@@ -162,7 +169,9 @@
 																<i class="fa fa-heart text-danger"></i>
 																{{ poll.total_likes }} Like
 															</span>
+														<!-- </div> -->
 														</div>
+														<!-- <h1>{{UserLikes}} UUU</h1> -->
 													</div>
 												</div>
 											</div>
@@ -322,6 +331,7 @@ export default {
 				this.$router.push(`user/${param}`);
 			});
 		},
+
 		// getCurrentUser(param) {
 		// 	this.$store.dispatch("getSingleUser", param).then(() => {
 		// 		// this.$router.push("/profile");
@@ -343,6 +353,7 @@ export default {
 			"getuserID",
 			"searchPollResults",
 			"searchPollLength",
+			"UserLikes",
 		]),
 		displayPolls() {
 			if (!this.searchPollResults.length) {

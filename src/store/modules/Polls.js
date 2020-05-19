@@ -32,6 +32,10 @@ const getters = {
 	getSinglePoll: (state) => state.SinglePoll,
 	searchPollResults: (state) => state.search_polls,
 	searchPollLength: (state) => state.search_polls.length,
+	pollQuestion: (state) =>
+		state.Polls.map((poll) => {
+			return poll.question;
+		}),
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
