@@ -34,6 +34,7 @@
 										class="form-control"
 										placeholder="Add Option"
 										:readonly="!isQuestionAvailable"
+										maxlength="28"
 									/>
 									<div class="input-group-append">
 										<button
@@ -95,7 +96,7 @@ export default {
 			initialValue: { choice_text: [{}] },
 			choice_type: "TEXT",
 			showForm: false,
-			date: ""
+			date: "",
 		};
 	},
 	methods: {
@@ -118,13 +119,13 @@ export default {
 					question: this.question,
 					choices: this.initialValue.choice_text,
 					choice_type: this.choice_type,
-					expire_date: this.date
+					expire_date: this.date,
 				};
 				this.$store
 					.dispatch("newPoll", data)
 					.then(() => this.$router.push("/"));
 			}
-		}
+		},
 	},
 	computed: {
 		isQuestionAvailable() {
@@ -138,8 +139,8 @@ export default {
 		},
 		submitable() {
 			return this.isQuestionAvailable && this.isOptionsAvailable;
-		}
-	}
+		},
+	},
 };
 </script>
 <style scoped>
