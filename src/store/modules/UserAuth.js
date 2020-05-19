@@ -319,43 +319,6 @@ const mutations = {
 
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
-	SINGLE_POLL: (state, payload) => {
-		const {
-			id,
-			pub_date,
-			question,
-			poller_username,
-			choice_type,
-			expire_date,
-			slug_field,
-			poll_has_been_bookmarked,
-			poll_has_been_liked,
-			total_likes,
-			vote_count,
-			...choices
-		} = payload;
-		state.SinglePoll.id = id;
-		state.SinglePoll.pub_date = pub_date;
-		state.SinglePoll.question = question;
-		state.SinglePoll.poller_username = poller_username;
-		state.SinglePoll.choice_type = choice_type;
-		state.SinglePoll.expire_date = expire_date;
-		state.SinglePoll.slug_field = slug_field;
-		state.SinglePoll.poll_has_been_bookmarked = poll_has_been_bookmarked;
-		state.SinglePoll.poll_has_been_liked = poll_has_been_liked;
-		state.SinglePoll.total_likes = total_likes;
-		state.SinglePoll.vote_count = vote_count;
-		state.SinglePoll.choices = { ...choices };
-	},
-
-	TRENDING_POLLS: (state, payload) => {
-		/* Since we are getting a list of items from the API which contains repeated questions, we filter out
-		this repeated question using javascript Set method and loop over the incoming date to fetch only the
-		questions which we then store in the filteredList variable. Next we use the spread operator on our set of questions,
-		converting it into a list and pass it to the state.trendingPolls to be updated in the state */
-		let filteredList = new Set(payload.map((poll) => poll.question));
-		state.trendingPolls = [...filteredList];
-	},
 };
 
 /* 

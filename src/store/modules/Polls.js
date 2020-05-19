@@ -21,12 +21,22 @@ const state = {
 		total_likes: "",
 		vote_count: "",
 	},
+	bookmarks: [
+		{
+			id: "",
+			poll: "",
+			user: "",
+			created: "",
+			poll_question_text: "",
+		},
+	],
 };
 
 /* getters pull updated value from our state data's and they are then called by the components that needs them to
 present data to the user(s) */
 const getters = {
 	allPolls: (state) => state.Polls,
+	getBookmarks: (state) => state.bookmarks,
 	pollsTrending: (state) => state.trendingPolls,
 	getToken: (state) => state.token,
 	getSinglePoll: (state) => state.SinglePoll,
@@ -192,7 +202,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("SUCCESS", response.data);
+				commit("BOOKMARK_SUCCESS", response.data);
 			});
 	},
 
@@ -242,6 +252,34 @@ const actions = {
 				commit("SEARCH_POLLS", response.data);
 			});
 	},
+	getBookmarks({ commit, getters }, payload) {
+		console.log("GET BOOKMARK", payload);
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`,
+			},
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/userprofile/bookmark-poll/`, config)
+			.then((response) => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("BOOKMARK_SUCCESS", response.data);
+			});
+	},
+	deleteBookmark({ getters }, id) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`,
+				// "Content-Type": "application/json"
+			},
+		};
+		axios.delete(
+			`${apiBaseUrl.baseRoute}/userprofile/delete-bookmark/${id}/`,
+			id,
+			config
+		);
+	},
 };
 
 // These are used to update our state depending on the response gotten when an action is dispatched
@@ -287,6 +325,14 @@ const mutations = {
 	},
 	SEARCH_POLLS(state, payload) {
 		state.search_polls = payload;
+	},
+	BOOKMARK_SUCCESS(state, payload) {
+		const { id, poll, user, created, poll_question_text } = { ...payload };
+		(state.bookmarks.id = id),
+			(state.bookmarks.poll = poll),
+			(state.bookmarks.user = user),
+			(state.bookmarks.created = created);
+		state.poll_question_text = poll_question_text;
 	},
 };
 

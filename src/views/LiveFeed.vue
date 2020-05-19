@@ -169,9 +169,9 @@
 																<i class="fa fa-heart text-danger"></i>
 																{{ poll.total_likes }} Like
 															</span>
-														<!-- </div> -->
+													
 														</div>
-														<!-- <h1>{{UserLikes}} UUU</h1> -->
+														
 													</div>
 												</div>
 											</div>
@@ -338,7 +338,7 @@ export default {
 		// 	});
 		// },
 		// Here we call our getPolls action
-		...mapActions(["getPolls", "getTrendingPolls"]),
+		...mapActions(["getPolls", "getTrendingPolls", "getBookmarks"]),
 	},
 	computed: {
 		// This returns all our updated state
@@ -368,6 +368,7 @@ export default {
 		this.$nextTick(() => {
 			this.getTrendingPolls();
 			this.getPolls();
+			this.getBookmarks();
 			// this.getTrendingFeeds();
 		});
 	},

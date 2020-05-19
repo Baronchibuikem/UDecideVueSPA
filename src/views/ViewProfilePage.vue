@@ -252,20 +252,16 @@
 									</span>
 								</div>
 								<div class="tab-pane" id="bookmarks" role="tabpanel">
-									<!-- <span
-										class="py-6 col-md-6 text-left mt-2"
-										v-for="(follower, index) in getUser.followed"
-										v-bind:key="index"
-									>
-										<h6 class="linkHover">
-											@{{ follower.following_username }}
-											
-										</h6>
-										<p>This user's Bio will be updated here shortly</p>
-										<hr />
-									</span> -->
-									<span class="linkHover"  data-toggle="tooltip" title="click to view your profile"> Bookmarks</span>
-								</div>
+									<span
+										class="py-2 col-md-6 text-left mt-2 d-flex"
+										v-for="(bookmark) in getBookmarks"
+										v-bind:key="bookmark.id"
+									>										
+										<p>{{ bookmark.poll_question_text}}</p>
+										<i class="fa fa-trash text-danger" @click.prevent="deleteBookmark(bookmark.id)"></i><hr />
+									</span>
+									{{getBookmarks}}
+									</div>
 							</div>
 							<span class="d-flex justify-content-end">
 								<router-link exact to="/">Back to polls </router-link>
@@ -349,22 +345,15 @@ export default {
 					.then(() => this.$router.push("/profile"));
 			}
 		},
-		// imageSelected(event) {
-		// 	this.image = event.target.files[0];
-		// },
-		// updateImage() {
-		// 	let form = new FormData();
-		// 	let image = this.image;
-		// 	form.append("image", image);
-		// 	this.$store
-		// 		.dispatch("updateProfileImage", {
-		// 			image: form,
-		// 		})
-		// 		.then(() => this.$router.push("/profile"));
-		// },
+		// For deleting bookmarked poll
+		deleteBookmark(id) {
+			this.$store
+				.dispatch("deleteBookmark", id)
+				.then(() => this.$router.push("/profile"));
+		},
 	},
 	computed: {
-		...mapGetters(["getUser", "getSinglePoll", "userprofile"]),
+		...mapGetters(["getUser", "getSinglePoll", "userprofile", "getBookmarks"]),
 	},
 };
 </script>
