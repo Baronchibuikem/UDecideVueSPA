@@ -260,7 +260,7 @@
 										<p>{{ bookmark.poll_question_text}}</p>
 										<i class="fa fa-trash text-danger" @click.prevent="deleteBookmark(bookmark.id)"></i><hr />
 									</span>
-									{{getBookmarks}}
+									
 									</div>
 							</div>
 							<span class="d-flex justify-content-end">
