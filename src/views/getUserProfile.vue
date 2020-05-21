@@ -10,12 +10,7 @@
 					<div class="container">
 						<div class="shadow card page-container">
 							<div class="col-md-12 col-sm-12">
-								<!-- <img
-									src="../assets/img/profileimage.png"
-									alt=""
-									class="image-responsive img_style"
-									width="50%"
-								/> -->
+								
 								<!-- <div
 									v-if="show === false"
 									class="d-flex justify-content-center"
@@ -28,7 +23,14 @@
 									</button>
 								</div> -->
 								<div v-if="show === true">
-									<div class="col-md-6 col-sm-6">
+									{{ viewUserProfile}}
+									<div v-if="viewUserProfile.userObj.user.profile.image !== null" width="50%">
+									<img :src="viewUserProfile.userObj.user.profile.image" width="50%"/>
+									</div>
+									<div v-else>
+										<img :src="image" width="50%"/>
+									</div>
+									<div class="col-md-6 col-sm-6 mt-4">
 										<div v-if="followingUser.length > 0">
 											<button
 												class="form-control btn-info"
@@ -118,31 +120,29 @@
 												<b>Position</b>
 												{{ viewUserProfile.userObj.user.profile.position }}
 											</h6>
-											<div
+											<h6 class="mt-4">
+											<b>About</b>
+											{{ viewUserProfile.userObj.user.profile.about }}
+											</h6>
+											<!-- <div
 												v-for="(follower, index) in viewUserProfile.followers"
 												v-bind:key="index"
 											>
 												<h6 class="mt-4">
 													<b>followers</b> {{ follower.total_followers_no }}
 												</h6>
-											</div>
-											<div
+											</div> -->
+											<!-- <div
 												v-for="(follower, index) in viewUserProfile.followed"
 												v-bind:key="index"
 											>
 												<h6 class="mt-4">
 													<b>Following </b> {{ follower.total_followed_no }}
 												</h6>
-											</div>
+											</div> -->
 										</div>
 									</div>
-									<hr />
-									<div v-if="show === true">
-										<h6>
-											<b>About</b>
-											{{ viewUserProfile.userObj.user.profile.about }}
-										</h6>
-									</div>
+									
 								</div>
 
 								<div class="tab-pane" id="polls" role="tabpanel">
@@ -226,6 +226,7 @@ import ProfileImageHeader from "../layouts/ProfileImageHeaderLayout.vue";
 import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
 import modal from "../reusuable_components/modal";
+import defaultImage from "../assets/img/profileimage.png";
 
 export default {
 	name: "getUserProfile",
@@ -233,12 +234,13 @@ export default {
 		ProfileImageHeader,
 		TrendingLayout,
 		MyHeader,
-		modal
+		modal,
 	},
 	data() {
 		return {
 			user_id: this.id,
-			show: true
+			show: true,
+			image: defaultImage,
 		};
 	},
 	methods: {
@@ -250,7 +252,7 @@ export default {
 		followUser(param, param2) {
 			let data = {
 				follower: param2,
-				following: param
+				following: param,
 			};
 			this.$store
 				.dispatch("followUser", { ...data })
@@ -261,10 +263,10 @@ export default {
 			this.$store
 				.dispatch("unfollowUser", { param, param2 })
 				.then(() => this.$router.push("/"))
-				.catch(err => {
+				.catch((err) => {
 					console.log(err);
 				});
-		}
+		},
 	},
 	computed: {
 		// This returns all our updated state
@@ -273,7 +275,7 @@ export default {
 			"numberOfFollowed",
 			"numberOfPolls",
 			"viewUserProfile",
-			"getUser"
+			"getUser",
 		]),
 
 		/* this function is being used to loop over the profile of the user being clicked on
@@ -288,7 +290,7 @@ export default {
 			let following = [];
 			let unfollowing = [];
 			let currentUser = this.getUser.userObj.user.username;
-			this.viewUserProfile.followers.map(follower => {
+			this.viewUserProfile.followers.map((follower) => {
 				if (follower.follower_username === currentUser) {
 					following.push(follower.follower_username, follower.id);
 				} else {
@@ -297,8 +299,8 @@ export default {
 			});
 			console.log(following);
 			return following;
-		}
-	}
+		},
+	},
 };
 </script>
 
