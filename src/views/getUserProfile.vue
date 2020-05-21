@@ -23,7 +23,7 @@
 									</button>
 								</div> -->
 								<div v-if="show === true">
-									{{ viewUserProfile}}
+								
 									<div v-if="viewUserProfile.userObj.user.profile.image !== null" width="50%">
 									<img :src="viewUserProfile.userObj.user.profile.image" width="50%"/>
 									</div>
