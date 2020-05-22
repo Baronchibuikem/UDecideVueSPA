@@ -162,7 +162,7 @@
 															<span
 															class="text-danger"
 															v-if="UserLikes.indexOf(poll.question) !== -1">
-															You already liked this poll<i class="fa fa-excellent text-danger"></i>
+															already liked<i class="fa fa-check text-danger"></i>
 															</span>
 															
 															<span
