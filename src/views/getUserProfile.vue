@@ -11,17 +11,6 @@
 						<div class="shadow card page-container">
 							<div class="col-md-12 col-sm-12">
 								
-								<!-- <div
-									v-if="show === false"
-									class="d-flex justify-content-center"
-								>
-									<button
-										@click="getCurrentUser(viewUserProfile.userObj.user.id)"
-										class="form-control btn-info col-md-6 col-sm-6"
-									>
-										View {{ viewUserProfile.userObj.user.username }}'s profile
-									</button>
-								</div> -->
 								<div v-if="show === true">
 								
 									<div v-if="viewUserProfile.userObj.user.profile.image !== null" width="50%">
