@@ -42,7 +42,7 @@
 											
 											<!-- end of modal for editing a single for -->
 										</span>
-										<span class="sl-date">{{ getSinglePoll.pub_date }} </span>
+									
 									</div>
 									<div class="m-t-20">
 										<div class="col-md-12 col-xs-12 my-12">

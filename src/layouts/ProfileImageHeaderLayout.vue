@@ -10,14 +10,27 @@
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
 					<div @click.prevent="updateImageProfile" data-toggle="modal" data-target="#modelId">
-						<img
+						<div v-if="userprofile.image !== null" width="50%">
+							<img
+								:src="getImage(userprofile.image)"
+								class="header-image"
+								alt="My profile image"
+								width="70%"
+								title="Click to edit picture"
+								data-toggle="tooltip"
+							/>
+						</div>
+						<div v-else>
+							<img :src="image" width="50%"/>
+						</div>
+						<!-- <img
 						:src="getImage(userprofile.image)"
 						class="header-image"
 						alt="My profile image"
 						width="70%"
-						title="Clic to edit picture"
+						title="Click to edit picture"
 						data-toggle="tooltip"
-					/>
+					/> -->
 					</div>
 					<div v-if="showmodal === true">
 						<form>
@@ -34,12 +47,18 @@
 									<div class="modal-body">
 										<div class="container-fluid">	
 											<div class="mb-3">											
-												<img
-													:src="getImage(userprofile.image)"
-													class="header-image"
-													alt="My profile image"
-													width="50%"
-												/>
+												
+										<div v-if="userprofile.image !== null" width="50%">
+									<img
+										:src="getImage(userprofile.image)"
+										class="header-image"
+										alt="My profile image"
+										width="50%"
+									/>
+									</div>
+									<div v-else>
+										<img :src="image" width="50%"/>
+									</div>
 											</div>
 												<input
 													type="file"
@@ -149,13 +168,14 @@
 </template>
 
 <script>
+import defaultImage from "../assets/img/profileimage.png";
 import { mapGetters } from "vuex";
 export default {
 	name: "ProfileImageHeader",
 	data() {
 		return {
 			showmodal: false,
-			image: null,
+			image: defaultImage,
 		};
 	},
 	computed: {

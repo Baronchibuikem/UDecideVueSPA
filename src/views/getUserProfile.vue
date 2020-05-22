@@ -160,6 +160,7 @@
 											<div class="m-t-20">
 												<div class="col-md-12 col-xs-12">
 													<p>{{ poll.question }}</p>
+													{{viewUserProfile}}
 												</div>
 											</div>
 											<hr />
@@ -182,7 +183,7 @@
 												@{{ follower.follower_username }}
 												<!-- {{ follower.follwer.id }} -->
 											</h6>
-											<p>This user's Bio will be updated here shortly</p>
+											
 											<hr />
 										</div>
 									</div>
@@ -198,7 +199,7 @@
 												@{{ following.following_username }}
 												<!-- {{ follower.follwer.id }} -->
 											</h6>
-											<p>This user's Bio will be updated here shortly</p>
+											
 											<hr />
 										</div>
 									</div>
@@ -256,7 +257,7 @@ export default {
 			};
 			this.$store
 				.dispatch("followUser", { ...data })
-				.then(() => this.$router.push("/"));
+				.then(() => this.$router.push(`user/${param}`));
 		},
 		// this function is used to unfollow a user
 		unfollowUser(param, param2) {

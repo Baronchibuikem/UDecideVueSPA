@@ -3,8 +3,23 @@ import { apiBaseUrl } from "../baseUrl";
 
 const state = {
 	// The keys defined below represents the initial state of our data the first time our app loads
+	pollStatus: "",
 	token: localStorage.getItem("token") || "",
-	Polls: [],
+	Polls: [
+		{
+			choices: [{}],
+			expire_date: "",
+			id: "",
+			poll_has_expired: "",
+			poller_username: "",
+			poller_username_id: "",
+			pub_date: "",
+			question: "",
+			slug_field: "",
+			total_likes: "",
+			vote_count: "",
+		},
+	],
 	search_polls: [],
 	trendingPolls: [],
 	SinglePoll: {
@@ -46,6 +61,9 @@ const getters = {
 		state.Polls.map((poll) => {
 			return poll.question;
 		}),
+	pollStatus: (state) => {
+		state.POLLS_REQUEST;
+	},
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -53,6 +71,7 @@ const actions = {
 	// // This action is used to get all available polls from the server
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
+		console.log(response.data, "From poll");
 		// We call a mutation to commit our response data
 		commit("SUCCESS", response.data);
 	},
@@ -150,6 +169,7 @@ const actions = {
 
 	// this action is used to make a post request to like an existing poll
 	likePoll({ commit, getters }, payload) {
+		commit("POLL_REQUEST");
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
@@ -161,7 +181,8 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("SUCCESS", response.data);
+				commit("POLL_LIKED", response.data);
+				console.log(response.data, "Response from like poll");
 			});
 	},
 
@@ -285,7 +306,13 @@ const actions = {
 // These are used to update our state depending on the response gotten when an action is dispatched
 const mutations = {
 	// this simply updates the Polls data in the state with the data coming from the payload
-	SUCCESS: (state, payload) => (state.Polls = payload),
+
+	POLL_REQUEST(state) {
+		state.pollStatus = "loading";
+	},
+	SUCCESS(state, payload) {
+		(state.Polls = { ...payload }), (state.pollStatus = "success");
+	},
 	SINGLE_POLL: (state, payload) => {
 		const {
 			id,
@@ -333,6 +360,9 @@ const mutations = {
 			(state.bookmarks.user = user),
 			(state.bookmarks.created = created);
 		state.poll_question_text = poll_question_text;
+	},
+	POLL_LIKED(state, payload) {
+		state.Polls.total_likes = payload;
 	},
 };
 

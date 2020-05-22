@@ -54,18 +54,22 @@
 												<div class="sl-item">
 													<!-- <PollMenu></PollMenu> -->
 													<div class="sl-left">
+														<div v-if="poll.poller_image !== null">
 														<img
 															:src="poll.poller_image"
-															alt="user"
 															class="img-circle"
 														/>
+														</div>
+														<div v-else>
+															<img :src="image">
+														</div>
 													</div>
 
 													<div>
 														<div class="d-flex justify-content-between">
 															<div class="link">
 																<h6
-																	class="linkHover"
+																	class="linkHover font-weight-bold"
 																	@click="getProfile(poll.poller_username_id)"
 																>
 																	@{{ poll.poller_username }}
@@ -77,7 +81,7 @@
 																	:body="poll"
 																/> -->
 															</div>
-															<span class="sl-date">{{ poll.pub_date }} </span>
+															
 														</div>
 														<div class="m-t-20">
 															<div class="col-md-12 col-xs-12 linkHover">
@@ -87,7 +91,7 @@
 																</p>
 															</div>
 														</div>
-														<hr />
+													
 														<div class="m-t-20">
 															<div class="">
 																<!-- <div v-if="poll.poll_has_expired">
@@ -113,7 +117,7 @@
 																		>
 																			<button
 																				class="form-control btn-info  text-white my-1 linkHover"
-																				@click="voteChoice(poll, choice.id)"
+																				@click.prevent="voteChoice(poll, choice.id)"
 																				data-toggle="tooltip"
 																				title="vote"
 																			>
@@ -154,9 +158,11 @@
 															
 															<!--  Here we call the likePoll method and pass in the poll object and current user id which we get from our getUser from getters -->
 														<!-- <div v-for="like in getUser.likes" :key="like.id"> -->
+															
 															<span
+															class="text-danger"
 															v-if="UserLikes.indexOf(poll.question) !== -1">
-															You already like this poll
+															You already liked this poll<i class="fa fa-excellent text-danger"></i>
 															</span>
 															
 															<span
@@ -164,19 +170,22 @@
 																class="linkHover m-r-10"
 																data-toggle="tooltip"
 																title="Like poll"
-																@click="likePoll(poll, getUser.userObj.user.id)"
+																@click.prevent="likePoll(poll, getUser.userObj.user.id)"
 															>
 																<i class="fa fa-heart text-danger"></i>
 																{{ poll.total_likes }} Like
 															</span>
+															
 													
 														</div>
-														
+															<hr>
 													</div>
 												</div>
 											</div>
+											
 										</div>
 									</div>
+								
 									
 								</div>
 								<!--second tab-->
@@ -213,6 +222,7 @@ import TrendingLayout from "../layouts/TrendsLayout.vue";
 import MyHeader from "../components/MyHeader.vue";
 import MyFooter from "../components/MyFooter.vue";
 import TrendingPolls from "../views/TrendingPolls";
+import defaultImage from "../assets/img/profileimage.png";
 import modal from "../reusuable_components/userProfileModal.vue";
 
 import { mapGetters, mapActions } from "vuex";
@@ -243,6 +253,8 @@ export default {
 			current_date: "",
 			disable: true,
 			showPolls: true,
+			image: defaultImage,
+			loading: false,
 		};
 	},
 	methods: {
@@ -273,6 +285,7 @@ export default {
 			After the update we dispatch the likePoll action passing in the data as parameter
 		*/
 		likePoll(value, userID) {
+			this.loading = true;
 			const { id } = { ...value };
 			this.selected_poll = id;
 			this.poll_creator = userID;
@@ -354,6 +367,7 @@ export default {
 			"searchPollResults",
 			"searchPollLength",
 			"UserLikes",
+			"pollStatus",
 		]),
 		displayPolls() {
 			if (!this.searchPollResults.length) {
