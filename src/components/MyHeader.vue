@@ -166,7 +166,7 @@
 								aria-expanded="false"
 							>
 								<img
-									:src="getImage(userprofile.image)"
+									:src="getImage(userprofile.user_image)"
 									alt="user"
 									class="img-circle"
 								/>
@@ -181,7 +181,7 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img :src="getImage(userprofile.image)" alt="user" />
+												<img :src="getImage(userprofile.user_image)" alt="user" />
 											</div>
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
