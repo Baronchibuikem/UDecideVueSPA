@@ -101,8 +101,8 @@
 																	</h5>
 																</div>
 																<!-- Here we are looping through the choice array in our poll -->
+																<div v-else>
 																<div
-																	v-else
 																	v-for="choice in poll.choices"
 																	v-bind:key="choice.id"
 																>
@@ -141,6 +141,7 @@
 																			</button>
 																		</div>
 																	</div>
+																</div>
 																</div>
 															</div>
 														</div>
