@@ -96,9 +96,9 @@
 														<div class="m-t-20">
 															<div class="">
 																<div v-if="poll.poll_has_expired">
-																	<h5 class="text-danger">
+																	<small class="text-danger">
 																		Sorry voting on this poll has expired
-																	</h5>
+																	</small>
 																</div>
 																<!-- Here we are looping through the choice array in our poll -->
 																<div v-else>
