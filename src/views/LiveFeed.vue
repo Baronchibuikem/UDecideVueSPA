@@ -95,13 +95,14 @@
 													
 														<div class="m-t-20">
 															<div class="">
-																<!-- <div v-if="poll.poll_has_expired">
+																<div v-if="poll.poll_has_expired">
 																	<h5 class="text-danger">
 																		Sorry voting on this poll has expired
 																	</h5>
-																</div> -->
+																</div>
 																<!-- Here we are looping through the choice array in our poll -->
 																<div
+																	v-else
 																	v-for="choice in poll.choices"
 																	v-bind:key="choice.id"
 																>
