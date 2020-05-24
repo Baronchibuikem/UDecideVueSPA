@@ -253,7 +253,7 @@ export default {
 			};
 			this.$store
 				.dispatch("followUser", { ...data })
-				.then(() => this.$router.push(`user/${param}`));
+				.then(() => this.$router.push(`/`));
 		},
 		// this function is used to unfollow a user
 		unfollowUser(param, param2) {

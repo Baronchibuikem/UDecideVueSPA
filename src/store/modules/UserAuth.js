@@ -8,7 +8,10 @@ const state = {
 			user: {
 				id: "",
 				username: "",
-				follow_status: {},
+				follow_status: {
+					is_following: "",
+					is_followed: "",
+				},
 				profile: {
 					first_name: "",
 					last_name: "",
@@ -39,7 +42,25 @@ const state = {
 		],
 	},
 	viewuser: {
-		userObj: {},
+		userObj: {
+			user: {
+				id: "",
+				username: "",
+				follow_status: {
+					is_following: "",
+					is_followed: "",
+				},
+				profile: {
+					first_name: "",
+					last_name: "",
+					place_of_work: "",
+					position: "",
+					about: "",
+					image: "",
+					photo: "",
+				},
+			},
+		},
 		followers: [],
 		followed: [],
 		polls: [],
@@ -323,7 +344,6 @@ const mutations = {
 	to get the keys in the user object */
 	fetch_users(state, payload) {
 		const { followed, followers, likes, polls, ...user } = payload;
-		console.log(likes, "likes")
 		state.user.userObj = user;
 		state.user.followed = followed;
 		state.user.followers = followers;
@@ -332,6 +352,7 @@ const mutations = {
 	},
 
 	view_user(state, payload) {
+		console.log(payload, "from follow user")
 		const { followed, followers, likes, polls, ...user } = payload;
 		state.viewuser.userObj = user;
 		state.viewuser.followed = followed;
