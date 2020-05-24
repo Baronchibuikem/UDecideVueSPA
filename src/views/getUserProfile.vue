@@ -19,34 +19,41 @@
 									<div v-else>
 										<img :src="image" width="50%"/>
 									</div>
+									
 									<div class="col-md-6 col-sm-6 mt-4">
-										<div v-if="followingUser.length > 0">
-											<button
-												class="form-control btn-info"
-												data-toggle="tooltip"
-												title="click to unfollow"
-												@click="
-													unfollowUser(
-														viewUserProfile.userObj.user.id,
-														followingUser[1]
-													)
-												"
-											>
-												Following
-											</button>
+										<div v-if="viewUserProfile.userObj.user.username === getUser.userObj.user.username">
+
 										</div>
-										<div v-if="!followingUser.length > 0">
-											<button
-												class="btn-info form-control"
-												@click="
-													followUser(
-														viewUserProfile.userObj.user.id,
-														getUser.userObj.user.id
-													)
-												"
-											>
-												Follow
-											</button>
+										<div v-else>
+											<div v-if="followingUser.length > 0">
+												
+												<button
+													class="form-control btn-info"
+													data-toggle="tooltip"
+													title="click to unfollow"
+													@click="
+														unfollowUser(
+															viewUserProfile.userObj.user.id,
+															followingUser[1]
+														)
+													"
+												>
+													Following
+												</button>
+											</div>
+											<div v-if="!followingUser.length > 0">
+												<button
+													class="btn-info form-control"
+													@click="
+														followUser(
+															viewUserProfile.userObj.user.id,
+															getUser.userObj.user.id
+														)
+													"
+												>
+													Follow
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>

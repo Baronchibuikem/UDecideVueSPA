@@ -167,25 +167,6 @@ const actions = {
 			});
 	},
 
-	// this action is used to make a post request to like an existing poll
-	likePoll({ commit, getters }, payload) {
-		commit("POLL_REQUEST");
-		let config = {
-			headers: {
-				// "Content-Type": "application/json",
-				Authorization: `Token ${getters.getToken}`,
-			},
-		};
-		axios
-			.post(`${apiBaseUrl.baseRoute}/userprofile/like-poll/`, payload, config)
-			.then((response) => {
-				axios.defaults.headers.common["Authorization"] = config;
-				// We call a mutation to commit our response data
-				commit("POLL_LIKED", response.data);
-				console.log(response.data, "Response from like poll");
-			});
-	},
-
 	// This action is used to make a post request for voting on a particular choice.
 	voteChoice({ commit, getters }, payload) {
 		const { poll, choice } = { ...payload };
@@ -361,9 +342,7 @@ const mutations = {
 			(state.bookmarks.created = created);
 		state.poll_question_text = poll_question_text;
 	},
-	POLL_LIKED(state, payload) {
-		state.Polls.total_likes = payload;
-	},
+	
 };
 
 export default {

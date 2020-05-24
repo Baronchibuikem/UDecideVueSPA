@@ -22,7 +22,13 @@ const state = {
 		},
 		followers: [],
 		followed: [],
-		polls: [],
+		polls: [
+			{
+				question: "",
+				pub_date: "",
+				pk:""
+			}
+		],
 		likes: [
 			{
 				like_date: "",
@@ -154,7 +160,7 @@ const actions = {
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
 			.then((response) => {
-				console.log(response.data);
+				console.log(response.data, "getUser");
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("fetch_users", response.data);
@@ -172,7 +178,6 @@ const actions = {
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
 			.then((response) => {
-				console.log(response.data);
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("view_user", response.data);
@@ -266,6 +271,23 @@ const actions = {
 				commit("update_user", response.data);
 			});
 	},
+	// this action is used to make a post request to like an existing poll
+	likePoll({ commit, getters }, payload) {
+		commit("POLL_REQUEST");
+		let config = {
+			headers: {
+				// "Content-Type": "application/json",
+				Authorization: `Token ${getters.getToken}`,
+			},
+		};
+		axios
+			.post(`${apiBaseUrl.baseRoute}/userprofile/like-poll/`, payload, config)
+			.then((response) => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("POLL_LIKED", response.data);
+			});
+	},
 };
 
 // These are used to update our state depending on the response gotten when an action is dispatched
@@ -301,6 +323,7 @@ const mutations = {
 	to get the keys in the user object */
 	fetch_users(state, payload) {
 		const { followed, followers, likes, polls, ...user } = payload;
+		console.log(likes, "likes")
 		state.user.userObj = user;
 		state.user.followed = followed;
 		state.user.followers = followers;
@@ -315,6 +338,15 @@ const mutations = {
 		state.viewuser.followers = followers;
 		state.viewuser.polls = polls;
 		state.viewuser.likes = likes;
+	},
+	POLL_LIKED(state, payload) {
+		console.log(payload, "poll liked")
+		const {id, like_date, poll, poll_question_text, user} = {...payload}
+		state.user.userObj.user.id = user;
+		state.user.polls.pk = poll;
+		state.user.likes.like_date = like_date;
+		state.user.likes.question = poll_question_text;
+		state.user.likes.pk = id;
 	},
 
 	// this simply updates the Polls data in the state with the data coming from the payload

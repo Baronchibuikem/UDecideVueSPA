@@ -7,6 +7,7 @@
 					<ProfileImageHeader />
 				</div>
 				<div class="col-md-6">
+					
 					<div id="content_area" class="container">
 						<PollForm />
 						<div class="card rounded">
@@ -170,7 +171,7 @@
 																class="linkHover m-r-10"
 																data-toggle="tooltip"
 																title="Like poll"
-																@click.prevent="likePoll(poll, getUser.userObj.user.id)"
+																@click="likePoll(poll, getUser.userObj.user.id)"
 															>
 																<i class="fa fa-heart text-danger"></i>
 																{{ poll.total_likes }} Like
