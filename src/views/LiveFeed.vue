@@ -95,7 +95,7 @@
 														<div class="m-t-20">
 															<div class="">
 																<div v-if="poll.poll_has_expired">
-																	<small class="text-danger">
+																	<small class="">
 																		Sorry voting on this poll has expired
 																	</small>
 																</div>
@@ -147,6 +147,12 @@
 														<div class="like-comm m-t-20">
 															<!-- Here we call the bookmarkPoll method and pass in the poll object and current user id which we get from our getUser from getters -->
 															<span
+															class="text-info"
+															v-if="getUserBookmarks.indexOf(poll.question) !== -1">
+															Bookmarked<i class="fa fa-check text-info"></i>
+															</span>
+															<span
+															v-else
 																class="linkHover m-r-10"
 																data-toggle="tooltip"
 																title="bookmark poll"
@@ -154,7 +160,7 @@
 																	bookmarkPoll(poll, getUser.userObj.user.id)
 																"
 															>
-																<i class="fa fa-thumb text-danger"></i
+																<i class="fa fa-book text-danger"></i
 																> bookmark</span
 															>
 															
@@ -162,9 +168,9 @@
 														<!-- <div v-for="like in getUser.likes" :key="like.id"> -->
 															
 															<span
-															class="text-danger"
+															class="text-info"
 															v-if="UserLikes.indexOf(poll.question) !== -1">
-															already liked<i class="fa fa-check text-danger"></i>
+															Liked<i class="fa fa-check text-info"></i>
 															</span>
 															
 															<span
@@ -177,10 +183,7 @@
 																<i class="fa fa-heart text-danger"></i>
 																{{ poll.total_likes }} Like
 															</span>
-															
-													
 														</div>
-															<hr>
 													</div>
 												</div>
 											</div>
@@ -353,7 +356,7 @@ export default {
 		// 	});
 		// },
 		// Here we call our getPolls action
-		...mapActions(["getPolls", "getTrendingPolls", "getBookmarks"]),
+		...mapActions(["getPolls", "getTrendingPolls"]),
 	},
 	computed: {
 		// This returns all our updated state
@@ -370,6 +373,7 @@ export default {
 			"searchPollLength",
 			"UserLikes",
 			"pollStatus",
+			"getUserBookmarks",
 		]),
 		displayPolls() {
 			if (!this.searchPollResults.length) {
@@ -384,7 +388,7 @@ export default {
 		this.$nextTick(() => {
 			this.getTrendingPolls();
 			this.getPolls();
-			this.getBookmarks();
+			// this.getBookmarks();
 			// this.getTrendingFeeds();
 		});
 	},

@@ -254,10 +254,10 @@
 								<div class="tab-pane" id="bookmarks" role="tabpanel">
 									<span
 										class="py-2 col-md-6 text-left mt-2 d-flex"
-										v-for="(bookmark) in getBookmarks"
+										v-for="(bookmark) in getUser.userObj.bookmarks"
 										v-bind:key="bookmark.id"
 									>										
-										<p>{{ bookmark.poll_question_text}}</p>
+										<p>{{ bookmark.question}}</p>
 										<i class="fa fa-trash text-danger" @click.prevent="deleteBookmark(bookmark.id)"></i><hr />
 									</span>
 									
@@ -353,7 +353,7 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters(["getUser", "getSinglePoll", "userprofile", "getBookmarks"]),
+		...mapGetters(["getUser", "getSinglePoll", "userprofile"]),
 	},
 };
 </script>

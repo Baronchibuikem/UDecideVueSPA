@@ -34,8 +34,8 @@
 					</div>
 
 					<ul class="navbar-nav my-lg-0">
-						<li class="nav-item hidden-xs-down search-box">
-							<a class="nav-link hidden-sm-down waves-effect waves-dark">
+						<li class="nav-item  search-box">
+							<a class="nav-link  waves-effect waves-dark">
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
 							<div
@@ -53,7 +53,7 @@
 							</div>
 						</li>
 
-						<li class="nav-item dropdown">
+						<!-- <li class="nav-item dropdown">
 							<a
 								class="nav-link dropdown-toggle waves-effect waves-dark"
 								href="#"
@@ -155,7 +155,7 @@
 									</li>
 								</ul>
 							</div>
-						</li>
+						</li> -->
 
 						<li class="nav-item dropdown u-pro">
 							<a

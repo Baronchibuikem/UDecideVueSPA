@@ -18,10 +18,17 @@ const state = {
 					place_of_work: "",
 					position: "",
 					about: "",
-					image: "",
+					user_image: "",
 					photo: "",
 				},
 			},
+			bookmarks: [
+				{
+					question: "",
+					pk: "",
+					created: "",
+				},
+			],
 		},
 		followers: [],
 		followed: [],
@@ -29,8 +36,8 @@ const state = {
 			{
 				question: "",
 				pub_date: "",
-				pk:""
-			}
+				pk: "",
+			},
 		],
 		likes: [
 			{
@@ -56,7 +63,7 @@ const state = {
 					place_of_work: "",
 					position: "",
 					about: "",
-					image: "",
+					user_image: "",
 					photo: "",
 				},
 			},
@@ -107,6 +114,10 @@ const getters = {
 	UserLikes: (state) =>
 		state.user.likes.map((like) => {
 			return like.question;
+		}),
+	getUserBookmarks: (state) =>
+		state.user.userObj.bookmarks.map((item) => {
+			return item.question;
 		}),
 };
 
@@ -181,10 +192,10 @@ const actions = {
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
 			.then((response) => {
-				console.log(response.data, "getUser");
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("fetch_users", response.data);
+				commit("FETCHUSER", response.data);
+				console.log(response.data, "GETUser Obj");
 			});
 	},
 
@@ -201,7 +212,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("view_user", response.data);
+				commit("VIEWUSER", response.data);
 			});
 	},
 
@@ -223,7 +234,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("update_user", response.data);
+				commit("UPDATEUSER", response.data);
 			});
 	},
 
@@ -245,7 +256,6 @@ const actions = {
 	},
 
 	unfollowUser({ commit, getters }, payload) {
-		console.log(payload, "Payl");
 		let { param, param2 } = { ...payload };
 
 		let id = param;
@@ -258,7 +268,6 @@ const actions = {
 				// "Content-Type": "application/json"
 			},
 		};
-		console.log(config, "authorization", id, "id", Id, "UserId");
 		axios
 			.delete(`${apiBaseUrl.baseRoute}/social/unfollow-user/${Id}/`, {
 				headers: {
@@ -294,7 +303,6 @@ const actions = {
 	},
 	// this action is used to make a post request to like an existing poll
 	likePoll({ commit, getters }, payload) {
-		commit("POLL_REQUEST");
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
@@ -307,6 +315,26 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("POLL_LIKED", response.data);
+			});
+	},
+	// This action is used to make a post request to bookmark a poll
+	bookmarkPoll({ commit, getters }, payload) {
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`,
+			},
+		};
+		axios
+			.post(
+				`${apiBaseUrl.baseRoute}/userprofile/bookmark-poll/`,
+				payload,
+				config
+			)
+			.then((response) => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("BOOKMARK_SUCCESS", response.data);
+				console.log(response.data);
 			});
 	},
 };
@@ -335,14 +363,14 @@ const mutations = {
 		state.token = "";
 	},
 
-	update_user(state, payload) {
+	UPDATEUSER(state, payload) {
 		const { ...user } = payload;
 		state.user.userObj.user.profile = user;
 	},
 	/* Used to update the states which are perculiar for display data specific to a user or userprofile
 	Since the the payload contains a user object, while destructing the payload, we use spread operator
 	to get the keys in the user object */
-	fetch_users(state, payload) {
+	FETCHUSER(state, payload) {
 		const { followed, followers, likes, polls, ...user } = payload;
 		state.user.userObj = user;
 		state.user.followed = followed;
@@ -351,8 +379,7 @@ const mutations = {
 		state.user.likes = likes;
 	},
 
-	view_user(state, payload) {
-		console.log(payload, "from follow user")
+	VIEWUSER(state, payload) {
 		const { followed, followers, likes, polls, ...user } = payload;
 		state.viewuser.userObj = user;
 		state.viewuser.followed = followed;
@@ -361,8 +388,7 @@ const mutations = {
 		state.viewuser.likes = likes;
 	},
 	POLL_LIKED(state, payload) {
-		console.log(payload, "poll liked")
-		const {id, like_date, poll, poll_question_text, user} = {...payload}
+		const { id, like_date, poll, poll_question_text, user } = { ...payload };
 		state.user.userObj.user.id = user;
 		state.user.polls.pk = poll;
 		state.user.likes.like_date = like_date;
@@ -370,6 +396,14 @@ const mutations = {
 		state.user.likes.pk = id;
 	},
 
+	BOOKMARK_SUCCESS(state, payload) {
+		const { id, poll, user, created, poll_question_text } = { ...payload };
+		state.user.userObj.bookmarks.pk = id;
+		state.user.polls.pk = poll;
+		state.user.userObj.user.id = user;
+		state.user.userObj.bookmarks.created = created;
+		state.user.userObj.bookmarks.question = poll_question_text;
+	},
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
 };

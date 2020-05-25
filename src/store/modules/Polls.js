@@ -36,31 +36,21 @@ const state = {
 		total_likes: "",
 		vote_count: "",
 	},
-	bookmarks: [
-		{
-			id: "",
-			poll: "",
-			user: "",
-			created: "",
-			poll_question_text: "",
-		},
-	],
 };
 
 /* getters pull updated value from our state data's and they are then called by the components that needs them to
 present data to the user(s) */
 const getters = {
 	allPolls: (state) => state.Polls,
-	getBookmarks: (state) => state.bookmarks,
 	pollsTrending: (state) => state.trendingPolls,
 	getToken: (state) => state.token,
 	getSinglePoll: (state) => state.SinglePoll,
 	searchPollResults: (state) => state.search_polls,
 	searchPollLength: (state) => state.search_polls.length,
-	pollQuestion: (state) =>
-		state.Polls.map((poll) => {
-			return poll.question;
-		}),
+	// pollQuestion: (state) =>
+	// 	state.Polls.map((poll) => {
+	// 		return poll.question;
+	// 	}),
 	pollStatus: (state) => {
 		state.POLLS_REQUEST;
 	},
@@ -188,26 +178,6 @@ const actions = {
 			});
 	},
 
-	// This action is used to make a post request to bookmark a poll
-	bookmarkPoll({ commit, getters }, payload) {
-		let config = {
-			headers: {
-				Authorization: `Token ${getters.getToken}`,
-			},
-		};
-		axios
-			.post(
-				`${apiBaseUrl.baseRoute}/userprofile/bookmark-poll/`,
-				payload,
-				config
-			)
-			.then((response) => {
-				axios.defaults.headers.common["Authorization"] = config;
-				// We call a mutation to commit our response data
-				commit("BOOKMARK_SUCCESS", response.data);
-			});
-	},
-
 	// This action is used to make a get request to get list of trendingPolls from the server
 	getTrendingPolls({ commit, getters }) {
 		let config = {
@@ -254,21 +224,21 @@ const actions = {
 				commit("SEARCH_POLLS", response.data);
 			});
 	},
-	getBookmarks({ commit, getters }, payload) {
-		console.log("GET BOOKMARK", payload);
-		let config = {
-			headers: {
-				Authorization: `Token ${getters.getToken}`,
-			},
-		};
-		axios
-			.get(`${apiBaseUrl.baseRoute}/userprofile/bookmark-poll/`, config)
-			.then((response) => {
-				axios.defaults.headers.common["Authorization"] = config;
-				// We call a mutation to commit our response data
-				commit("BOOKMARK_SUCCESS", response.data);
-			});
-	},
+	// getBookmarks({ commit, getters }, payload) {
+	// 	console.log("GET BOOKMARK", payload);
+	// 	let config = {
+	// 		headers: {
+	// 			Authorization: `Token ${getters.getToken}`,
+	// 		},
+	// 	};
+	// 	axios
+	// 		.get(`${apiBaseUrl.baseRoute}/userprofile/bookmark-poll/`, config)
+	// 		.then((response) => {
+	// 			axios.defaults.headers.common["Authorization"] = config;
+	// 			// We call a mutation to commit our response data
+	// 			commit("BOOKMARK_SUCCESS", response.data);
+	// 		});
+	// },
 	deleteBookmark({ getters }, id) {
 		let config = {
 			headers: {
@@ -334,15 +304,6 @@ const mutations = {
 	SEARCH_POLLS(state, payload) {
 		state.search_polls = payload;
 	},
-	BOOKMARK_SUCCESS(state, payload) {
-		const { id, poll, user, created, poll_question_text } = { ...payload };
-		(state.bookmarks.id = id),
-			(state.bookmarks.poll = poll),
-			(state.bookmarks.user = user),
-			(state.bookmarks.created = created);
-		state.poll_question_text = poll_question_text;
-	},
-	
 };
 
 export default {
