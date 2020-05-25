@@ -34,8 +34,8 @@
 					</div>
 
 					<ul class="navbar-nav my-lg-0">
-						<li class="nav-item  search-box">
-							<a class="nav-link  waves-effect waves-dark">
+						<li class="nav-item hidden-xs-down search-box">
+							<a class="nav-link hidden-sm-down waves-effect waves-dark">
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
 							<div

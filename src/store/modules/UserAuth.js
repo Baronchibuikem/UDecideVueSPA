@@ -22,13 +22,6 @@ const state = {
 					photo: "",
 				},
 			},
-			bookmarks: [
-				{
-					question: "",
-					pk: "",
-					created: "",
-				},
-			],
 		},
 		followers: [],
 		followed: [],
@@ -45,6 +38,13 @@ const state = {
 				question: "",
 				pk: "",
 				pub_date: "",
+			},
+		],
+		bookmarks: [
+			{
+				question: "",
+				pk: "",
+				created: "",
 			},
 		],
 	},
@@ -116,8 +116,8 @@ const getters = {
 			return like.question;
 		}),
 	getUserBookmarks: (state) =>
-		state.user.userObj.bookmarks.map((item) => {
-			return item.question;
+		state.user.bookmarks.map((bookmark) => {
+			return bookmark.question;
 		}),
 };
 
@@ -195,7 +195,6 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("FETCHUSER", response.data);
-				console.log(response.data, "GETUser Obj");
 			});
 	},
 
@@ -371,38 +370,51 @@ const mutations = {
 	Since the the payload contains a user object, while destructing the payload, we use spread operator
 	to get the keys in the user object */
 	FETCHUSER(state, payload) {
-		const { followed, followers, likes, polls, ...user } = payload;
+		const { followed, followers, likes, polls, bookmarks, ...user } = payload;
 		state.user.userObj = user;
 		state.user.followed = followed;
 		state.user.followers = followers;
 		state.user.polls = polls;
 		state.user.likes = likes;
+		state.user.bookmarks = bookmarks;
 	},
 
 	VIEWUSER(state, payload) {
-		const { followed, followers, likes, polls, ...user } = payload;
+		const { followed, followers, likes, bookmarks, polls, ...user } = payload;
 		state.viewuser.userObj = user;
 		state.viewuser.followed = followed;
 		state.viewuser.followers = followers;
 		state.viewuser.polls = polls;
 		state.viewuser.likes = likes;
+		state.viewuser.bookmarks = bookmarks;
 	},
 	POLL_LIKED(state, payload) {
 		const { id, like_date, poll, poll_question_text, user } = { ...payload };
 		state.user.userObj.user.id = user;
 		state.user.polls.pk = poll;
-		state.user.likes.like_date = like_date;
-		state.user.likes.question = poll_question_text;
-		state.user.likes.pk = id;
+		// state.user.likes.like_date = like_date;
+		// state.user.likes.question = poll_question_text;
+		// state.user.likes.pk = id;
+		state.user.likes.push({
+			like_date,
+			pk: id,
+			question: poll_question_text,
+		});
 	},
 
 	BOOKMARK_SUCCESS(state, payload) {
 		const { id, poll, user, created, poll_question_text } = { ...payload };
-		state.user.userObj.bookmarks.pk = id;
+		// state.user.bookmarks.pk = id;
 		state.user.polls.pk = poll;
 		state.user.userObj.user.id = user;
-		state.user.userObj.bookmarks.created = created;
-		state.user.userObj.bookmarks.question = poll_question_text;
+		// state.user.bookmarks.created = created;
+		// state.user.bookmarks.question = poll_question_text;
+		// state.user.bookmarks = { ...payload };
+		state.user.bookmarks.push({
+			pk: id,
+			created,
+			question: poll_question_text,
+		});
 	},
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
