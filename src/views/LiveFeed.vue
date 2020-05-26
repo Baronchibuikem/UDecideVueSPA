@@ -87,7 +87,7 @@
 														<div class="m-t-20">
 															<div class="col-md-12 col-xs-12 linkHover">
 																<p @click="singlePoll(poll.id)">
-																	{{ poll.question }}
+																	{{ poll.question }}{{poll.id}}
 																</p>
 															</div>
 														</div>
@@ -349,12 +349,6 @@ export default {
 				this.$router.push(`user/${param}`);
 			});
 		},
-
-		// getCurrentUser(param) {
-		// 	this.$store.dispatch("getSingleUser", param).then(() => {
-		// 		// this.$router.push("/profile");
-		// 	});
-		// },
 		// Here we call our getPolls action
 		...mapActions(["getPolls", "getTrendingPolls"]),
 	},

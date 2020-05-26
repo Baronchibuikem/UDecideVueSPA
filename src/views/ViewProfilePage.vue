@@ -9,6 +9,9 @@
 				<div class="col-md-6">
 					<div class="mt-3">
 						<div class="shadow card page-container">
+							<span class="d-flex  ml-3 justify-content-end">
+								<router-link exact to="/">Back to polls </router-link>
+							</span>
 							<ul class="nav nav-tabs profile-tab" role="tablist">
 								<li class="nav-item">
 									<a
@@ -30,8 +33,15 @@
 										data-toggle="tab"
 										href="#followers"
 										role="tab"
-										>Follower</a
+										>Follower<span
+											class="py-6 text-info text-left"
+											v-for="(follower, index) in getUser.followers"
+											v-bind:key="index"
+										>
+											{{ follower.total_followers_no }}
+										</span></a
 									>
+										
 								</li>
 								<li class="nav-item">
 									<a
@@ -39,8 +49,17 @@
 										data-toggle="tab"
 										href="#followings"
 										role="tab"
-										>Following</a
+										>
+										Following
+										<span
+											class="py-6 text-info text-left"
+											v-for="(follower, index) in getUser.followed"
+											v-bind:key="index"
+										>
+											{{ follower.total_followed_no }}
+										</span></a
 									>
+									
 								</li>
 								<li class="nav-item">
 									<a
@@ -202,15 +221,11 @@
 										>
 											<!-- <PollMenu></PollMenu> -->
 											<div class="mt-5 link">
-												<div class="d-flex justify-content-between">
-													<router-link to="#" class="text-uppercase">{{
-														getUser.userObj.user.username
-													}}</router-link>
-													<span class="sl-date">{{ poll.pub_date }} </span>
-												</div>
+												
 												<div class="m-t-20">
 													<div class="col-md-12 col-xs-12">
-														<p>{{ poll.question }}</p>
+														<p class="linkHover"
+														@click="singlePoll(poll.pk)">{{ poll.question }}</p>
 													</div>
 												</div>
 												<hr />
@@ -229,11 +244,15 @@
 										v-for="(follower, index) in getUser.followers"
 										v-bind:key="index"
 									>
-										<h6 class="linkHover">
-											@{{ follower.following_username }}
-											<!-- {{ follower.follwer.id }} -->
+									
+									<div>
+										<h6 class="linkHover ml-3" 
+										@click="getProfile(follower.follwer_id)">
+
+											{{ follower.follower_username }}
 										</h6>
-										<p>This user's Bio will be updated here shortly</p>
+									</div>	
+										
 										<hr />
 									</span>
 								</div>
@@ -243,29 +262,27 @@
 										v-for="(follower, index) in getUser.followed"
 										v-bind:key="index"
 									>
-										<h6 class="linkHover">
-											@{{ follower.following_username }}
-											<!-- {{ follower.follwer.id }} -->
+										<h6 class="linkHover ml-3"
+										@click="getProfile(follower.following_id)">
+											{{ follower.following_username }}
 										</h6>
-										<p>This user's Bio will be updated here shortly</p>
 										<hr />
+										
 									</span>
 								</div>
 								<div class="tab-pane" id="bookmarks" role="tabpanel">
 									<span
 										class="py-2 col-md-6 text-left mt-2 d-flex"
-										v-for="(bookmark) in getUserBookmarks"
-										v-bind:key="bookmark.id"
+										v-for="(bookmark) in getUserBookmarksObject"
+										v-bind:key="bookmark.pk"
 									>										
-										<p>{{ bookmark}}</p>
+										<span class="linkHover" @click="singlePoll(bookmark.pk)">{{ bookmark.question}}</span>
 										<!-- <i class="fa fa-trash text-danger" @click.prevent="deleteBookmark(bookmark.id)"></i><hr /> -->
 									</span>
 									
 									</div>
 							</div>
-							<span class="d-flex justify-content-end">
-								<router-link exact to="/">Back to polls </router-link>
-							</span>
+							
 						</div>
 					</div>
 				</div>
@@ -351,6 +368,16 @@ export default {
 				.dispatch("deleteBookmark", id)
 				.then(() => this.$router.push("/profile"));
 		},
+		getProfile(param) {
+			this.$store.dispatch("viewUserProfileAction", param).then(() => {
+				this.$router.push(`user/${param}`);
+			});
+		},
+		singlePoll(param) {
+			this.$store.dispatch("getSinglePoll", param).then(() => {
+				this.$router.push(`poll/${param}`);
+			});
+		},
 	},
 	computed: {
 		...mapGetters([
@@ -358,6 +385,7 @@ export default {
 			"getSinglePoll",
 			"userprofile",
 			"getUserBookmarks",
+			"getUserBookmarksObject",
 		]),
 	},
 };

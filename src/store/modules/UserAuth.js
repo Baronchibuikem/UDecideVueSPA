@@ -119,6 +119,10 @@ const getters = {
 		state.user.bookmarks.map((bookmark) => {
 			return bookmark.question;
 		}),
+	getUserBookmarksObject: (state) =>
+		state.user.bookmarks.map((bookmark) => {
+			return bookmark;
+		}),
 };
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
@@ -333,7 +337,6 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("BOOKMARK_SUCCESS", response.data);
-				console.log(response.data);
 			});
 	},
 };
@@ -403,15 +406,12 @@ const mutations = {
 	},
 
 	BOOKMARK_SUCCESS(state, payload) {
+		console.log(payload, "PAYLOAD");
 		const { id, poll, user, created, poll_question_text } = { ...payload };
-		// state.user.bookmarks.pk = id;
 		state.user.polls.pk = poll;
 		state.user.userObj.user.id = user;
-		// state.user.bookmarks.created = created;
-		// state.user.bookmarks.question = poll_question_text;
-		// state.user.bookmarks = { ...payload };
 		state.user.bookmarks.push({
-			pk: id,
+			pk: poll,
 			created,
 			question: poll_question_text,
 		});

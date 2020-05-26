@@ -55,7 +55,13 @@
 									<div>
 										<div class="">
 											<!-- Here we are looping through the choice array in our poll -->
+											<div v-if="getSinglePoll.poll_has_expired">
+												<small class="">
+													Sorry voting on this poll has expired
+												</small>
+											</div>
 											<div
+												v-else
 												class="my-3"
 												v-for="choice in getSinglePoll.choices.choices"
 												v-bind:key="choice.id"

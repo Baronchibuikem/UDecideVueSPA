@@ -33,6 +33,7 @@ const state = {
 		slug_field: "",
 		poll_has_been_bookmarked: "",
 		poll_has_been_liked: "",
+		poll_has_expired: "",
 		total_likes: "",
 		vote_count: "",
 	},
@@ -61,7 +62,7 @@ const actions = {
 	// // This action is used to get all available polls from the server
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
-		console.log(response.data, "From poll");
+
 		// We call a mutation to commit our response data
 		commit("SUCCESS", response.data);
 	},
@@ -275,6 +276,7 @@ const mutations = {
 			slug_field,
 			poll_has_been_bookmarked,
 			poll_has_been_liked,
+			poll_has_expired,
 			total_likes,
 			vote_count,
 			...choices
@@ -289,6 +291,7 @@ const mutations = {
 		state.SinglePoll.poll_has_been_bookmarked = poll_has_been_bookmarked;
 		state.SinglePoll.poll_has_been_liked = poll_has_been_liked;
 		state.SinglePoll.total_likes = total_likes;
+		state.SinglePoll.poll_has_expired = poll_has_expired;
 		state.SinglePoll.vote_count = vote_count;
 		state.SinglePoll.choices = { ...choices };
 	},
