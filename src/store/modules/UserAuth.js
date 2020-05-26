@@ -24,7 +24,14 @@ const state = {
 			},
 		},
 		followers: [],
-		followed: [],
+		followed: [
+			{
+				date_follow: "",
+				follower: "",
+				following: "",
+				id: "",
+			},
+		],
 		polls: [
 			{
 				question: "",
@@ -68,10 +75,24 @@ const state = {
 				},
 			},
 		},
-		followers: [],
+		followers: [
+			{
+				date_follow: "",
+				follower: "",
+				following: "",
+				id: "",
+			},
+		],
 		followed: [],
 		polls: [],
-		likes: [],
+		likes: [
+			{
+				like_date: "",
+				question: "",
+				pk: "",
+				pub_date: "",
+			},
+		],
 	},
 	userID: null,
 	error: [],
@@ -254,7 +275,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("view_user", response.data);
+				commit("FOLLOW_USER", response.data);
 			});
 	},
 
@@ -281,7 +302,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("view_user", response.data);
+				commit("FOLLOW_USER", response.data);
 			});
 	},
 	updateProfileImage({ commit, getters }, payload) {
@@ -418,6 +439,16 @@ const mutations = {
 	},
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
+	FOLLOW_USER(state, payload) {
+		console.log(payload, "FOlLOW USER");
+		const { date_follow, follower, following, id } = { ...payload };
+		state.viewuser.followers.push({
+			date_follow,
+			follower,
+			following,
+			id,
+		});
+	},
 };
 
 /* 

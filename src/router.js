@@ -28,8 +28,8 @@ let router = new Router({
 			name: "livefeed",
 			component: LiveFeed,
 			meta: {
-				requiresAuth: true
-			}
+				requiresAuth: true,
+			},
 			// children: [
 			// 	{
 			// 		path: "poll/:poll_id",
@@ -44,15 +44,15 @@ let router = new Router({
 			path: "/poll/:poll_id",
 			component: SinglePollPage,
 			meta: {
-				requiresAuth: true
-			}
+				requiresAuth: true,
+			},
 		},
 		{
 			path: "/user/:user_id",
 			component: getUserProfile,
 			meta: {
-				requiresAuth: true
-			}
+				requiresAuth: true,
+			},
 		},
 
 		{
@@ -60,46 +60,46 @@ let router = new Router({
 			name: "dashboard",
 			component: Dashboard,
 			meta: {
-				requiresAuth: true
-			}
+				requiresAuth: true,
+			},
 		},
 		{
 			path: "/survey-landing",
 			name: "survey-landing",
 			component: SurveyLanding,
 			meta: {
-				requiresAuth: true
-			}
+				requiresAuth: true,
+			},
 		},
 		{
 			path: "/pollform",
 			name: "pollform",
 			component: PollForm,
 			meta: {
-				requiresAuth: true
-			}
+				requiresAuth: true,
+			},
 		},
 
 		{
 			path: "/login",
 			name: "login",
-			component: Login
+			component: Login,
 		},
 		{
 			path: "/signup",
 			name: "signup",
-			component: Signup
+			component: Signup,
 		},
 		{
 			path: "/profile",
 			name: "profile",
-			component: ViewProfilePage
+			component: ViewProfilePage,
 		},
 		{
 			path: "/search",
 			name: "SearchResults",
-			component: SearchResults
-		}
+			component: SearchResults,
+		},
 
 		// // return 404 error page if the link entered doesn't exist
 		// {
@@ -107,13 +107,13 @@ let router = new Router({
 		// 	name: "error-404"
 		// 	// component: Error
 		// }
-	]
+	],
 });
 
 // Used to check if a route is projected, if it is then you are required to
 // be authenticated before you can access it
 router.beforeEach((to, from, next) => {
-	if (to.matched.some(record => record.meta.requiresAuth)) {
+	if (to.matched.some((record) => record.meta.requiresAuth)) {
 		if (store.getters.isLoggedIn) {
 			next();
 			return;

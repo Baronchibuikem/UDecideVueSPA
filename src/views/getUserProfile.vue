@@ -91,6 +91,15 @@
 										>Following</a
 									>
 								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link"
+										data-toggle="tab"
+										href="#likes"
+										role="tab"
+										>Likes</a
+									>
+								</li>
 							</ul>
 							<div class="tab-content">
 								<div class="tab-pane active" id="profile" role="tabpanel">
@@ -149,14 +158,11 @@
 									>
 										<!-- <PollMenu></PollMenu> -->
 										<div class="mt-2 link" v-if="show === true">
-											<div class="d-flex justify-content-between text-info">
-												@{{ viewUserProfile.userObj.user.username }}
-												<span class="sl-date">{{ poll.pub_date }} </span>
-											</div>
+										
 											<div class="m-t-20">
 												<div class="col-md-12 col-xs-12">
-													<p>{{ poll.question }}</p>
-													{{viewUserProfile}}
+													<p @click="singlePoll(poll.id)" class="linkHover">{{ poll.question }}{{poll.id}}</p>
+												
 												</div>
 											</div>
 											<hr />
@@ -175,11 +181,10 @@
 											v-for="follower in viewUserProfile.followers"
 											v-bind:key="follower.id"
 										>
-											<h6 class="linkHover">
-												@{{ follower.follower_username }}
-												<!-- {{ follower.follwer.id }} -->
+											<h6 class="linkHover" @click="getProfile(follower.follwer_id)">
+												{{ follower.follower_username }}{{ follower.follwer_id}}
 											</h6>
-											
+										
 											<hr />
 										</div>
 									</div>
@@ -191,9 +196,22 @@
 											v-for="following in viewUserProfile.followed"
 											v-bind:key="following.id"
 										>
-											<h6 class="linkHover">
-												@{{ following.following_username }}
-												<!-- {{ follower.follwer.id }} -->
+											<h6 class="linkHover" @click="getProfile(following.following_id)">
+												{{ following.following_username }}
+											</h6>
+											<hr />
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="likes" role="tabpanel">
+									<div v-if="show === true">
+										<div
+											class="sl-item container mt-3"
+											v-for="like in viewUserProfile.likes"
+											v-bind:key="like.id"
+										>
+											<h6 class="linkHover" @click="singlePoll(like.pk)">
+												{{ like.question }}
 											</h6>
 											
 											<hr />
@@ -259,10 +277,17 @@ export default {
 		unfollowUser(param, param2) {
 			this.$store
 				.dispatch("unfollowUser", { param, param2 })
-				.then(() => this.$router.push("/"))
-				.catch((err) => {
-					console.log(err);
-				});
+				.then(() => this.$router.push("/"));
+		},
+		singlePoll(param) {
+			this.$store.dispatch("getSinglePoll", param).then(() => {
+				this.$router.push(`/poll/${param}`);
+			});
+		},
+		getProfile(param) {
+			this.$store.dispatch("viewUserProfileAction", param).then(() => {
+				this.$router.push(`/user/${param}`);
+			});
 		},
 	},
 	computed: {
@@ -294,7 +319,6 @@ export default {
 					unfollowing.push(follower.follower_username);
 				}
 			});
-			console.log(following);
 			return following;
 		},
 	},
