@@ -179,6 +179,11 @@
 							</div>
 							<div v-else>
 								<img :src="image" />
+								<span class="hidden-md-down"
+									>{{ getUser.userObj.user.username }} &nbsp;<i
+										class="fa fa-angle-down"
+									></i
+								></span>
 							</div>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right animated flipInY">

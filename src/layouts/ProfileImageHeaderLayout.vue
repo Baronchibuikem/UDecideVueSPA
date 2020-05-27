@@ -48,9 +48,9 @@
 										<div class="container-fluid">	
 											<div class="mb-3">											
 												
-										<div v-if="userprofile.image !== null" width="50%">
+										<div v-if="userprofile.user_image !== null" width="50%">
 									<img
-										:src="getImage(userprofile.image)"
+										:src="getImage(userprofile.user_image)"
 										class="header-image"
 										alt="My profile image"
 										width="50%"
