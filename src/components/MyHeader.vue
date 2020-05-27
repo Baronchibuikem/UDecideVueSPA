@@ -167,7 +167,7 @@
 							>
 							<div v-if="userprofile.image !== null">
 								<img
-									:src="userprofile.user_image"
+									:src="getImage(userprofile.user_image)"
 									alt="user"
 									class="img-circle"
 								/>
@@ -186,7 +186,7 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img :src="userprofile.user_image" alt="user" />
+												<img :src="getImage(userprofile.user_image)" alt="user" />
 											</div>
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
