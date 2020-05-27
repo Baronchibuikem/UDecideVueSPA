@@ -130,6 +130,7 @@
 							<h4 class="font-11">Polls</h4>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 			<!-- <div class="card rounded">
@@ -203,11 +204,11 @@ export default {
 		},
 		updateImage() {
 			let form = new FormData();
-			let image = this.image;
-			form.append("image", image);
+			let user_image = this.image;
+			form.append("user_image", user_image);
 			this.$store
 				.dispatch("updateProfileImage", {
-					image: form,
+					user_image: form,
 				})
 				.then(() => this.$router.push("/"));
 		},

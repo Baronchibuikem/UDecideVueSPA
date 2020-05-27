@@ -153,8 +153,8 @@ export default {
 				emailError: "",
 				termsError: "",
 				usernameExist: "",
-				emailExist: ""
-			}
+				emailExist: "",
+			},
 		};
 	},
 	methods: {
@@ -162,12 +162,12 @@ export default {
 			axios
 				.post("http://localhost/youdecide/ajax-login", {
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					email: this.email,
-					password: this.password
+					password: this.password,
 				})
-				.then(response => this.$router.push("/"))
+				.then((response) => this.$router.push("/"))
 				.catch(function(error) {
 					console.log(error);
 				});
@@ -183,12 +183,12 @@ export default {
 				email: this.email,
 				password: this.password,
 				terms: this.terms,
-				profile: this.profile
+				profile: this.profile,
 			};
 			let self = this;
 			this.$store
 				.dispatch("register", data)
-				.then(() => this.$router.push("/login"))
+				.then(() => this.$router.push("/"))
 				.catch(function(err) {
 					console.log(err.response.data.email, "ERROR");
 					if (err.response.data !== undefined) {
@@ -227,10 +227,10 @@ export default {
 		// This function is used to change the value of terms to true when the checkbok is clicked
 		termsFunc: function() {
 			this.terms = true;
-		}
+		},
 	},
 	computed: {
-		...mapGetters(["authStatus"])
-	}
+		...mapGetters(["authStatus"]),
+	},
 };
 </script>

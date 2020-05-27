@@ -316,13 +316,13 @@ const actions = {
 		axios
 			.patch(
 				`${apiBaseUrl.baseRoute}/userprofile/update-profile/`,
-				payload.image,
+				payload.user_image,
 				config
 			)
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("update_user", response.data);
+				commit("UPDATEUSER", response.data);
 			});
 	},
 	// this action is used to make a post request to like an existing poll
