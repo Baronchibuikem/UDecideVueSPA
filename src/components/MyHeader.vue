@@ -165,7 +165,7 @@
 								aria-haspopup="true"
 								aria-expanded="false"
 							>
-							<div v-if="userprofile.image !== null">
+							<div v-if="userprofile.user_image !== null">
 								<img
 									:src="getImage(userprofile.user_image)"
 									alt="user"
@@ -191,7 +191,12 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img :src="getImage(userprofile.user_image)" alt="user" />
+												<div v-if="userprofile.user_image !== null">
+													<img :src="getImage(userprofile.user_image)" alt="user" />
+												</div>
+												<div v-else>
+														<img :src="image" />
+												</div>
 											</div>
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
@@ -202,6 +207,7 @@
 													>View Profile</router-link
 												>
 											</div>
+											
 										</div>
 									</li>
 									<li role="separator" class="divider"></li>
