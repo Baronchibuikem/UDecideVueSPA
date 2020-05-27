@@ -165,8 +165,9 @@
 								aria-haspopup="true"
 								aria-expanded="false"
 							>
+							<div v-if="userprofile.image !== null">
 								<img
-									:src="getImage(userprofile.user_image)"
+									:src="userprofile.user_image"
 									alt="user"
 									class="img-circle"
 								/>
@@ -175,13 +176,17 @@
 										class="fa fa-angle-down"
 									></i
 								></span>
+							</div>
+							<div v-else>
+								<img :src="image" />
+							</div>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right animated flipInY">
 								<ul class="dropdown-user">
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<img :src="getImage(userprofile.user_image)" alt="user" />
+												<img :src="userprofile.user_image" alt="user" />
 											</div>
 											<div class="u-text">
 												<h4>{{ getUser.userObj.user.username }}</h4>
@@ -234,6 +239,7 @@
 
 <script>
 import SignupForm from "./../components/SignupForm.vue";
+import defaultImage from "../assets/img/profileimage.png";
 
 import { mapGetters } from "vuex";
 export default {
@@ -244,6 +250,7 @@ export default {
 	data() {
 		return {
 			searchPolls: "",
+			image: defaultImage,
 		};
 	},
 	methods: {
