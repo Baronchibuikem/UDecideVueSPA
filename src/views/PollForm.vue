@@ -34,7 +34,7 @@
 										class="form-control"
 										placeholder="Add Option"
 										:readonly="!isQuestionAvailable"
-										maxlength="40"
+										maxlength="28"
 									/>
 									<div class="input-group-append">
 										<button

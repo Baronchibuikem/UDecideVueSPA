@@ -87,7 +87,7 @@
 														<div class="m-t-20">
 															<div class="col-md-12 col-xs-12 linkHover">
 																<p @click="singlePoll(poll.id)">
-																	{{ poll.question }}{{poll.id}}
+																	{{ poll.question }}
 																</p>
 															</div>
 														</div>
