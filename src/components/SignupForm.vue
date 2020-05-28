@@ -167,10 +167,10 @@ export default {
 					email: this.email,
 					password: this.password,
 				})
-				.then((response) => this.$router.push("/"))
-				.catch(function(error) {
-					console.log(error);
-				});
+				.then(() => this.$router.push("/login"));
+			// .catch(function(error) {
+			// 	console.log(error);
+			// });
 		},
 		// This function is used to register users into the platform. it's called by the submit function.
 		// It passes data which contains values entered by the user to register action from vuex, if successfull
