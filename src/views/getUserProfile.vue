@@ -56,6 +56,10 @@
 											</div>
 										</div>
 									</div>
+									
+							<span class="d-flex justify-content-end">
+								<router-link exact to="/">Back to polls </router-link>
+							</span>
 								</div>
 							</div>
 							<ul class="nav nav-tabs profile-tab" role="tablist">
@@ -219,9 +223,6 @@
 									</div>
 								</div>
 							</div>
-							<span class="d-flex justify-content-end">
-								<router-link exact to="/">Back to polls </router-link>
-							</span>
 						</div>
 					</div>
 				</div>
