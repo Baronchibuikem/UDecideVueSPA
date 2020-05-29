@@ -75,8 +75,9 @@
 														class="form-control btn-info linkHover"
 														data-toggle="tooltip"
 														:title="choice.choice_vote_count + ' votes'"
+														@click="voteChoice(getSinglePoll.id, choice.id)"
 													>
-														{{ choice.choice_text }}
+														{{choice.choice_vote_count}} - {{ choice.choice_text }}
 													</button>
 													<!-- For deleting a choice -->
 													<div
@@ -213,6 +214,15 @@ export default {
 			this.$store
 				.dispatch("editChoice", { id, poll_id, choice_text })
 				.then(() => this.$router.push("/"));
+		},
+		voteChoice(poll_id, choice_id) {
+			this.selected_poll = poll_id;
+			this.selected_choice = choice_id;
+			let data = {
+				poll: this.selected_poll,
+				choice: this.selected_choice,
+			};
+			this.$store.dispatch("voteChoice", data);
 		},
 	},
 	computed: {

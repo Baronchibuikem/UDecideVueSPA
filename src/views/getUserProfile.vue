@@ -25,7 +25,7 @@
 
 										</div>
 										<div v-else>
-											<div v-if="followingUser.length > 0">
+											<div v-if="followingUser().length > 0">
 												
 												<button
 													class="form-control btn-info"
@@ -34,14 +34,14 @@
 													@click="
 														unfollowUser(
 															viewUserProfile.userObj.user.id,
-															followingUser[1]
+															followingUser()[1]
 														)
 													"
 												>
 													Unfollow
 												</button>
 											</div>
-											<div v-if="!followingUser.length > 0">
+											<div v-if="!followingUser().length > 0">
 												<button
 													class="btn-info form-control"
 													@click="
@@ -270,15 +270,11 @@ export default {
 				follower: param2,
 				following: param,
 			};
-			this.$store
-				.dispatch("followUser", { ...data })
-				.then(() => this.$router.push("/"));
+			this.$store.dispatch("followUser", { ...data });
 		},
 		// this function is used to unfollow a user
 		unfollowUser(param, param2) {
-			this.$store
-				.dispatch("unfollowUser", { param, param2 })
-				.then(() => this.$router.push("/"));
+			this.$store.dispatch("unfollowUser", { param, param2 });
 		},
 		singlePoll(param) {
 			this.$store.dispatch("getSinglePoll", param).then(() => {
@@ -289,6 +285,19 @@ export default {
 			this.$store.dispatch("viewUserProfileAction", param).then(() => {
 				this.$router.push(`/user/${param}`);
 			});
+		},
+		followingUser() {
+			let following = [];
+			let unfollowing = [];
+			let currentUser = this.getUser.userObj.user.username;
+			this.viewUserProfile.followers.map((follower) => {
+				if (follower.follower_username === currentUser) {
+					following.push(follower.follower_username, follower.id);
+				} else {
+					unfollowing.push(follower.follower_username);
+				}
+			});
+			return following;
 		},
 	},
 	computed: {
@@ -309,19 +318,6 @@ export default {
 		so in our template, we check if the length of following is greater than zero, if it is we
 		know our current logged in user is following the user being viewed else we know he/she is not
  		*/
-		followingUser() {
-			let following = [];
-			let unfollowing = [];
-			let currentUser = this.getUser.userObj.user.username;
-			this.viewUserProfile.followers.map((follower) => {
-				if (follower.follower_username === currentUser) {
-					following.push(follower.follower_username, follower.id);
-				} else {
-					unfollowing.push(follower.follower_username);
-				}
-			});
-			return following;
-		},
 	},
 };
 </script>

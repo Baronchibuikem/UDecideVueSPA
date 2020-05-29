@@ -189,6 +189,7 @@ const actions = {
 				// We call a mutation to commit our response data
 				commit("VOTE_CHOICE", response.data);
 				dispatch("getPolls");
+				dispatch("getSinglePoll", poll);
 			});
 	},
 

@@ -94,7 +94,7 @@ const state = {
 			},
 		],
 	},
-	userID: null,
+	// userID: null,
 	error: [],
 	status: "",
 	token: localStorage.getItem("token") || "",
@@ -127,7 +127,7 @@ const getters = {
 	numberOfFollowed: (state) => state.user.followed.length,
 	numberOfPolls: (state) => state.user.polls.length,
 	getToken: (state) => state.token,
-	getuserID: (state) => state.userID,
+	// getuserID: (state) => state.userID,
 	isAuthenticated: (state) => state.loggedIn,
 	viewUserProfile: (state) => state.viewuser,
 	errorStatus: (state) => state.error,
@@ -262,7 +262,7 @@ const actions = {
 			});
 	},
 
-	followUser({ commit, getters }, payload) {
+	followUser({ commit, getters, dispatch }, payload) {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
@@ -276,10 +276,11 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("FOLLOW_USER", response.data);
+				dispatch("viewUserProfileAction", payload.following);
 			});
 	},
 
-	unfollowUser({ commit, getters }, payload) {
+	unfollowUser({ commit, getters, dispatch }, payload) {
 		let { param, param2 } = { ...payload };
 
 		let id = param;
@@ -303,6 +304,7 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("FOLLOW_USER", response.data);
+				dispatch("viewUserProfileAction", id);
 			});
 	},
 	updateProfileImage({ commit, getters }, payload) {
@@ -440,7 +442,6 @@ const mutations = {
 	// this simply updates the Polls data in the state with the data coming from the payload
 	SUCCESS: (state, payload) => (state.Polls = payload),
 	FOLLOW_USER(state, payload) {
-		console.log(payload, "FOlLOW USER");
 		const { date_follow, follower, following, id } = { ...payload };
 		state.viewuser.followers.push({
 			date_follow,
