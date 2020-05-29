@@ -12,9 +12,8 @@
 							<div class="col-md-12 col-sm-12">
 								
 								<div v-if="show === true">
-								
-									<div v-if="viewUserProfile.userObj.user.profile.image !== null" width="50%">
-									<img :src="viewUserProfile.userObj.user.profile.image" width="50%"/>
+									<div v-if="viewUserProfile.userObj.user.profile.user_image !== null" width="50%">
+									<img :src="viewUserProfile.userObj.user.profile.user_image" width="50%"/>
 									</div>
 									<div v-else>
 										<img :src="image" width="50%"/>
