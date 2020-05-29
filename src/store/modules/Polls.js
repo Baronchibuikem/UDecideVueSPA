@@ -7,7 +7,17 @@ const state = {
 	token: localStorage.getItem("token") || "",
 	Polls: [
 		{
-			choices: [{}],
+			choice_type: "",
+			choices: [
+				{
+					anonymous_voter: "",
+					choice_text: "",
+					choice_vote_count: "",
+					id: "",
+					registered_voter: "",
+					votes: [],
+				},
+			],
 			expire_date: "",
 			id: "",
 			poll_has_expired: "",
@@ -20,6 +30,7 @@ const state = {
 			vote_count: "",
 		},
 	],
+
 	search_polls: [],
 	trendingPolls: [],
 	SinglePoll: {
@@ -64,7 +75,8 @@ const actions = {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
 
 		// We call a mutation to commit our response data
-		commit("SUCCESS", response.data);
+		commit("ALL_POLLS", response.data);
+		console.log("ERROOOOOOOOOOO", response.data);
 	},
 
 	// This action is used to delete a single choice in a poll
@@ -154,7 +166,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("SUCCESS", response.data);
+				commit("POLL_CREATED", response.data);
 			});
 	},
 
@@ -175,7 +187,8 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
-				commit("SUCCESS", response.data);
+				commit("VOTE_CHOICE", response.data);
+				console.log(response.data, "From Vote");
 			});
 	},
 
@@ -306,6 +319,74 @@ const mutations = {
 	},
 	SEARCH_POLLS(state, payload) {
 		state.search_polls = payload;
+	},
+	POLL_CREATED(state, payload) {
+		const {
+			choice_type,
+			expire_date,
+			id,
+			poll_has_expired,
+			poller_username,
+			poller_username_id,
+			pub_date,
+			question,
+			slug_field,
+			total_likes,
+			vote_count,
+			...choices
+		} = { ...payload };
+
+		// const {
+		// 	anonymous_voter,choice_text,choice_vote_count,registered_voter,votes,} = { ...choices };
+
+		state.Polls.push({
+			choice_type,
+			expire_date,
+			id,
+			poll_has_expired,
+			poller_username,
+			poller_username_id,
+			pub_date,
+			question,
+			slug_field,
+			total_likes,
+			vote_count,
+			...choices,
+		});
+
+		// state.Polls.choice_type = choice_type;
+		// state.Polls.expire_date = expire_date;
+		// state.Polls.id = id;
+		// state.Polls.poll_has_expired = poll_has_expired;
+		// state.Polls.poller_username = poller_username;
+		// state.Polls.poller_username_id = poller_username_id;
+		// state.Polls.pub_date = pub_date;
+		// state.Polls.question = question;
+		// state.Polls.slug_field = slug_field;
+		// state.Polls.total_likes = total_likes;
+		// state.Polls.vote_count = vote_count;
+		// state.Polls.choices.anonymous_voter = anonymous_voter;
+		// state.Polls.choices.choice_text = choice_text;
+		// state.Polls.choices.choice_vote_count = choice_vote_count;
+		// state.Polls.choices.id = id;
+		// state.Polls.choices.registered_voter = registered_voter;
+		// state.Polls.choices.votes = votes;
+	},
+	ALL_POLLS(state, payload) {
+		state.Polls = payload;
+	},
+	VOTE_CHOICE(state, payload) {
+		const { poll, choice } = { ...payload };
+		state.Polls.map((pol) => {
+			pol.choices.map((choic) => {
+				if (pol.id === poll) {
+					choic.votes.push({
+						poll,
+						choice,
+					});
+				}
+			});
+		});
 	},
 };
 

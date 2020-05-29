@@ -98,6 +98,7 @@
 																	<small class="">
 																		Sorry voting on this poll has expired
 																	</small>
+																	<small class="text-info">Total votes {{poll.vote_count}} </small>
 																</div>
 																<!-- Here we are looping through the choice array in our poll -->
 																<div v-else>
@@ -118,7 +119,7 @@
 																		>
 																			<button
 																				class="form-control btn-info  text-white my-1 linkHover"
-																				@click.prevent="voteChoice(poll, choice.id)"
+																				@click="voteChoice(poll, choice.id)"
 																				data-toggle="tooltip"
 																				title="vote"
 																			>
@@ -183,11 +184,12 @@
 																<i class="fa fa-heart text-danger"></i>
 																{{ poll.total_likes }} Like
 															</span>
+																
 														</div>
 													</div>
 												</div>
 											</div>
-											
+										
 										</div>
 									</div>
 								

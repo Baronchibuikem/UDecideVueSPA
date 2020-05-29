@@ -38,7 +38,7 @@
 														)
 													"
 												>
-													Following
+													Unfollow
 												</button>
 											</div>
 											<div v-if="!followingUser.length > 0">
