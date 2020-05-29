@@ -226,7 +226,7 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters(["getSinglePoll", "getUserID", "getUser"]),
+		...mapGetters(["getSinglePoll", "getUser"]),
 	},
 };
 </script>
