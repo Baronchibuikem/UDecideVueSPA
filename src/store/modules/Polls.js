@@ -6,29 +6,29 @@ const state = {
 	pollStatus: "",
 	token: localStorage.getItem("token") || "",
 	Polls: [
-		{
-			choice_type: "",
-			choices: [
-				{
-					anonymous_voter: "",
-					choice_text: "",
-					choice_vote_count: "",
-					id: "",
-					registered_voter: "",
-					votes: [],
-				},
-			],
-			expire_date: "",
-			id: "",
-			poll_has_expired: "",
-			poller_username: "",
-			poller_username_id: "",
-			pub_date: "",
-			question: "",
-			slug_field: "",
-			total_likes: "",
-			vote_count: "",
-		},
+		// {
+		// 	choice_type: "",
+		// 	choices: [
+		// 		{
+		// 			anonymous_voter: "",
+		// 			choice_text: "",
+		// 			choice_vote_count: "",
+		// 			id: "",
+		// 			registered_voter: "",
+		// 			votes: [],
+		// 		},
+		// 	],
+		// 	expire_date: "",
+		// 	id: "",
+		// 	poll_has_expired: "",
+		// 	poller_username: "",
+		// 	poller_username_id: "",
+		// 	pub_date: "",
+		// 	question: "",
+		// 	slug_field: "",
+		// 	total_likes: "",
+		// 	vote_count: "",
+		// },
 	],
 
 	search_polls: [],
@@ -76,7 +76,6 @@ const actions = {
 
 		// We call a mutation to commit our response data
 		commit("ALL_POLLS", response.data);
-		console.log("ERROOOOOOOOOOO", response.data);
 	},
 
 	// This action is used to delete a single choice in a poll
@@ -154,7 +153,7 @@ const actions = {
 	},
 
 	// this action is used to make a post request to create a new poll
-	newPoll({ commit, getters }, payload) {
+	newPoll({ commit, getters, dispatch }, payload) {
 		let config = {
 			headers: {
 				// "Content-Type": "application/json",
@@ -167,11 +166,12 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("POLL_CREATED", response.data);
+				dispatch("getPolls");
 			});
 	},
 
 	// This action is used to make a post request for voting on a particular choice.
-	voteChoice({ commit, getters }, payload) {
+	voteChoice({ commit, getters, dispatch }, payload) {
 		const { poll, choice } = { ...payload };
 		let config = {
 			headers: {
@@ -188,7 +188,7 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("VOTE_CHOICE", response.data);
-				console.log(response.data, "From Vote");
+				dispatch("getPolls");
 			});
 	},
 
@@ -321,37 +321,38 @@ const mutations = {
 		state.search_polls = payload;
 	},
 	POLL_CREATED(state, payload) {
-		const {
-			choice_type,
-			expire_date,
-			id,
-			poll_has_expired,
-			poller_username,
-			poller_username_id,
-			pub_date,
-			question,
-			slug_field,
-			total_likes,
-			vote_count,
-			...choices
-		} = { ...payload };
+		// const {
+		// 	choice_type,
+		// 	expire_date,
+		// 	id,
+		// 	poll_has_expired,
+		// 	poller_username,
+		// 	poller_username_id,
+		// 	pub_date,
+		// 	question,
+		// 	slug_field,
+		// 	total_likes,
+		// 	vote_count,
+		// 	...choices
+		// } = { ...payload };
 
 		// const {
 		// 	anonymous_voter,choice_text,choice_vote_count,registered_voter,votes,} = { ...choices };
 
 		state.Polls.push({
-			choice_type,
-			expire_date,
-			id,
-			poll_has_expired,
-			poller_username,
-			poller_username_id,
-			pub_date,
-			question,
-			slug_field,
-			total_likes,
-			vote_count,
-			...choices,
+			// choice_type,
+			// expire_date,
+			// id,
+			// poll_has_expired,
+			// poller_username,
+			// poller_username_id,
+			// pub_date,
+			// question,
+			// slug_field,
+			// total_likes,
+			// vote_count,
+			// ...choices,
+			...payload,
 		});
 
 		// state.Polls.choice_type = choice_type;
@@ -377,15 +378,19 @@ const mutations = {
 	},
 	VOTE_CHOICE(state, payload) {
 		const { poll, choice } = { ...payload };
-		state.Polls.map((pol) => {
-			pol.choices.map((choic) => {
-				if (pol.id === poll) {
-					choic.votes.push({
-						poll,
-						choice,
-					});
-				}
-			});
+		// state.Polls.map((pol) => {
+		// 	pol.choices.map((choic) => {
+		// 		if (pol.id === poll) {
+		// 			choic.votes.push({
+		// 				poll,
+		// 				choice,
+		// 			});
+		// 		}
+		// 	});
+		// });
+		state.Polls.push({
+			poll,
+			choice,
 		});
 	},
 };

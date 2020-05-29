@@ -113,7 +113,8 @@ export default {
 		// required endpoint. Here we ensure that the question input is not empty  and that the length of options
 		// is greater than 0, if all checks out, we pass in the question data and the initialValue which is our
 		// options list converted to an array of object and dispatch the newPoll action along with our data
-		submit() {
+		submit(event) {
+			event.preventDefault();
 			if (this.question && this.options.length > 0) {
 				let data = {
 					question: this.question,

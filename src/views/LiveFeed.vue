@@ -52,6 +52,7 @@
 												v-for="poll in displayPolls"
 												v-bind:key="poll.id"
 											>
+											
 												<div class="sl-item">
 													<!-- <PollMenu></PollMenu> -->
 													<div class="sl-left">
@@ -189,7 +190,6 @@
 													</div>
 												</div>
 											</div>
-										
 										</div>
 									</div>
 								
@@ -339,7 +339,7 @@ export default {
 			};
 			this.$store
 				.dispatch("voteChoice", data)
-				.then(() => this.$router.push("/"));
+				.then(() => this.$router.push(`/`));
 		},
 		singlePoll(param) {
 			this.$store.dispatch("getSinglePoll", param).then(() => {
