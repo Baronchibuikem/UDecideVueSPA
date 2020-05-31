@@ -148,22 +148,7 @@
 											<b>About</b>
 											{{ viewUserProfile.userObj.user.profile.about }}
 											</h6>
-											<!-- <div
-												v-for="(follower, index) in viewUserProfile.followers"
-												v-bind:key="index"
-											>
-												<h6 class="mt-4">
-													<b>followers</b> {{ follower.total_followers_no }}
-												</h6>
-											</div> -->
-											<!-- <div
-												v-for="(follower, index) in viewUserProfile.followed"
-												v-bind:key="index"
-											>
-												<h6 class="mt-4">
-													<b>Following </b> {{ follower.total_followed_no }}
-												</h6>
-											</div> -->
+											
 										</div>
 									</div>
 									
