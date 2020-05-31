@@ -70,26 +70,21 @@
 													<div>
 														<div class="d-flex justify-content-between">
 															<div class="link">
-																<h6
+																<h5
 																	class="linkHover font-weight-bold"
 																	@click="getProfile(poll.poller_username_id)"
 																>
 																	@{{ poll.poller_username }}
-																</h6>
-																<!-- <modal
-																	:title="poll.poller_username"
-																	:value="poll.poller_username"
-																	:id="poll.poller_username_id"
-																	:body="poll"
-																/> -->
+																</h5>
+																
 															</div>
 															
 														</div>
 														<div class="m-t-20">
 															<div class="col-md-12 col-xs-12 linkHover">
-																<p @click="singlePoll(poll.id)">
+																<h5 class="linkHover" @click="singlePoll(poll.id)">
 																	{{ poll.question }}
-																</p>
+																</h5>
 															</div>
 														</div>
 													

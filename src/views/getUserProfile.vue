@@ -82,7 +82,15 @@
 										data-toggle="tab"
 										href="#followers"
 										role="tab"
-										>Followers</a
+										>Followers
+										<span
+											class="py-6 text-info text-left"
+											v-for="(follower, index) in viewUserProfile.followers"
+											v-bind:key="index"
+										>
+											{{ follower.total_followers_no }}
+										</span>
+										</a
 									>
 								</li>
 								<li class="nav-item">
@@ -91,7 +99,15 @@
 										data-toggle="tab"
 										href="#following"
 										role="tab"
-										>Following</a
+										>Following
+										<span
+											class="py-6 text-info text-left"
+											v-for="(follower, index) in viewUserProfile.followed"
+											v-bind:key="index"
+										>
+											{{ follower.total_followed_no }}
+										</span>
+										</a
 									>
 								</li>
 								<li class="nav-item">
@@ -164,7 +180,7 @@
 										
 											<div class="m-t-20">
 												<div class="col-md-12 col-xs-12">
-													<p @click="singlePoll(poll.pk)" class="linkHover">{{ poll.question }}</p>
+													<h5 @click="singlePoll(poll.pk)" class="linkHover">{{ poll.question }}</h5>
 												
 												</div>
 											</div>
@@ -185,7 +201,7 @@
 											v-bind:key="follower.id"
 										>
 											<h6 class="linkHover" @click="getProfile(follower.follwer_id)">
-												{{ follower.follower_username }}{{ follower.follwer_id}}
+												{{ follower.follower_username }}
 											</h6>
 										
 											<hr />
@@ -213,9 +229,9 @@
 											v-for="like in viewUserProfile.likes"
 											v-bind:key="like.id"
 										>
-											<h6 class="linkHover" @click="singlePoll(like.pk)">
+											<h5 class="linkHover" @click="singlePoll(like.pk)">
 												{{ like.question }}
-											</h6>
+											</h5>
 											
 											<hr />
 										</div>

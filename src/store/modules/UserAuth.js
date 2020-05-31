@@ -312,7 +312,7 @@ const actions = {
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`,
-				// "Content-Type": "application/json"
+				"Content-Type": "multipart/form-data",
 			},
 		};
 		axios

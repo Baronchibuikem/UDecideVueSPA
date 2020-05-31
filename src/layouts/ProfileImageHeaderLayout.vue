@@ -9,7 +9,7 @@
 					width="50%"
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
-					<div @click.prevent="updateImageProfile" data-toggle="modal" data-target="#modelId">
+					<div @click="updateImageProfile" data-toggle="modal" data-target="#modelId">
 						<div v-if="userprofile.user_image !== null" width="50%">
 							<img
 								:src="getImage(userprofile.user_image)"
@@ -61,9 +61,10 @@
 									</div>
 											</div>
 												<input
+													id="file-input"
 													type="file"
 													accept="image/*"
-													@change="imageSelected"
+													@change="imageSelected($event)"
 													class="form-control"
 												/>
 																				
@@ -71,7 +72,7 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary"  data-dismiss="modal" @click.prevent="updateImage">Save</button>
+										<button type="submit" class="btn btn-primary"  data-dismiss="modal" @click="updateImage">Save</button>
 									</div>
 								</div>
 							</div>
@@ -130,40 +131,9 @@
 							<h4 class="font-11">Polls</h4>
 						</div>
 					</div>
-					
 				</div>
 			</div>
-			<!-- <div class="card rounded">
-				<div class="card-body">
-					<h4 class="card-title">Top Trending Feeds</h4>
-					<ul class="feeds">
-						<li>
-							<div class="bg-light-info">
-								<i class="fa fa-bell-o"></i>
-							</div>
-							You have 4 pending tasks.
-							<span class="text-muted">Just Now</span>
-						</li>
-						<li>
-							<div class="bg-light-success">
-								<i class="ti-server"></i>
-							</div>
-							Server #1 overloaded.<span class="text-muted">2 Hours ago</span>
-						</li>
-						<li>
-							<div class="bg-light-warning">
-								<i class="ti-shopping-cart"></i>
-							</div>
-							New order received.<span class="text-muted">31 May</span>
-						</li>
-						<li>
-							<div class="bg-light-danger"><i class="ti-user"></i></div>
-							New user registered.<span class="text-muted">30 May</span>
-						</li>
-					</ul>
-				
-				</div>
-			</div> -->
+			
 		</div>
 	</div>
 </template>
@@ -201,16 +171,15 @@ export default {
 		},
 		imageSelected(event) {
 			this.image = event.target.files[0];
+			this.imageSelected;
 		},
 		updateImage() {
 			let form = new FormData();
 			let user_image = this.image;
 			form.append("user_image", user_image);
-			this.$store
-				.dispatch("updateProfileImage", {
-					user_image: form,
-				})
-				.then(() => this.$router.push("/"));
+			this.$store.dispatch("updateProfileImage", {
+				user_image: form,
+			});
 		},
 	},
 };

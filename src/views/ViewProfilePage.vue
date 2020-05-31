@@ -224,8 +224,9 @@
 												
 												<div class="m-t-20">
 													<div class="col-md-12 col-xs-12">
-														<p class="linkHover"
-														@click="singlePoll(poll.pk)">{{ poll.question }}</p>
+														<h5 class="linkHover"
+														@click="singlePoll(poll.pk)">{{ poll.question }}
+														</h5>
 													</div>
 												</div>
 												<hr />
@@ -276,7 +277,7 @@
 										v-for="(bookmark) in getUserBookmarksObject"
 										v-bind:key="bookmark.pk"
 									>										
-										<span class="linkHover" @click="singlePoll(bookmark.pk)">{{ bookmark.question}}</span>
+										<h5 class="linkHover" @click="singlePoll(bookmark.pk)">{{ bookmark.question}}</h5>
 										<!-- <i class="fa fa-trash text-danger" @click.prevent="deleteBookmark(bookmark.id)"></i><hr /> -->
 									</span>
 									
