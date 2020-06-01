@@ -318,7 +318,7 @@ const actions = {
 		axios
 			.patch(
 				`${apiBaseUrl.baseRoute}/userprofile/update-profile/`,
-				payload.user_image,
+				payload.image,
 				config
 			)
 			.then((response) => {

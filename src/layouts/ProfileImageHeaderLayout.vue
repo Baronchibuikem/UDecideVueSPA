@@ -175,10 +175,10 @@ export default {
 		},
 		updateImage() {
 			let form = new FormData();
-			let user_image = this.image;
-			form.append("user_image", user_image);
+			let image = this.image;
+			form.append("image", image);
 			this.$store.dispatch("updateProfileImage", {
-				user_image: form,
+				image: form,
 			});
 		},
 	},
