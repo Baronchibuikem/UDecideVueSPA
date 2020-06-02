@@ -10,9 +10,9 @@
 				/>
 				<div class="card-img-overlay card-inverse social-profile-first bg-info">
 					<div @click="updateImageProfile" data-toggle="modal" data-target="#modelId">
-						<div v-if="userprofile.user_image !== null" width="50%">
+						<div v-if="userprofile.image !== null" width="50%">
 							<img
-								:src="getImage(userprofile.user_image)"
+								:src="getImage(userprofile.image)"
 								class="header-image"
 								alt="My profile image"
 								width="70%"
@@ -61,10 +61,9 @@
 									</div>
 											</div>
 												<input
-													id="file-input"
 													type="file"
 													accept="image/*"
-													@change="imageSelected($event)"
+													@change="imageSelected"
 													class="form-control"
 												/>
 																				
@@ -72,7 +71,7 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="submit" class="btn btn-primary"  data-dismiss="modal" @click="updateImage">Save</button>
+										<button type="button" class="btn btn-primary"  data-dismiss="modal" @click="updateImage">Save</button>
 									</div>
 								</div>
 							</div>
@@ -171,14 +170,15 @@ export default {
 		},
 		imageSelected(event) {
 			this.image = event.target.files[0];
-			this.imageSelected;
+			
 		},
 		updateImage() {
 			let form = new FormData();
 			let image = this.image;
+			let id = this.getUser.userObj.user.id
 			form.append("image", image);
 			this.$store.dispatch("updateProfileImage", {
-				image: form,
+				image: form, id
 			});
 		},
 	},

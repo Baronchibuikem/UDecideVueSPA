@@ -165,9 +165,9 @@
 								aria-haspopup="true"
 								aria-expanded="false"
 							>
-							<div v-if="userprofile.user_image !== null">
+							<div v-if="userprofile.image !== null">
 								<img
-									:src="getImage(userprofile.user_image)"
+									:src="getImage(userprofile.image)"
 									alt="user"
 									class="img-circle"
 								/>
@@ -191,8 +191,8 @@
 									<li>
 										<div class="dw-user-box">
 											<div class="u-img">
-												<div v-if="userprofile.user_image !== null">
-													<img :src="getImage(userprofile.user_image)" alt="user" />
+												<div v-if="userprofile.image !== null">
+													<img :src="getImage(userprofile.image)" alt="user" />
 												</div>
 												<div v-else>
 														<img :src="image" />

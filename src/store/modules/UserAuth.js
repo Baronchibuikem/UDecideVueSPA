@@ -307,12 +307,12 @@ const actions = {
 				dispatch("viewUserProfileAction", id);
 			});
 	},
-	updateProfileImage({ commit, getters }, payload) {
+	updateProfileImage({ commit, getters, dispatch }, payload) {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
 				Authorization: `Token ${getters.getToken}`,
-				"Content-Type": "multipart/form-data",
+				// "Content-Type": "multipart/form-data",
 			},
 		};
 		axios
@@ -324,6 +324,7 @@ const actions = {
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
+				dispatch("viewUserProfileAction", payload.id);
 				commit("UPDATEUSER", response.data);
 			});
 	},
