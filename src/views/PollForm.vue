@@ -71,7 +71,7 @@
 										>
 											Save
 										</button>
-										<button type="reset" class="btn btn-inverse">
+										<button type="reset" class="btn btn-inverse" @click="showForm = false">
 											Cancel
 										</button>
 									</div>
