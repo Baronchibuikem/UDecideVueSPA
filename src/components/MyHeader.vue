@@ -34,13 +34,12 @@
 					</div>
 
 					<ul class="navbar-nav my-lg-0">
-						<li class="nav-item hidden-xs-down search-box">
-							<a class="nav-link hidden-sm-down waves-effect waves-dark">
+						<li class="nav-item search-box">
+							<a class="nav-link waves-effect waves-dark">
 								<i class="icon-Magnifi-Glass2"></i
 							></a>
 							<div
 								class="app-search"
-								style="display: none;"
 								v-on:click="search($event)"
 							>
 								<input
@@ -216,7 +215,7 @@
 											><i class="ti-user"></i> My Profile</router-link
 										>
 									</li>
-									<li>
+									<!-- <li>
 										<router-link to="/"
 											><i class="ti-wallet"></i> My Balance</router-link
 										>
@@ -231,7 +230,7 @@
 										<router-link to="/"
 											><i class="ti-settings"></i> Account Setting</router-link
 										>
-									</li>
+									</li> -->
 									<li role="separator" class="divider"></li>
 									<li v-if="isLoggedIn">
 										<a @click="logout"

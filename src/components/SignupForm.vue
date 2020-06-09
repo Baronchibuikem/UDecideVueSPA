@@ -22,7 +22,7 @@
 							id="loginform"
 							action="#"
 						>
-							<h3 class="box-title m-b-20">Join Anyskillz</h3>
+							
 
 							<div class="form-group">
 								<small class="text-danger">{{ error.fieldsError }}</small>
@@ -190,7 +190,6 @@ export default {
 				.dispatch("register", data)
 				.then(() => this.$router.push("/"))
 				.catch(function(err) {
-					console.log(err.response.data.email, "ERROR");
 					if (err.response.data !== undefined) {
 						self.error.usernameExist = err.response.data.username;
 						self.error.emailExist = err.response.data.email;

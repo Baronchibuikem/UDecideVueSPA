@@ -101,12 +101,12 @@ let router = new Router({
 			component: SearchResults,
 		},
 
-		// // return 404 error page if the link entered doesn't exist
-		// {
-		// 	path: "*",
-		// 	name: "error-404"
-		// 	// component: Error
-		// }
+		// return 404 error page if the link entered doesn't exist
+		{
+			path: "*",
+			name: "error-404"
+			// component: Error
+		}
 	],
 });
 

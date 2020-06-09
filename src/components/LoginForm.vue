@@ -2,11 +2,11 @@
 	<div>
 		<form class="#" @submit.prevent="checkForm">
 			<h3 class="box-title m-b-20 text-center">Welcome back</h3>
-			<div class="mb-3">
+			<!-- <div class="mb-3">
 				<button class="btn btn-block btn-facebook">Facebook</button>
 				<button class="btn btn-block btn-twitter">Twitter</button>
-			</div>
-			<h6 class="fb-black">OR</h6>
+			</div> -->
+			<!-- <h6 class="fb-black">OR</h6> -->
 			<div class="form-group">
 				<span class="text-danger">{{ errors.validation }}</span>
 				<!-- <span>{{ errorStatus }}</span> -->
@@ -66,8 +66,8 @@
 			</div>
 			<div class="form-group m-b-0">
 				<div class="col-sm-12 text-center">
-					Don't have an account?<a href="/signup" class="text-info m-l-5"
-						><b>Sign Up</b></a
+					Don't have an account?<router-link to="/signup" class="text-info m-l-5"
+						><b>Sign Up</b></router-link
 					>
 				</div>
 			</div>
