@@ -131,7 +131,7 @@
 
 <script>
 import axios from "axios";
-import { verify } from "crypto";
+// import { verify } from "crypto";
 import { mapGetters } from "vuex";
 
 export default {
