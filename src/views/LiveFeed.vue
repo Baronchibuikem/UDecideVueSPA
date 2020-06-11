@@ -74,7 +74,7 @@
 																	class="linkHover font-weight-bold"
 																	@click="getProfile(poll.poller_username_id)"
 																>
-																	@{{ poll.poller_username }}
+																	{{poll.poller_full_name}} @{{ poll.poller_username }}
 																</h5>
 																
 															</div>

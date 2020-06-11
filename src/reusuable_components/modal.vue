@@ -33,7 +33,13 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<div class="container-fluid">
+							<div v-if="id === 7">
+								<div class="container-fluid">
+								<input type="password" class="form-control mb-4" v-model="old_password" placeholder="Enter old password here">
+								<input type="password" minlength="8" class="form-control" v-model="new_password" placeholder="Enter your new password">
+								</div>
+							</div>
+							<div class="container-fluid" v-else><i class="fas fa-eclipse-alt"></i>
 								<textarea
 									cols="5"
 									rows="5"
@@ -54,7 +60,7 @@
 								type="button"
 								class="btn btn-primary"
 								data-dismiss="modal"
-								@click="execute(id, poll_id, text)"
+								@click="execute(id, poll_id, text, old_password, new_password)"
 							>
 								Save
 							</button>
@@ -77,13 +83,15 @@ export default {
 		return {
 			text: this.value,
 			submit: this.eventProps,
+			old_password: "",
+			new_password: ""
 		};
 	},
 	methods: {
-		execute(param, param2, param3) {
+		execute(param, param2, param3, param4, param5) {
 			if (this.submit) {
 				// let choice_text = this.value;
-				this.submit({ param, param2, param3 });
+				this.submit({ param, param2, param3, param4, param5 });
 				this.$router.push("/");
 			}
 		},

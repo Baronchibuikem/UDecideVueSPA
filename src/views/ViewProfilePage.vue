@@ -116,6 +116,57 @@
 											/>
 										</span>
 									</div>
+									<!-- <div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Email
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											{{ getUser.userObj.user.email }}
+											{{ getUser}}
+
+											<modal
+											:title="edit_email"
+												:id="2"
+												:value="userprofile.last_name"
+												class="edit"
+												data-toggle="tooltip"
+												:eventProps="updateProfile"
+											/>
+										</span>
+									</div> -->
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Change Passowrd
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											
+											<span v-if="userprofile.passwordMessage">{{ userprofile.passwordMessage}}</span>
+											<modal
+												title="Change your passowrd"
+												:id="7"
+												
+												class="edit"
+												data-toggle="tooltip"
+												:eventProps="updateProfile"
+											/>
+										</span>
+									</div>
+									<div class="row mx-3">
+										<span class="py-6 col-md-3">
+											Email
+										</span>
+										<span class="py-6 col-md-6 text-left">
+											{{ email }}
+											<modal
+											:title="edit_email"
+												:id="8"
+												:value="email"
+												class="edit"
+												data-toggle="tooltip"
+												:eventProps="updateProfile"
+											/>
+										</span>
+									</div>
 									<div class="row mx-3">
 										<span class="py-6 col-md-3">
 											Place of work
@@ -320,11 +371,13 @@ export default {
 			edit_place_of_work: "Edit your place of work",
 			edit_about: "Edit your bio ",
 			edit_position: "Edit your position",
+			edit_email: "Edit your email",
+			message: ""
 		};
 	},
 	methods: {
 		updateProfile(payload) {
-			const { param, param3 } = { ...payload };
+			const { param, param3, param4, param5 } = { ...payload };
 			let id = param;
 			if (id === 1) {
 				const data = {
@@ -361,7 +414,26 @@ export default {
 				this.$store
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
-			}
+			} else if (id === 7){
+				id = this.getUser.user.id
+				const data = {
+					old_password: param4,
+					new_password: param5
+				};
+				this.$store.dispatch("passwordChange", {id, ...data})
+				.then(() => this.$router.push('/profile'),
+				this.messge = "Password changed")
+				
+			} else if (id === 8){
+				id = this.getUser.user.id
+				const data = {
+					email: param3,
+					
+				};
+				this.$store.dispatch("updateEmail", {...data})
+				.then(() => this.$router.push('/profile')
+				)}
+			
 		},
 		// For deleting bookmarked poll
 		deleteBookmark(id) {
@@ -387,6 +459,8 @@ export default {
 			"userprofile",
 			"getUserBookmarks",
 			"getUserBookmarksObject",
+			"passwordMessage",
+			"email"
 		]),
 	},
 };

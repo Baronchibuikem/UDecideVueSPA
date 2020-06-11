@@ -66,9 +66,7 @@
 			</div>
 			<div class="form-group m-b-0">
 				<div class="col-sm-12 text-center">
-					Don't have an account?<router-link to="/signup" class="text-info m-l-5"
-						><b>Sign Up</b></router-link
-					>
+					Don't have an account?<router-link to="/signup" class="text-info m-l-5"><b>Sign Up</b></router-link>
 				</div>
 			</div>
 		</form>

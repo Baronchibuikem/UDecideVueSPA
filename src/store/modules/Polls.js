@@ -73,6 +73,7 @@ const actions = {
 	// // This action is used to get all available polls from the server
 	async getPolls({ commit }) {
 		const response = await axios.get(`${apiBaseUrl.baseRoute}/polls/polls/`);
+		console.log(response.data, "polls")
 
 		// We call a mutation to commit our response data
 		commit("ALL_POLLS", response.data);

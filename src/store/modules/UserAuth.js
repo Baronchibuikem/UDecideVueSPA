@@ -8,6 +8,7 @@ const state = {
 			user: {
 				id: "",
 				username: "",
+				email: "",
 				follow_status: {
 					is_following: "",
 					is_followed: "",
@@ -19,10 +20,12 @@ const state = {
 					position: "",
 					about: "",
 					user_image: "",
-					photo: "",
+					passwordChange: "",
 				},
 			},
+			
 		},
+		
 		followers: [],
 		followed: [
 			{
@@ -72,6 +75,7 @@ const state = {
 					about: "",
 					user_image: "",
 					photo: "",
+					passwordChange: ""
 				},
 			},
 		},
@@ -93,6 +97,9 @@ const state = {
 				pub_date: "",
 			},
 		],
+	},
+	userobj:{
+		email: ""
 	},
 	// userID: null,
 	error: [],
@@ -123,11 +130,12 @@ const getters = {
 	isLoggedIn: (state) => !!state.token,
 	authStatus: (state) => state.status,
 	getUser: (state) => state.user,
+	email: (state) => state.userobj.email,
 	numberOfFollowers: (state) => state.user.followers.length,
 	numberOfFollowed: (state) => state.user.followed.length,
 	numberOfPolls: (state) => state.user.polls.length,
 	getToken: (state) => state.token,
-	// getuserID: (state) => state.userID,
+	passwordMessage: (state) => state.user.userObj.passwordChange,
 	isAuthenticated: (state) => state.loggedIn,
 	viewUserProfile: (state) => state.viewuser,
 	errorStatus: (state) => state.error,
@@ -168,6 +176,7 @@ const actions = {
 					// Here we are dispatching the getUser action since we want to get the loggedIn users profile
 					// along with the data being sent back by the login action
 					dispatch("getUser", user);
+					dispatch("getUserObj", user);
 					resolve(response);
 				})
 				.catch((err) => {
@@ -188,14 +197,22 @@ const actions = {
 		});
 	},
 
-	register({ commit }, payload) {
+	register({ commit, dispatch }, payload) {
 		return new Promise((resolve, reject) => {
 			commit("auth_request");
 			axios
 				.post(`${apiBaseUrl.baseRoute}/users/signup/`, payload)
 				.then((response) => {
+					let token = response.data.token;
+					let user = response.data.pk;
+					localStorage.setItem("token", token);
+					axios.defaults.headers.common["Authorization"] = token;
 					// We call a mutation to commit our response data
+					// commit("auth_success", { token, user });
 					commit("auth_success", response);
+					dispatch("getUser", user);
+					
+					
 					resolve(response);
 				})
 				.catch((err) => {
@@ -217,9 +234,26 @@ const actions = {
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
 			.then((response) => {
+				console.log(response.data)
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("FETCHUSER", response.data);
+			});
+	},
+	getUserObj({ commit, getters }, id) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`,
+				// "Content-Type": "application/json"
+			},
+		};
+		axios
+			.get(`${apiBaseUrl.baseRoute}/users/${id}/`, config)
+			.then((response) => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("FETCHUSEROBJ", response.data);
 			});
 	},
 
@@ -241,6 +275,29 @@ const actions = {
 	},
 
 	// This action allows a user update his profile data
+	passwordChange({ commit, getters }, payload) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`,
+				// "Content-Type": "application/json"
+			},
+		};
+		axios
+			.patch(
+				`${apiBaseUrl.baseRoute}/users/change-password/`,
+				payload,
+				config
+			)
+			.then((response) => {
+				axios.defaults.headers.common["Authorization"] = config;
+				if(response.Status === 200){
+				// We call a mutation to commit our response data
+				commit("PASSWORDCHANGEMESSAGE", response.data)
+				}
+			});
+	},
+	// This action allows a user update his profile data
 	updateProfile({ commit, getters }, payload) {
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
@@ -259,6 +316,27 @@ const actions = {
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("UPDATEUSER", response.data);
+			});
+	},
+	// This action allows a user update his profile data
+	updateEmail({ commit, getters }, payload) {
+		// config is used to set the authorization by getting the token of the the logged in user
+		let config = {
+			headers: {
+				Authorization: `Token ${getters.getToken}`,
+				// "Content-Type": "application/json"
+			},
+		};
+		axios
+			.patch(
+				`${apiBaseUrl.baseRoute}/users/${payload.id}/`,
+				payload.email,
+				config
+			)
+			.then((response) => {
+				axios.defaults.headers.common["Authorization"] = config;
+				// We call a mutation to commit our response data
+				commit("FETCHUSEROBJ", response.data);
 			});
 	},
 
@@ -406,6 +484,12 @@ const mutations = {
 		state.user.bookmarks = bookmarks;
 	},
 
+	FETCHUSEROBJ(state, payload) {
+		const { ...user } = payload;
+		const{email} = user
+		state.userobj.email = email;
+	},
+
 	VIEWUSER(state, payload) {
 		const { followed, followers, likes, bookmarks, polls, ...user } = payload;
 		state.viewuser.userObj = user;
@@ -430,7 +514,6 @@ const mutations = {
 	},
 
 	BOOKMARK_SUCCESS(state, payload) {
-		console.log(payload, "PAYLOAD");
 		const { id, poll, user, created, poll_question_text } = { ...payload };
 		state.user.polls.pk = poll;
 		state.user.userObj.user.id = user;
@@ -450,6 +533,9 @@ const mutations = {
 			following,
 			id,
 		});
+	},
+	PASSWORDCHANGEMESSAGE:(state, payload) => {
+		state.user.userObj.user.profile.passwordChange = payload
 	},
 };
 
