@@ -234,7 +234,6 @@ const actions = {
 		axios
 			.get(`${apiBaseUrl.baseRoute}/userprofile/${id}/`, config)
 			.then((response) => {
-				console.log(response.data)
 				axios.defaults.headers.common["Authorization"] = config;
 				// We call a mutation to commit our response data
 				commit("FETCHUSER", response.data);
