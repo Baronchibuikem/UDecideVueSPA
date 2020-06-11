@@ -330,7 +330,7 @@ const actions = {
 		axios
 			.patch(
 				`${apiBaseUrl.baseRoute}/users/${payload.id}/`,
-				payload.email,
+				payload,
 				config
 			)
 			.then((response) => {

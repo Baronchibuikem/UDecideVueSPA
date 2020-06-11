@@ -425,12 +425,12 @@ export default {
 				this.messge = "Password changed")
 				
 			} else if (id === 8){
-				id = this.getUser.user.id
+				id = this.getUser.userObj.user.id
 				const data = {
 					email: param3,
 					
 				};
-				this.$store.dispatch("updateEmail", {...data})
+				this.$store.dispatch("updateEmail", {id,...data})
 				.then(() => this.$router.push('/profile')
 				)}
 			
