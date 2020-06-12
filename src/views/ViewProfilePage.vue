@@ -140,11 +140,10 @@
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											
-											<span v-if="userprofile.passwordMessage">{{ userprofile.passwordMessage}}</span>
+											<span>{{message}}</span>
 											<modal
 												title="Change your passowrd"
 												:id="7"
-												
 												class="edit"
 												data-toggle="tooltip"
 												:eventProps="updateProfile"
@@ -198,6 +197,7 @@
 												:eventProps="updateProfile"
 											/>
 										</span>
+										
 									</div>
 									<!-- <div class="row mx-3">
 										<span class="py-6 col-md-3">
@@ -372,7 +372,8 @@ export default {
 			edit_about: "Edit your bio ",
 			edit_position: "Edit your position",
 			edit_email: "Edit your email",
-			message: ""
+			message: "",
+			
 		};
 	},
 	methods: {
@@ -415,15 +416,19 @@ export default {
 					.dispatch("updateProfile", { ...data })
 					.then(() => this.$router.push("/profile"));
 			} else if (id === 7){
-				id = this.getUser.user.id
+				id = this.getUser.userObj.user.id
+				
 				const data = {
 					old_password: param4,
 					new_password: param5
 				};
-				this.$store.dispatch("passwordChange", {id, ...data})
-				.then(() => this.$router.push('/profile'),
-				this.messge = "Password changed")
-				
+				this.$store.dispatch("passwordChange", {id,...data})
+				.then((response) => {
+					// console.log(response)
+					this.$router.push('/profile')
+					this.message = response.data
+					})
+
 			} else if (id === 8){
 				id = this.getUser.userObj.user.id
 				const data = {

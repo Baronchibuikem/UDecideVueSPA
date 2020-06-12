@@ -20,7 +20,7 @@ const state = {
 					position: "",
 					about: "",
 					user_image: "",
-					passwordChange: "",
+					passwordChange: "****",
 				},
 			},
 			
@@ -267,7 +267,8 @@ const actions = {
 	},
 
 	// This action allows a user update his profile data
-	passwordChange({ commit, getters }, payload) {
+	passwordChange({ commit, getters, dispatch }, payload) {
+		
 		// config is used to set the authorization by getting the token of the the logged in user
 		let config = {
 			headers: {
@@ -283,10 +284,8 @@ const actions = {
 			)
 			.then((response) => {
 				axios.defaults.headers.common["Authorization"] = config;
-				if(response.Status === 200){
 				// We call a mutation to commit our response data
 				commit("PASSWORDCHANGEMESSAGE", response.data)
-				}
 			});
 	},
 	// This action allows a user update his profile data

@@ -93,7 +93,7 @@
 																<div v-if="poll.poll_has_expired">
 																	<small class="">
 																		Sorry voting on this poll has expired
-																	</small>
+																	</small><br>
 																	<small class="text-info">Total votes {{poll.vote_count}} </small>
 																</div>
 																<!-- Here we are looping through the choice array in our poll -->
