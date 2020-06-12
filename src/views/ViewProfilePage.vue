@@ -116,31 +116,14 @@
 											/>
 										</span>
 									</div>
-									<!-- <div class="row mx-3">
-										<span class="py-6 col-md-3">
-											Email
-										</span>
-										<span class="py-6 col-md-6 text-left">
-											{{ getUser.userObj.user.email }}
-											{{ getUser}}
-
-											<modal
-											:title="edit_email"
-												:id="2"
-												:value="userprofile.last_name"
-												class="edit"
-												data-toggle="tooltip"
-												:eventProps="updateProfile"
-											/>
-										</span>
-									</div> -->
+								
 									<div class="row mx-3">
 										<span class="py-6 col-md-3">
 											Change Passowrd
 										</span>
 										<span class="py-6 col-md-6 text-left">
 											
-											<span>{{message}}</span>
+											<span>{{passwordChange}}</span>
 											<modal
 												title="Change your passowrd"
 												:id="7"
@@ -423,10 +406,9 @@ export default {
 					new_password: param5
 				};
 				this.$store.dispatch("passwordChange", {id,...data})
-				.then((response) => {
+				.then(() => {
 					// console.log(response)
 					this.$router.push('/profile')
-					this.message = response.data
 					})
 
 			} else if (id === 8){
@@ -456,15 +438,30 @@ export default {
 				this.$router.push(`poll/${param}`);
 			});
 		},
+		// showChangedPasswordMessage(thiszzzpasswordChange){
+		// 	if(this.passwordChange !== ""){
+		// 		alert("Your password has been changed successfully")
+		// 	}
+			
+		// }
 	},
 	computed: {
+		// showChangedPasswordMessage(){
+		// 	const self = this
+		// 	if(this.passwordChange === ""){
+		// 		const notMessage = ""
+		// 		return self.message = notMessage				
+		// 	}else{
+		// 		return this.passwordChange
+		// 	}
+		// },
 		...mapGetters([
 			"getUser",
 			"getSinglePoll",
 			"userprofile",
 			"getUserBookmarks",
 			"getUserBookmarksObject",
-			"passwordMessage",
+			"passwordChange",
 			"email"
 		]),
 	},

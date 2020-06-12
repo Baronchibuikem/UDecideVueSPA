@@ -91,20 +91,20 @@ export default {
 	},
 
 	methods: {
-		checkForm: function() {
-			axios
-				.post("http://localhost/youdecide/ajax-login", {
-					headers: {
-						"Content-Type": "application/json"
-					},
-					username: this.username,
-					password: this.password
-				})
-				.then(response => this.$router.push("/"))
-				.catch(function(error) {
-					console.log(error);
-				});
-		},
+		// checkForm: function() {
+		// 	axios
+		// 		.post("http://localhost/youdecide/ajax-login", {
+		// 			headers: {
+		// 				"Content-Type": "application/json"
+		// 			},
+		// 			username: this.username,
+		// 			password: this.password
+		// 		})
+		// 		.then(response => this.$router.push("/"))
+		// 		.catch(function(error) {
+		// 			console.log(error);
+		// 		});
+		// },
 		// This function is used to dispatch a vuex action which in turn submits
 		//  data entered by the user to the backend
 		login() {

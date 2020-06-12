@@ -99,7 +99,8 @@ const state = {
 		],
 	},
 	userobj:{
-		email: ""
+		email: "",
+		password: ""
 	},
 	// userID: null,
 	error: [],
@@ -132,6 +133,7 @@ const getters = {
 	authStatus: (state) => state.status,
 	getUser: (state) => state.user,
 	email: (state) => state.userobj.email,
+	passwordChange: (state) => state.userobj.password,
 	numberOfFollowers: (state) => state.user.followers.length,
 	numberOfFollowed: (state) => state.user.followed.length,
 	numberOfPolls: (state) => state.user.polls.length,
@@ -525,8 +527,11 @@ const mutations = {
 			id,
 		});
 	},
-	PASSWORDCHANGEMESSAGE:(state, payload) => {
-		state.user.userObj.user.profile.passwordChange = payload
+	PASSWORDCHANGEMESSAGE:(state) => {
+		// state.user.userObj.user.profile.passwordChange = payload
+		// const { ...user } = payload;
+		// const{email} = user
+		state.userobj.password = "Your password was successfully changed";
 	},
 };
 
