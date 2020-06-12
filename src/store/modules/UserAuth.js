@@ -127,7 +127,8 @@ const state = {
 /* getters pull updated value from our state data's and they are then called by the components that needs them to
 present data to the user(s) */
 const getters = {
-	isLoggedIn: (state) => !!state.token,
+	// isLoggedIn: (state) => !!state.token,
+	isLoggedIn: (state) => state.loggedIn,
 	authStatus: (state) => state.status,
 	getUser: (state) => state.user,
 	email: (state) => state.userobj.email,
@@ -197,22 +198,13 @@ const actions = {
 		});
 	},
 
-	register({ commit, dispatch }, payload) {
+	register({ commit }, payload) {
 		return new Promise((resolve, reject) => {
 			commit("auth_request");
 			axios
 				.post(`${apiBaseUrl.baseRoute}/users/signup/`, payload)
 				.then((response) => {
-					let token = response.data.token;
-					let user = response.data.pk;
-					localStorage.setItem("token", token);
-					axios.defaults.headers.common["Authorization"] = token;
-					// We call a mutation to commit our response data
-					// commit("auth_success", { token, user });
 					commit("auth_success", response);
-					dispatch("getUser", user);
-					
-					
 					resolve(response);
 				})
 				.catch((err) => {
@@ -222,6 +214,7 @@ const actions = {
 				});
 		});
 	},
+
 
 	getUser({ commit, getters }, id) {
 		// config is used to set the authorization by getting the token of the the logged in user
